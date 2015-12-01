@@ -20,18 +20,18 @@ class HomePageTest(TestCase):
 class TeacherAndStudentPagesTest(TestCase):
 
 	def test_url_resolves_to_correct_page_view(self):
-		teacher = resolve('/users/teacher_page.html')
+		teacher = resolve('/teacher.html')
 		self.assertEqual(teacher.func, teacher_page)
 
-		student = resolve('/users/student_page.html')
+		student = resolve('/student.html')
 		self.assertEqual(student.func, student_page)
 
 	def test_pages_return_correct_html(self):
 		request = HttpRequest()
 		response_teacher = teacher_page(request)
-		expected_html = render_to_string('teacher_page.html')
+		expected_html = render_to_string('teacher.html')
 		self.assertEqual(response_teacher.content.decode(), expected_html)
 
 		response_student = student_page(request)
-		expected_html = render_to_string('student_page.html')
+		expected_html = render_to_string('student.html')
 		self.assertEqual(response_student.content.decode(), expected_html)
