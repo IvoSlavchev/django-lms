@@ -1,9 +1,7 @@
-<html>
-    <head>
-        <title>Django-LMS</title>
-    </head>
-    <body>
-    	<h1>Logged in as Teacher!</h1>
-    	<a href="/">Back</a>
-    </body>
-</html>
+{% extends 'base.html' %}
+
+{% block paragraph_text %}Logged in as Teacher.{% endblock %}
+
+{% block links %}
+	<a href="/">Logout</a>
+{% endblock %}

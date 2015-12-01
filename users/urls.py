@@ -3,6 +3,7 @@ from django.conf.urls import url
 from users import views
 
 urlpatterns = [
-    url(r'^teacher_page.html$', views.teacher_page, name='teacher_page'),
-    url(r'^student_page.html$', views.student_page, name='student_page'),
+	url(r'^$', views.home_page, name='home'),
+    url(r'^teacher_page', views.teacher_page, name='teacher'),
+    url(r'^student_page', views.student_page, name='student'),
 ]

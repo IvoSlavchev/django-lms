@@ -1,11 +1,8 @@
-<html>
-    <head>
-        <title>Django-LMS</title>
-    </head>
-    <body>
-    	<h1>Welcome to the Django-LMS!</h1>
-    	<a href="/users/teacher_page.html">Login as Teacher</a>
-    	<br>
-    	<a href="/users/student_page.html">Login as Student</a>
-    </body>
-</html>
+{% extends 'base.html' %}
+
+{% block paragraph_text %}Please log in.{% endblock %}
+
+{% block links %}
+	<a href="/teacher_page.html">Login as Teacher</a>
+	<a href="/student_page.html">Login as Student</a>
+{% endblock %}
