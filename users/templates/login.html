@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block header_text %}
+	Log in
+{% endblock %}
+
+{% block form_block %}
+	<form action="{% url 'login' %}" method='POST'> {% csrf_token %}
+	    {{ form }}
+	    <input id='id_submit' type='submit' value='login'>
+	</form>
+{% endblock %}
+
+{% block links %}
+	<a href="/signup">Signup</a>
+	<a href="/">Back</a>
+{% endblock %}

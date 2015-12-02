@@ -5,9 +5,10 @@
 	</head>
     </head>
     <body>
-    	<h1>Welcome to the Django-LMS!</h1>
-    	<p>{% block paragraph_text %}{% endblock %}</p>
+    	<h3>{% block header_text %}{% endblock %}</h3>
+        {% block form_block %}
+        {% endblock %}
         {% block links %}
-    	{% endblock %}
+        {% endblock %}
     </body>
 </html>

@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 
-{% block paragraph_text %}Please log in.{% endblock %}
+{% block header_text %}
+	Welcome to the Django-LMS!
+{% endblock %}
 
 {% block links %}
-	<a href="/teacher.html">Login as Teacher</a>
-	<a href="/student.html">Login as Student</a>
+	<a href="/login">Login</a>
+	<a href="/signup">Signup</a>
 {% endblock %}

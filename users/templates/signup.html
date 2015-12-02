@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block header_text %}
+	Sign Up
+{% endblock %}
+
+{% block form_block %}
+	<form action="{% url 'signup' %}" method='POST'> {% csrf_token %}
+	        {{ form }}
+	        <input id='id_submit' type='submit' value='signup'>
+	</form>
+{% endblock %}
+
+{% block links %}
+	<a href="/">Back</a>
+{% endblock %}
