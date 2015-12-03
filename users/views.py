@@ -20,11 +20,11 @@ def student_check(user):
 def home_page(request):
     return render(request, 'home.html')
 
-@user_passes_test(teacher_check)
+@user_passes_test(teacher_check, login_url='/login')
 def teacher_page(request):
     return render(request, 'teacher.html')
 
-@user_passes_test(student_check)
+@user_passes_test(student_check, login_url='/login')
 def student_page(request):
     return render(request, 'student.html')
 
