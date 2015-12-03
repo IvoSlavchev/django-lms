@@ -1,10 +1,13 @@
 from django.core.urlresolvers import resolve, reverse
-from django.test import TestCase
 from django.http import HttpRequest
 from django.template.loader import render_to_string
-from users.views import home_page, teacher_page, student_page, login, signup, confirm
+from django.test import TestCase
+
 from django.http import Http404
+
 from users.models import User
+from users.views import home_page, teacher_page, student_page, login, signup, confirm
+
 User = User()
 
 class HomePageTest(TestCase):

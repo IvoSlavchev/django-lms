@@ -1,4 +1,5 @@
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+
 from selenium import webdriver    
 
 class FunctionalTest(StaticLiveServerTestCase):

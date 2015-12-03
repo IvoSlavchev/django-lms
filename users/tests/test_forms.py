@@ -1,5 +1,7 @@
 import unittest
+
 from django.test import TestCase
+
 from users.forms import RegistrationForm, AuthenticationForm
 
 class RegistrationFormTest(TestCase):

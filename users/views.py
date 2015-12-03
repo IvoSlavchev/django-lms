@@ -1,11 +1,12 @@
-from django.shortcuts import render, render_to_response, redirect, get_object_or_404
-from django.template import RequestContext
+import datetime
+
+from django.conf import settings
 from django.contrib.auth import login as django_login, authenticate, logout as django_logout
 from django.contrib.auth.decorators import login_required, user_passes_test
-import datetime
 from django.contrib.auth.hashers import PBKDF2PasswordHasher
 from django.core.mail import send_mail
-from django.conf import settings
+from django.shortcuts import render, render_to_response, redirect, get_object_or_404
+from django.template import RequestContext
 
 from users.models import UserProfile
 from users.forms import AuthenticationForm, RegistrationForm
