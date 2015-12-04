@@ -1,9 +1,9 @@
 import datetime
+import hashlib
 
 from django.conf import settings
 from django.contrib.auth import login as django_login, authenticate, logout as django_logout
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib.auth.hashers import PBKDF2PasswordHasher
 from django.core.mail import send_mail
 from django.shortcuts import render, render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
@@ -49,9 +49,8 @@ def signup(request):
     if request.method == 'POST':
         form = RegistrationForm(data=request.POST)
         if form.is_valid():
-            hasher = PBKDF2PasswordHasher()
             user = form.save()
-            activation_key = hasher.encode(password=user.username, salt='salt', iterations=10).replace('+', 's')
+            activation_key = hashlib.sha224(user.username.encode('utf-8')).hexdigest()
             key_expires = datetime.datetime.today() + datetime.timedelta(1)
             profile = UserProfile(user=user, activation_key=activation_key, key_expires=key_expires)
             profile.save()
