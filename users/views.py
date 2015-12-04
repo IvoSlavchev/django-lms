@@ -69,7 +69,7 @@ def confirm(request):
     profile = get_object_or_404(UserProfile, activation_key=activation_key)
     tz_info = profile.key_expires.tzinfo
     if profile.key_expires < datetime.datetime.now(tz_info):
-        return render_to_response('confirm.html', {'expired': True})
+        return render_to_response('confirm.html', {'success': False})
     user = profile.user
     user.is_active = True
     user.save()

@@ -1,14 +1,53 @@
 <html>
     <head>
-        <head>
-	    <title>Django-LMS</title>
+	    <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Django-LMS</title>
+        <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/static/base.css" rel="stylesheet">
 	</head>
-    </head>
     <body>
-    	<h3>{% block header_text %}{% endblock %}</h3>
-        {% block form_block %}
-        {% endblock %}
-        {% block links %}
-        {% endblock %}
+        <div class="container">
+            <nav class="navbar navbar-default" role="navigation">
+                <a class="navbar-brand" href="/">Django-LMS</a>
+                {% if user.is_active %}
+                    <ul class="nav navbar-nav">
+                        {% if user.is_teacher %}                        
+                            <li><a href="{% url 'teacher' %}">Teacher</a></li>
+                        {% else %}
+                            <li><a href="{% url 'student' %}">Student</a></li>
+                        {% endif %}
+                    </ul>
+                    <a class="btn navbar-btn navbar-right" id="id_logout" href="{% url 'logout' %}">Log out</a>
+                    <span class="navbar-text navbar-right">Logged in as {{ user.username }}</span>
+                {% else %}
+                    <a class="btn navbar-btn navbar-right" id="id_login" href="{% url 'login' %}">Log in</a>
+                    <a class="btn navbar-btn navbar-right" id="id_login" href="{% url 'signup' %}">Sign up</a>
+                {% endif %}
+            </nav>
+
+            <div class="row" jumbotron>              
+                <h3 class='text-info text-center'>{% block header_text %}{% endblock %}</h3>                   
+              
+                <form class="form-horizontal col-md-6 col-md-offset-5" action="{% block form_action %}{% endblock %}" 
+                      method='POST'> 
+                    {% csrf_token %}
+                    <div class="form-group col-xs-4">
+                        {{ form.as_p }}
+                        {% block form_submit %}{% endblock %}
+                    </div>
+                </form>
+                </div>
+            </div>
+            <div class="row" jumbotron>
+                <div class="text-center">
+                    <div class="col-md-6 col-md-offset-3" >
+                        {% block confirm %}
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

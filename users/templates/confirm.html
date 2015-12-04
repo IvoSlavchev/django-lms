@@ -1,18 +1,9 @@
 {% extends 'base.html' %}
 
-{% block header_text %}
-	Welcome to the Django-LMS!
-{% endblock %}
-
 {% block confirm %}
-	{% if expired %}
-	    <p>Link expired!</p>
-	{% elif success %}
-	    <p>Successfully confirmed!</p>
+	{% if success %}
+		<h3 class='text-info'>Successfully confirmed!<h3>    
+	{% else %}
+	    <h3 class='text-info'>Link expired!<h3>
 	{% endif %}
-{% endblock %}
-
-{% block links %}
-	<a href="/login">Login</a>
-	<a href="/">Home</a>
 {% endblock %}
