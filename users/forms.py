@@ -5,8 +5,8 @@ from users.models import User
 class RegistrationForm(forms.ModelForm):
 
     username = forms.CharField(label="Username")
-    email = forms.EmailField(label="Email")
-    is_teacher = forms.BooleanField(required=False)
+    email = forms.EmailField(label="E-Mail")
+    is_teacher = forms.BooleanField(label="Teacher", required=False)
     password1 = forms.CharField(widget=forms.PasswordInput, label="Password")
     password2 = forms.CharField(widget=forms.PasswordInput, label="Password (again)")
 
@@ -31,8 +31,9 @@ class RegistrationForm(forms.ModelForm):
 
 class AuthenticationForm(forms.Form):
 
-    username = forms.CharField()
+    username = forms.CharField(label="Username or E-Mail")
+    is_teacher = forms.BooleanField(label="Teacher", required=False)
     password = forms.CharField(widget=forms.PasswordInput)
 
     class Meta:
-        fields = ['username', 'password']
+        fields = ['username', 'is_teacher', 'password']
