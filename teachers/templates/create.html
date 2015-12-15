@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block dashboard_redirect %}teachers{% endblock %}
+
+{% block header_text %}New course{% endblock %}
+
+{% block form_action %}{% url 'create' %}{% endblock %}
+
+{% block form_submit %}<input id='id_submit' type='submit' value='Create'>{% endblock %}

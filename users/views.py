@@ -2,8 +2,8 @@ import datetime
 import hashlib
 
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth import login as django_login, authenticate, logout as django_logout
-from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.mail import send_mail
 from django.shortcuts import render, render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
@@ -11,22 +11,8 @@ from django.template import RequestContext
 from users.models import UserProfile
 from users.forms import AuthenticationForm, RegistrationForm
 
-def teacher_check(user):
-    return user.is_teacher
-
-def student_check(user):
-    return user.is_teacher == False
-
 def home_page(request):
     return render(request, 'home.html')
-
-@user_passes_test(teacher_check, login_url='/login')
-def teacher_page(request):
-    return render(request, 'teacher.html')
-
-@user_passes_test(student_check, login_url='/login')
-def student_page(request):
-    return render(request, 'student.html')
 
 def login(request):
     if request.method == 'POST':
@@ -38,9 +24,10 @@ def login(request):
                 if user.is_active:
                     django_login(request, user)
                     if user.is_teacher:
-                        return redirect('/teacher')
+                        return redirect('/teachers')
                     else:
-                        return redirect('/student')
+                        return redirect('/students')
+        messages.add_message(request, messages.ERROR, 'Please try again.')
     else:
         form = AuthenticationForm()
     return render_to_response('login.html', {'form': form,}, context_instance=RequestContext(request))
@@ -60,9 +47,11 @@ def signup(request):
                 http://localhost:8000/confirm/?q=%s" % (user.username, profile.activation_key)
             print(profile.activation_key)
             send_mail(email_subject, email_body, settings.EMAIL_HOST, [user.email], fail_silently=False)
+            messages.add_message(request, messages.INFO, 'Success. Check email for a confirmation link.')
             return redirect('/')
+        messages.add_message(request, messages.ERROR, 'Please try again.')
     else:
-        form = RegistrationForm()
+        form = RegistrationForm()        
     return render_to_response('signup.html', {'form': form,}, context_instance=RequestContext(request))
 
 def confirm(request):
@@ -78,4 +67,5 @@ def confirm(request):
 
 def logout(request):
     django_logout(request)
+    messages.add_message(request, messages.INFO, 'Success.')
     return redirect('/login')

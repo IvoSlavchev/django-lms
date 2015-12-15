@@ -33,7 +33,6 @@ class AuthenticationForm(forms.Form):
 
     username = forms.CharField(label="Username or E-Mail")   
     password = forms.CharField(widget=forms.PasswordInput)
-    is_teacher = forms.BooleanField(label="Teacher", required=False)
 
     class Meta:
         fields = ['username', 'password', 'is_teacher']

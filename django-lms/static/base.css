@@ -1,3 +1,7 @@
 body {
 	background-color: #F8F8FF;
-};
+}
+
+#id_login, #id_logout {
+	padding-right: 2%;
+}

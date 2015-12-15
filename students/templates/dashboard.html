@@ -1,15 +1,17 @@
 {% extends 'base.html' %}
 
+{% block dashboard_redirect %}students{% endblock %}
+
 {% block header_text %}
 	{% if messages %}
 	    {% for message in messages %}
 	    	{{ message }}
 	    {% endfor %}
 	{% else %}
-		Sign up
+		Student dashboard
 	{% endif %}
 {% endblock %}
 
-{% block form_action %}{% url 'signup' %}{% endblock %}
+{% block dashboard %}
 
-{% block form_submit %}<input id='id_submit' type='submit' value='Sign up'>{% endblock %}
+{% endblock %}

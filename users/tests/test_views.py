@@ -6,7 +6,7 @@ from django.test import TestCase
 from django.http import Http404
 
 from users.models import User
-from users.views import home_page, teacher_page, student_page, login, signup, confirm
+from users.views import home_page, login, signup, confirm
 
 User = User()
 
@@ -21,17 +21,6 @@ class HomePageTest(TestCase):
 		response = home_page(request)
 		expected_html = render_to_string('home.html')
 		self.assertEqual(response.content.decode(), expected_html)
-
-class TeacherAndStudentPageTest(TestCase):
-
-	def test_pages_raise_error_on_anonymous_user(self):
-		request = HttpRequest()	
-		with self.assertRaises(AttributeError):
-			response_teacher = teacher_page(request)
-
-		request = HttpRequest()
-		with self.assertRaises(AttributeError):
-			response_student = student_page(request)
 
 class LoginAndSignup(TestCase):
 
