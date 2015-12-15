@@ -1,3 +1,5 @@
+{% load staticfiles %}
+<!DOCTYPE html>
 <html>
     <head>
 	    <meta charset="utf-8">
@@ -22,7 +24,8 @@
             </nav>
 
             <div class="row" jumbotron>              
-                <h3 class='text-info text-center'>{% block header_text %}{% endblock %}</h3>                   
+                <h3 class='text-info text-center'>{% block header_text %}{% endblock %}</h3>  
+                {% block info %}{% endblock %}                 
                 {% block dashboard %}{% endblock %}
                 <form class="form-horizontal col-md-6 col-md-offset-5" action="{% block form_action %}{% endblock %}" 
                       method='POST'> 
