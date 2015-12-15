@@ -5,25 +5,12 @@ class LoginTest(FunctionalTest):
 	def signup(self, is_teacher):
 		if is_teacher:		
 			self.browser.find_element_by_id('id_username').send_keys('teacher')
-			self.browser.find_element_by_id('id_is_teacher').click()
 		else:
 			self.browser.find_element_by_id('id_username').send_keys('student')
 
 		self.browser.find_element_by_id('id_email').send_keys('taccount@mail.bg')		
 		self.browser.find_element_by_id('id_password1').send_keys('example')
 		self.browser.find_element_by_id('id_password2').send_keys('example')
-		self.browser.find_element_by_id('id_submit').click()
-
-	def login(self, is_teacher):
-		if is_teacher:
-			# Login with username
-			self.browser.find_element_by_id('id_username').send_keys('teacher')
-			self.browser.find_element_by_id('id_is_teacher').click()
-		else:
-			# Login with email
-			self.browser.find_element_by_id('id_username').send_keys('taccount@mail.bg')
-
-		self.browser.find_element_by_id('id_password').send_keys('example')
 		self.browser.find_element_by_id('id_submit').click()
 
 	def confirm_email(self):
@@ -63,7 +50,7 @@ class LoginTest(FunctionalTest):
 		self.browser.find_element_by_link_text('Log in').click()
 		# Login as teacher	
 		self.login(True)
-		self.assertEqual(self.browser.current_url, 'http://localhost:8000/teacher/')
+		self.assertEqual(self.browser.current_url, 'http://localhost:8000/teachers/')
 
 		# Logout
 		self.browser.find_element_by_link_text('Log out').click()
@@ -72,4 +59,4 @@ class LoginTest(FunctionalTest):
 		self.browser.find_element_by_link_text('Log in').click()
 		# Login as student
 		self.login(False)
-		self.assertEqual(self.browser.current_url, 'http://localhost:8000/student/')
+		self.assertEqual(self.browser.current_url, 'http://localhost:8000/students/')
