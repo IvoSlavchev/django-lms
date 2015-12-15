@@ -57,7 +57,8 @@ def signup(request):
             email_subject = 'Your new Django-LMS account confirmation'
             email_body = "Hello, %s, and thanks for signing up for an Django-LMS account!\n\n \
                 To activate your account, click this link within 24 hours:\n\n \
-                http://localhost:8000/confirm/?key=%s" % (user.username, profile.activation_key)
+                http://localhost:8000/confirm/?q=%s" % (user.username, profile.activation_key)
+            print(profile.activation_key)
             send_mail(email_subject, email_body, settings.EMAIL_HOST, [user.email], fail_silently=False)
             return redirect('/')
     else:
@@ -65,7 +66,7 @@ def signup(request):
     return render_to_response('signup.html', {'form': form,}, context_instance=RequestContext(request))
 
 def confirm(request):
-    activation_key = request.GET.get('key', '')
+    activation_key = request.GET.get('q', '')
     profile = get_object_or_404(UserProfile, activation_key=activation_key)
     tz_info = profile.key_expires.tzinfo
     if profile.key_expires < datetime.datetime.now(tz_info):

@@ -3,11 +3,11 @@ from .base import FunctionalTest
 class LoginTest(FunctionalTest):
 
 	def signup(self, is_teacher):
-		if is_teacher:
+		if is_teacher:		
+			self.browser.find_element_by_id('id_username').send_keys('teacher')
 			self.browser.find_element_by_id('id_is_teacher').click()
-			self.browser.find_element_by_id('id_username').send_keys('example_teacher')
 		else:
-			self.browser.find_element_by_id('id_username').send_keys('example_student')
+			self.browser.find_element_by_id('id_username').send_keys('student')
 
 		self.browser.find_element_by_id('id_email').send_keys('taccount@mail.bg')		
 		self.browser.find_element_by_id('id_password1').send_keys('example')
@@ -16,9 +16,12 @@ class LoginTest(FunctionalTest):
 
 	def login(self, is_teacher):
 		if is_teacher:
+			# Login with username
 			self.browser.find_element_by_id('id_username').send_keys('teacher')
+			self.browser.find_element_by_id('id_is_teacher').click()
 		else:
-			self.browser.find_element_by_id('id_username').send_keys('student')
+			# Login with email
+			self.browser.find_element_by_id('id_username').send_keys('taccount@mail.bg')
 
 		self.browser.find_element_by_id('id_password').send_keys('example')
 		self.browser.find_element_by_id('id_submit').click()
@@ -38,35 +41,35 @@ class LoginTest(FunctionalTest):
 	def test_home_page(self):
 		self.browser.get("http://localhost:8081")
 		header = self.browser.find_element_by_tag_name('h3').text
-		self.assertEqual(header, 'Welcome to the Django-LMS!')
+		self.assertEqual(header, 'Welcome!')
 
-	def test_signup_and_confirm_email(self):
+	def test_signup(self):
 		# Sign up as teacher
 		self.browser.get("http://localhost:8081")
-		self.browser.find_element_by_link_text('Signup').click()
+		self.browser.find_element_by_link_text('Sign up').click()
 		self.signup(True)
 		self.assertEqual(self.browser.current_url, 'http://localhost:8081/')
-		self.confirm_email()
+		#self.confirm_email()
 
 		# Sign up as student
-		self.browser.get("http://localhost:8081")
-		self.browser.find_element_by_link_text('Signup').click()
+		self.browser.find_element_by_link_text('Sign up').click()
 		self.signup(False)
 		self.assertEqual(self.browser.current_url, 'http://localhost:8081/')
-		self.confirm_email()
+		#self.confirm_email()
 
 	def test__login(self):	
+		# Logging into the real server as to not have to create new users		
+		self.browser.get("http://localhost:8000")
+		self.browser.find_element_by_link_text('Log in').click()
 		# Login as teacher	
-		self.browser.get("http://localhost:8081")
-		self.browser.find_element_by_link_text('Login').click()
 		self.login(True)
-		self.assertEqual(self.browser.current_url, 'http://localhost:8081/teacher')
+		self.assertEqual(self.browser.current_url, 'http://localhost:8000/teacher/')
 
 		# Logout
-		self.browser.find_element_by_link_text('Logout').click()
-		self.assertEqual(self.browser.current_url, 'http://localhost:8081/login/')	
-
+		self.browser.find_element_by_link_text('Log out').click()
+		self.assertEqual(self.browser.current_url, 'http://localhost:8000/login/')	
+		
+		self.browser.find_element_by_link_text('Log in').click()
 		# Login as student
-		self.browser.find_element_by_link_text('Login').click()
 		self.login(False)
-		self.assertEqual(self.browser.current_url, 'http://localhost:8081/student')
+		self.assertEqual(self.browser.current_url, 'http://localhost:8000/student/')

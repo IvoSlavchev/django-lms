@@ -5,14 +5,14 @@ from users.models import User
 class RegistrationForm(forms.ModelForm):
 
     username = forms.CharField(label="Username")
-    email = forms.EmailField(label="E-Mail")
-    is_teacher = forms.BooleanField(label="Teacher", required=False)
+    email = forms.EmailField(label="E-Mail")   
     password1 = forms.CharField(widget=forms.PasswordInput, label="Password")
     password2 = forms.CharField(widget=forms.PasswordInput, label="Password (again)")
+    is_teacher = forms.BooleanField(label="Teacher", required=False)
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'is_teacher', 'password1', 'password2']
+        fields = ['username', 'email', 'password1', 'password2', 'is_teacher']
 
     def clean(self):
         cleaned_data = super(RegistrationForm, self).clean()
@@ -31,9 +31,9 @@ class RegistrationForm(forms.ModelForm):
 
 class AuthenticationForm(forms.Form):
 
-    username = forms.CharField(label="Username or E-Mail")
-    is_teacher = forms.BooleanField(label="Teacher", required=False)
+    username = forms.CharField(label="Username or E-Mail")   
     password = forms.CharField(widget=forms.PasswordInput)
+    is_teacher = forms.BooleanField(label="Teacher", required=False)
 
     class Meta:
-        fields = ['username', 'is_teacher', 'password']
+        fields = ['username', 'password', 'is_teacher']
