@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block dashboard_redirect %}teachers{% endblock %}
+
+{% block header_text %}Course{% endblock %}
+
+{% block dashboard %}
+	<p>{{ course.name }}</p>
+	<p>{{ course.description }}</p>
+	<p>{{ course.created }}</p>
+{% endblock %}

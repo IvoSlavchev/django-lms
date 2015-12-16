@@ -16,7 +16,7 @@
 	<h4>Your courses</h4>
 	<ul>
 	    {% for course in courses %}
-	        <li>{{ course.name }} {{ course.description }}</li>
+	        <li><a href="{{ course.get_absolute_url }}">{{ course.name }} {{ course.created }}</a></li>
 	    {% endfor %}
 	</ul>
 	<h4>All students</h4>
