@@ -1,7 +1,5 @@
 {% extends 'base.html' %}
 
-{% block dashboard_redirect %}students{% endblock %}
-
 {% block header_text %}
 	{% if messages %}
 	    {% for message in messages %}
@@ -13,5 +11,10 @@
 {% endblock %}
 
 {% block dashboard %}
-
+	<h4>Your courses</h4>
+	<ul>
+	    {% for course in courses %}
+	        <li><a href="{{ course.get_absolute_url }}">{{ course.name }} {{ course.created }}</a></li>
+	    {% endfor %}
+	</ul>
 {% endblock %}

@@ -12,8 +12,12 @@
     <body>
         <div class="container">
             <nav class="navbar navbar-default" role="navigation">              
-                {% if user.is_active %}  
-                    <a class="navbar-brand" href="/{% block dashboard_redirect %}teachers{% endblock %}">Dashboard</a>
+                {% if user.is_active %} 
+                    {% if user.is_teacher %} 
+                        <a class="navbar-brand" href="/teachers">Dashboard</a>
+                    {% else %}
+                        <a class="navbar-brand" href="/students">Dashboard</a>
+                    {% endif %}
                     <a class="btn navbar-btn navbar-right" id="id_logout" href="{% url 'logout' %}">Log out</a>
                     <span class="navbar-text navbar-right">Logged in as {{ user.username }}</span>
                 {% else %}
