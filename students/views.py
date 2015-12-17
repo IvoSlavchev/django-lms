@@ -21,6 +21,7 @@ def dashboard(request):
 	courses.sort(key=lambda x: x.created, reverse=True)
 	return render(request, 'student_dashboard.html', {'courses': courses})
 
+@user_passes_test(student_check, login_url='/login')
 def view_course(request, course_id):
     course = Course.objects.get(id=course_id)
     participants = list(Participation.objects.filter(course=course_id))

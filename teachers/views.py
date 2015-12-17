@@ -11,11 +11,12 @@ from users.models import User
 def teacher_check(user):
     return user.is_teacher
 
-@user_passes_test(teacher_check, login_url='/login')
+@user_passes_test(teacher_check)
 def dashboard(request):
 	courses = Course.objects.filter(owner=request.user).order_by('-created')
 	return render_to_response('teacher_dashboard.html', {'courses': courses}, context_instance=RequestContext(request))
 
+@user_passes_test(teacher_check)
 def create(request):
 	if request.method == 'POST':		
 		form = CreateForm(data=request.POST)
@@ -32,6 +33,7 @@ def create(request):
 		form = CreateForm()
 	return render_to_response('create.html', {'form': form}, context_instance=RequestContext(request))
 
+@user_passes_test(teacher_check)
 def view_course(request, course_id):
     course = Course.objects.get(id=course_id)
     participants = list(Participation.objects.filter(course=course_id))
