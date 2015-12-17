@@ -15,13 +15,11 @@ class EmailBackend(BasicBackend):
         try:         
             validate_email(username)
             try:
-                print(is_teacher)
                 user = User.objects.get(email=username, is_teacher=is_teacher)
             except User.DoesNotExist:
                 return None
         except:
             try:
-                print(is_teacher)
                 user = User.objects.get(username=username, is_teacher=is_teacher)
             except User.DoesNotExist:
                 return None

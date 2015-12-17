@@ -19,11 +19,5 @@
 	        <li><a href="{{ course.get_absolute_url }}">{{ course.name }} {{ course.created }}</a></li>
 	    {% endfor %}
 	</ul>
-	<h4>All students</h4>
-	<ul>
-	    {% for student in students %}
-	        <li>{{ student.username }} {{ student.email }}</li>
-	    {% endfor %}
-	</ul>
 	<a href="/teachers/create">Create new course</a>
 {% endblock %}

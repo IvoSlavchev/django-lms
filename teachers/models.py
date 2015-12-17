@@ -9,6 +9,11 @@ class Course(models.Model):
 	name = models.CharField(max_length=30, unique=True, db_index=True)
 	description = models.TextField(blank=True)
 	created = models.DateTimeField(default=datetime.now)
+	participants = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, through='Participation')
 
 	def get_absolute_url(self):
 		return reverse('view_course', args=[self.id])
+
+class Participation(models.Model):
+	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+	course = models.ForeignKey(Course, on_delete=models.CASCADE)

@@ -5,7 +5,12 @@
 {% block header_text %}Course{% endblock %}
 
 {% block dashboard %}
-	<p>{{ course.name }}</p>
-	<p>{{ course.description }}</p>
-	<p>{{ course.created }}</p>
+	<h4>Course name: {{ course.name }}</h4>
+	<p>Course owner: {{ course.owner }}</p>	
+	<p>Course description: {{ course.description }}</p>
+	<p>Course participants:</p>
+	{% for participant in participants %}
+		<p>{{ participant.user }}</p>
+	{% endfor %}
+	<p>Course created: {{ course.created }}</p>
 {% endblock %}

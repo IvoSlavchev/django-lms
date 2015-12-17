@@ -2,16 +2,24 @@ from django import forms
 from django.core.exceptions import ValidationError
 
 from teachers.models import Course
+from users.models import User
 
 class CreateForm(forms.ModelForm):
 
 	name = forms.CharField(label="Title")
 	description = forms.Textarea()
+	participants = forms.ModelMultipleChoiceField(required=False, queryset=User.objects.filter(is_teacher=False), 
+		widget=forms.CheckboxSelectMultiple())
+
+	def __init__ (self, *args, **kwargs):
+		super(CreateForm, self).__init__(*args, **kwargs)
+		self.fields["participants"].widget = forms.widgets.CheckboxSelectMultiple()
+		self.fields["participants"].queryset = queryset=User.objects.filter(is_teacher=False)
 
 	class Meta:
 		model = Course
-		fields = ['name', 'description']
-		
+		fields = ['name', 'description', 'participants']
+
 class ExistingCourseForm(CreateForm):
 
     def __init__(self, for_course, *args, **kwargs):

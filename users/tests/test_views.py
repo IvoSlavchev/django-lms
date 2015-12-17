@@ -16,15 +16,15 @@ class HomePageTest(TestCase):
 		found = resolve('/')
 		self.assertEqual(found.func, home_page)
 
-	def test_home_page_returns_correct_html(self):
+	def test_home_page_uses_correct_template(self):
 		request = HttpRequest()
-		response = home_page(request)
-		expected_html = render_to_string('home.html')
-		self.assertEqual(response.content.decode(), expected_html)
+		response_home = home_page(request)
+		with self.assertTemplateUsed('home.html'):
+			render_to_string('home.html')
 
 class LoginAndSignup(TestCase):
 
-	def test_signup_and_login_use_correct_template(self):
+	def test_signup_login_and_confirm_use_correct_template(self):
 		request = HttpRequest()
 		response_signup = signup(request)
 		with self.assertTemplateUsed('signup.html'):
