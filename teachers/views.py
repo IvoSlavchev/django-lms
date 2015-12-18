@@ -34,7 +34,7 @@ def create(request):
 	return render_to_response('create.html', {'form': form}, context_instance=RequestContext(request))
 
 @user_passes_test(teacher_check)
-def view_course(request, course_id):
+def edit_course(request, course_id):
     course = Course.objects.get(id=course_id)
     participants = list(Participation.objects.filter(course=course_id))
     form = ExistingCourseForm(for_course=course)
@@ -43,4 +43,4 @@ def view_course(request, course_id):
         if form.is_valid():
             form.save()
             return redirect(course)
-    return render(request, 'course.html', {'course': course, 'participants': participants})
+    return render(request, 'edit_course.html', {'course': course, 'participants': participants})

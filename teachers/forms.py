@@ -11,11 +11,6 @@ class CreateForm(forms.ModelForm):
 	participants = forms.ModelMultipleChoiceField(required=False, queryset=User.objects.filter(is_teacher=False), 
 		widget=forms.CheckboxSelectMultiple())
 
-	def __init__ (self, *args, **kwargs):
-		super(CreateForm, self).__init__(*args, **kwargs)
-		self.fields["participants"].widget = forms.widgets.CheckboxSelectMultiple()
-		self.fields["participants"].queryset = queryset=User.objects.filter(is_teacher=False)
-
 	class Meta:
 		model = Course
 		fields = ['name', 'description', 'participants']

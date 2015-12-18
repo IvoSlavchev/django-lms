@@ -11,7 +11,7 @@ from users.models import User
 def student_check(user):
     return user.is_teacher == False
 
-@user_passes_test(student_check, login_url='/login')
+@user_passes_test(student_check)
 def dashboard(request):
 	participants = list(Participation.objects.filter(user=request.user.id))
 	courses_unflattened = list()
@@ -21,7 +21,7 @@ def dashboard(request):
 	courses.sort(key=lambda x: x.created, reverse=True)
 	return render(request, 'student_dashboard.html', {'courses': courses})
 
-@user_passes_test(student_check, login_url='/login')
+@user_passes_test(student_check)
 def view_course(request, course_id):
     course = Course.objects.get(id=course_id)
     participants = list(Participation.objects.filter(course=course_id))
