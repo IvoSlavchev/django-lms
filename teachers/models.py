@@ -12,5 +12,5 @@ class Course(models.Model):
 	participants = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, through='Participation')
 
 class Participation(models.Model):
-	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-	course = models.ForeignKey(Course, on_delete=models.CASCADE)
+	user = models.ForeignKey(settings.AUTH_USER_MODEL)
+	course = models.ForeignKey(Course)

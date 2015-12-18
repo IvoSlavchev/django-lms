@@ -3,7 +3,6 @@ from itertools import chain
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render
 
-from teachers.forms import CreateForm, ExistingCourseForm
 from teachers.models import Course
 from teachers.models import Participation
 from users.models import User
@@ -25,10 +24,4 @@ def dashboard(request):
 def view_course(request, course_id):
     course = Course.objects.get(id=course_id)
     participants = list(Participation.objects.filter(course=course_id))
-    form = ExistingCourseForm(for_course=course)
-    if request.method == 'POST':
-        form = ExistingCourseForm(for_course=course, data=request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect(course)
     return render(request, 'course.html', {'course': course, 'participants': participants})
