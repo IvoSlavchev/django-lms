@@ -17,7 +17,7 @@ def dashboard(request):
 	for participant in participants:
 		courses_unflattened.append(list(Course.objects.filter(id=participant.course.id)))
 	courses = list(chain.from_iterable(courses_unflattened))
-	courses.sort(key=lambda x: x.created, reverse=True)
+	courses.sort(key=lambda x: x.updated, reverse=True)
 	return render(request, 'student_dashboard.html', {'courses': courses})
 
 @user_passes_test(student_check)

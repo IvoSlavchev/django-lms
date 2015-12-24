@@ -1,14 +1,12 @@
-from datetime import datetime
-
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import models
 
 class Course(models.Model):
 	owner = models.CharField(max_length=30)
-	name = models.CharField(max_length=30, unique=True, db_index=True)
+	name = models.CharField(max_length=30)
 	description = models.TextField(blank=True)
-	created = models.DateTimeField(default=datetime.now)
+	updated = models.DateTimeField(auto_now=True)
 	participants = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, through='Participation')
 
 class Participation(models.Model):

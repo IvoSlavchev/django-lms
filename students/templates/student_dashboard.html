@@ -14,7 +14,7 @@
 	<h4>Your courses</h4>
 	<ul>
 	    {% for course in courses %}
-	        <li><a href="/students/{{ course.id }}">{{ course.name }} {{ course.created }}</a></li>
+	        <li><a href="/students/{{ course.id }}">{{ course.name }} {{ course.updated }}</a></li>
 	    {% endfor %}
 	</ul>
 {% endblock %}

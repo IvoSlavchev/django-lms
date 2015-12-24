@@ -15,6 +15,6 @@ class CourseForm(forms.ModelForm):
 		model = Course
 		fields = ['name', 'description', 'participants']
 
-	def __init__(self, for_course, *args, **kwargs):
+	def __init__(self, instance, *args, **kwargs):
 		super().__init__(*args, **kwargs)
-		self.instance.course = for_course
+		self.instance.course = instance
