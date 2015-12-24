@@ -20,7 +20,6 @@ def dashboard(request):
 def create(request):
 	if request.method == 'POST':		
 		form = CourseForm(data=request.POST, for_course=None)
-		form.instance.owner = request.user
 		if form.is_valid():							
 			course = Course.objects.create(owner=request.user, name=form.cleaned_data['name'], 
 				description=form.cleaned_data['description'])
@@ -36,17 +35,19 @@ def create(request):
 @user_passes_test(teacher_check)
 def edit_course(request, course_id):
 	course = Course.objects.get(id=course_id)
-	participants = list(Participation.objects.filter(course=course_id))
-	form = CourseForm(for_course=course)
-	if request.method == 'POST':
-		form = CourseForm(for_course=course, data=request.POST)
-		if form.is_valid():
-			course.save()
-			form.save(commit=False)
-			for participant in form.cleaned_data['participants']:  
-				if participant not in participants:
-					part = Participation(user=participant, course=course)
-					part.save()
-			messages.add_message(request, messages.INFO, 'Course updated successfully.')
-			return redirect('/teachers')
-	return render(request, 'edit_course.html', {'form': form, 'course': course, 'participants': participants})
+	if request.user.username == course.owner:
+		participants = list(Participation.objects.filter(course=course_id))
+		form = CourseForm(for_course=course)
+		if request.method == 'POST':
+			form = CourseForm(for_course=course, data=request.POST)
+			if form.is_valid():
+				course.save()
+				form.save(commit=False)
+				for participant in form.cleaned_data['participants']:  
+					if participant not in participants:
+						part = Participation(user=participant, course=course)
+						part.save()
+				messages.add_message(request, messages.INFO, 'Course updated successfully.')
+				return redirect('/teachers')
+		return render(request, 'edit_course.html', {'form': form, 'course': course, 'participants': participants})
+	return redirect('/teachers')

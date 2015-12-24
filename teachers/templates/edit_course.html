@@ -2,16 +2,12 @@
 
 {% block header_text %}Edit course{% endblock %}
 
-	{% block form_action %}{% url 'edit_course' course.id %}{% endblock %}
-	{% block form_submit %}<input id='id_submit' type='submit' value='Update'>{% endblock %}
+{% block form_action %}{% url 'edit_course' course.id %}{% endblock %}
+{% block form_submit %}<input id='id_submit' type='submit' value='Update'>{% endblock %}
 
-{% block dashboard %}
-	<h4>Course name: {{ course.name }}</h4>
-	<p>Course owner: {{ course.owner }}</p>	
-	<p>Course description: {{ course.description }}</p>
-	<p>Course participants:</p>
-	{% for participant in participants %}
-		<p>{{ participant.user }}</p>
-	{% endfor %}
-	<p>Course created: {{ course.created }}</p>
+{% block javascript %}
+	<script type="text/javascript">
+		$("#id_name").val("{{ course.name }}");
+		$("#id_description").val("{{ course.description }}");
+	</script>
 {% endblock %}
