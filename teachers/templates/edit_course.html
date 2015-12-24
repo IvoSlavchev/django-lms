@@ -7,7 +7,18 @@
 
 {% block javascript %}
 	<script type="text/javascript">
+		var participants = [];
+		
+		{% for participant in participants %}
+			participants.push({{ participant.user.id }})
+		{% endfor %}
+
 		$("#id_name").val("{{ course.name }}");
 		$("#id_description").val("{{ course.description }}");
+		$("#id_participants input").each(function() {
+			if (participants.indexOf(parseInt($(this).attr("value"))) != -1) {
+				$(this).attr("checked", true);
+			}
+		});
 	</script>
 {% endblock %}
