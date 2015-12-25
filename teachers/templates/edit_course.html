@@ -3,7 +3,13 @@
 {% block header_text %}Edit course{% endblock %}
 
 {% block form_action %}{% url 'edit_course' course.id %}{% endblock %}
-{% block form_submit %}<input id='id_submit' type='submit' value='Update'>{% endblock %}
+
+{% block button %}
+	<button id='id_submit' type='submit' name='update'>Update</button>
+	<br>
+	<br>
+	<button id='id_delete' name='delete'>Delete</button>
+{% endblock %}
 
 {% block javascript %}
 	<script type="text/javascript">

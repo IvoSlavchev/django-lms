@@ -11,6 +11,19 @@ from users.models import User
 def teacher_check(user):
     return user.is_teacher
 
+def update(form, course):
+	course.name = form.cleaned_data['name']
+	course.description = form.cleaned_data['description']
+	course.save()
+	Participation.objects.filter(course=course).delete()
+	for participant in form.cleaned_data['participants']:  
+		part = Participation(user=participant, course=course)
+		part.save()
+
+def delete(course):
+	course.delete()
+	Participation.objects.filter(course=course).delete()
+
 @user_passes_test(teacher_check)
 def dashboard(request):
 	courses = Course.objects.filter(owner=request.user).order_by('-updated')
@@ -37,18 +50,17 @@ def edit_course(request, course_id):
 	course = Course.objects.get(id=course_id)
 	if request.user.username == course.owner:
 		participants = list(Participation.objects.filter(course=course_id))
-		if request.method == 'POST':
+		if request.method == 'POST' and 'update' in request.POST:
+			print("hurr")
 			form = CourseForm(instance=course, data=request.POST)
 			if form.is_valid():
-				course.name = form.cleaned_data['name']
-				course.description = form.cleaned_data['description']
-				course.save()
-				Participation.objects.filter(course=course_id).delete();
-				for participant in form.cleaned_data['participants']:  
-					part = Participation(user=participant, course=course)
-					part.save()
+				update(form, course)
 				messages.add_message(request, messages.INFO, 'Course updated successfully.')
-				return redirect('/teachers')
+				return redirect('/teachers')						
+		if request.method == 'POST' and 'delete' in request.POST:
+			delete(course)		
+			messages.add_message(request, messages.INFO, 'Course deleted successfully.')
+			return redirect('/teachers')		
 		else :
 			form = CourseForm(instance=course)
 		return render(request, 'edit_course.html', {'form': form, 'course': course, 'participants': participants})
