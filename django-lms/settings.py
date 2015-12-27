@@ -29,6 +29,7 @@ INSTALLED_APPS = (
     # Local apps
     'users',
     'courses',
+    'exams'
 )
 
 MIDDLEWARE_CLASSES = (

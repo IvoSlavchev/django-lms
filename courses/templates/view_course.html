@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block header_text %}Course{% endblock %}
+{% block header_text %}{{ course.name }}{% endblock %}
 
 {% block dashboard %}
 	<h4>Course name: {{ course.name }}</h4>

@@ -1,11 +1,14 @@
 {% extends 'base.html' %}
 
-{% block header_text %}Edit course{% endblock %}
+{% block header_text %}{{ course.name }}{% endblock %}
 
 {% block form_action %}{% url 'edit_course' course.id %}{% endblock %}
 
 {% block button %}
 	<button id='id_submit' type='submit' name='update'>Update</button>
+	<br>
+	<br>
+	<a href="{% url 'create_exam' course.id %}">Add test</a>
 	<br>
 	<br>
 	<button id='id_delete' name='delete'>Delete</button>

@@ -44,7 +44,7 @@ def create_course(request):
 				part = Participation(user=participant, course=course)
 				part.save()
 			messages.add_message(request, messages.INFO, 'Course created successfully.')
-			return redirect('/courses/teacher')
+			return redirect('/courses/')
 	else:
 		form = CourseForm(instance=None)
 	return render(request, 'create_course.html', {'form': form})
@@ -59,15 +59,15 @@ def edit_course(request, course_id):
 			if form.is_valid():
 				update(form, course)
 				messages.add_message(request, messages.INFO, 'Course updated successfully.')
-				return redirect('/courses/teacher')						
+				return redirect('/courses/')						
 		if request.method == 'POST' and 'delete' in request.POST:
 			delete(course)		
 			messages.add_message(request, messages.INFO, 'Course deleted successfully.')
-			return redirect('/courses/teacher')		
+			return redirect('/courses/')		
 		else :
 			form = CourseForm(instance=course)
 		return render(request, 'edit_course.html', {'form': form, 'course': course, 'participants': participants})
-	return redirect('/courses/teacher')
+	return redirect('/courses/')
 
 @user_passes_test(student_check)
 def student_page(request):

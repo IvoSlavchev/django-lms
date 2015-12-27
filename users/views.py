@@ -23,9 +23,9 @@ def login(request):
                 if user.is_active:
                     django_login(request, user)
                     if user.is_teacher:
-                        return redirect('/courses/teacher')
+                        return redirect('/courses/')
                     else:
-                        return redirect('/courses/student')
+                        return redirect('/courses/s')
         messages.add_message(request, messages.ERROR, 'Please try again.')
     else:
         form = AuthenticationForm()
