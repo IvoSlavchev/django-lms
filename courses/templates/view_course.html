@@ -10,5 +10,9 @@
 	{% for participant in participants %}
 		<p>{{ participant.user }}</p>
 	{% endfor %}
+	<p>Course tests:</p>
+	{% for exam in exams %}
+		<p>{{ exam.name }} {{ exam.date_to_be_taken }}</p>
+	{% endfor %}
 	<p>Course updated: {{ course.updated }}</p>
 {% endblock %}

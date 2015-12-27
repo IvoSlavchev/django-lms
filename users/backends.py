@@ -11,16 +11,16 @@ class BasicBackend:
 
 class EmailBackend(BasicBackend):
 
-    def authenticate(self, username=None, is_teacher=None, password=None):
+    def authenticate(self, username=None, password=None):
         try:         
             validate_email(username)
             try:
-                user = User.objects.get(email=username, is_teacher=is_teacher)
+                user = User.objects.get(email=username)
             except User.DoesNotExist:
                 return None
         except:
             try:
-                user = User.objects.get(username=username, is_teacher=is_teacher)
+                user = User.objects.get(username=username)
             except User.DoesNotExist:
                 return None
         if user.check_password(password):

@@ -7,7 +7,12 @@
 {% block button %}
 	<button id='id_submit' type='submit' name='update'>Update</button>
 	<br>
-	<br>
+	<br>	
+	<ul>
+	    {% for exam in exams %}
+	        <li>{{ exam.name }} {{ exam.date_to_be_taken }}</li>
+	    {% endfor %}
+	</ul>
 	<a href="{% url 'create_exam' course.id %}">Add test</a>
 	<br>
 	<br>

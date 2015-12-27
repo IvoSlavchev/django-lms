@@ -7,6 +7,7 @@ from django.shortcuts import redirect, render
 from courses.forms import CourseForm
 from courses.models import Course
 from courses.models import Participation
+from exams.models import Exam
 from users.models import User
 
 def teacher_check(user):
@@ -52,6 +53,7 @@ def create_course(request):
 @user_passes_test(teacher_check)
 def edit_course(request, course_id):
 	course = Course.objects.get(id=course_id)
+	exams = Exam.objects.filter(course=course_id)
 	if request.user.username == course.owner:
 		participants = list(Participation.objects.filter(course=course_id))
 		if request.method == 'POST' and 'update' in request.POST:
@@ -66,7 +68,8 @@ def edit_course(request, course_id):
 			return redirect('/courses/')		
 		else :
 			form = CourseForm(instance=course)
-		return render(request, 'edit_course.html', {'form': form, 'course': course, 'participants': participants})
+		return render(request, 'edit_course.html', {'form': form, 'course': course, 'participants': participants,
+			'exams': exams })
 	return redirect('/courses/')
 
 @user_passes_test(student_check)
@@ -83,4 +86,5 @@ def student_page(request):
 def view_course(request, course_id):
     course = Course.objects.get(id=course_id)
     participants = list(Participation.objects.filter(course=course_id))
-    return render(request, 'view_course.html', {'course': course, 'participants': participants})
+    exams = Exam.objects.filter(course=course_id)
+    return render(request, 'view_course.html', {'course': course, 'participants': participants, 'exams': exams})
