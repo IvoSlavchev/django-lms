@@ -2,7 +2,7 @@
 
 {% block header_text %}Exam creation{% endblock %}
 
-{% block form_action %}{% url 'create_exam' 7 %}{% endblock %}
+{% block form_action %}{% url 'create_exam' course.id %}{% endblock %}
 
 {% block button %}
 	<button id='id_submit' type='submit' name='create'>Create</button>

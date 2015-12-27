@@ -1,6 +1,14 @@
 {% extends 'base.html' %}
 
-{% block header_text %}{{ course.name }}{% endblock %}
+{% block header_text %}
+	{% if messages %}
+	    {% for message in messages %}
+	    	{{ message }}
+	    {% endfor %}
+	{% else %}
+		{{ course.name }}
+	{% endif %}
+{% endblock %}
 
 {% block form_action %}{% url 'edit_course' course.id %}{% endblock %}
 

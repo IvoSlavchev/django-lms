@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import redirect, render
 
@@ -14,16 +15,18 @@ def update(form, exam):
 
 @user_passes_test(teacher_check)
 def create_exam(request, course_id):
+	course = Course.objects.get(id=course_id)
 	if request.method == 'POST':		
 		form = ExamForm(data=request.POST)
 		if form.is_valid():			
 			exam = Exam.objects.create(owner=request.user, name=form.cleaned_data['name'], 
 				description=form.cleaned_data['description'], date_to_be_taken=form.cleaned_data['date_to_be_taken'], 
-				course=Course.objects.get(id=course_id))		
+				course=Course.objects.get(id=course_id))
+			messages.add_message(request, messages.INFO, 'Exam created successfully.')		
 			return redirect('/courses/' + course_id + '/')
 	else:
 		form = ExamForm()
-	return render(request, 'create_exam.html', {'form': form})
+	return render(request, 'create_exam.html', {'form': form, 'course': course })
 
 @user_passes_test(teacher_check)
 def edit_exam(request, course_id, exam_id):
@@ -34,9 +37,11 @@ def edit_exam(request, course_id, exam_id):
 			form = ExamForm(instance=exam, data=request.POST)
 			if form.is_valid():
 				update(form, exam)
+				messages.add_message(request, messages.INFO, 'Exam updated successfully.')
 				return redirect('/courses/' + course_id + '/')						
 		if request.method == 'POST' and 'delete' in request.POST:
 			exam.delete()		
+			messages.add_message(request, messages.INFO, 'Exam deleted successfully.')
 			return redirect('/courses/' + course_id + '/')		
 		else :
 			form = ExamForm(instance=exam)
