@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block header_text %}{{ exam.name }}{% endblock %}
+
+{% block form_action %}{% url 'edit_exam' course.id exam.id %}{% endblock %}
+
+{% block button %}
+	<button id='id_submit' type='submit' name='update'>Update</button>
+	<br>
+	<br>
+	<button id='id_delete' name='delete'>Delete</button>
+{% endblock %}

@@ -3,7 +3,6 @@
 {% block header_text %}{{ course.name }}{% endblock %}
 
 {% block dashboard %}
-	<h4>Course name: {{ course.name }}</h4>
 	<p>Course owner: {{ course.owner }}</p>	
 	<p>Course description: {{ course.description }}</p>
 	<p>Course participants:</p>
@@ -12,7 +11,7 @@
 	{% endfor %}
 	<p>Course tests:</p>
 	{% for exam in exams %}
-		<p>{{ exam.name }} {{ exam.date_to_be_taken }}</p>
+		<li><a href="{% url 'view_exam' course.id exam.id %}">{{ exam.name }} {{ exam.date_to_be_taken }}</a></li>
 	{% endfor %}
 	<p>Course updated: {{ course.updated }}</p>
 {% endblock %}

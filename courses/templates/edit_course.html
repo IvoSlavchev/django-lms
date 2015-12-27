@@ -10,7 +10,7 @@
 	<br>	
 	<ul>
 	    {% for exam in exams %}
-	        <li>{{ exam.name }} {{ exam.date_to_be_taken }}</li>
+	        <li><a href="{% url 'edit_exam' course.id exam.id %}">{{ exam.name }} {{ exam.date_to_be_taken }}</a></li>
 	    {% endfor %}
 	</ul>
 	<a href="{% url 'create_exam' course.id %}">Add test</a>

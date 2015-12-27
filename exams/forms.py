@@ -11,3 +11,7 @@ class ExamForm(forms.ModelForm):
 	class Meta:
 		model = Exam
 		fields = ['name', 'description', 'date_to_be_taken']
+
+	def __init__(self, instance=None, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.instance.exam = instance

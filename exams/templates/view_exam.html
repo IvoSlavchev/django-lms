@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block header_text %}{{ exam.name }}{% endblock %}
+
+{% block dashboard %}
+	<p>Exam creator: {{ exam.owner }}</p>	
+	<p>Exam description: {{ exam.description }}</p>
+	<p>Exam updated: {{ exam.updated }}</p>
+	<P>Belongs to course: {{ course.name }}</p>
+{% endblock %}

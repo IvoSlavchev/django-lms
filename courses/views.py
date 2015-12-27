@@ -14,7 +14,7 @@ def teacher_check(user):
     return user.is_teacher
 
 def student_check(user):
-    return user.is_teacher == False
+    return not user.is_teacher
 
 def update(form, course):
 	course.name = form.cleaned_data['name']
@@ -25,10 +25,6 @@ def update(form, course):
 		part = Participation(user=participant, course=course)
 		part.save()
 
-def delete(course):
-	course.delete()
-	Participation.objects.filter(course=course).delete()
-
 @user_passes_test(teacher_check)
 def teacher_page(request):
 	courses = Course.objects.filter(owner=request.user).order_by('-updated')
@@ -37,7 +33,7 @@ def teacher_page(request):
 @user_passes_test(teacher_check)
 def create_course(request):
 	if request.method == 'POST':		
-		form = CourseForm(data=request.POST, instance=None)
+		form = CourseForm(data=request.POST)
 		if form.is_valid():							
 			course = Course.objects.create(owner=request.user, name=form.cleaned_data['name'], 
 				description=form.cleaned_data['description'])
@@ -47,7 +43,7 @@ def create_course(request):
 			messages.add_message(request, messages.INFO, 'Course created successfully.')
 			return redirect('/courses/')
 	else:
-		form = CourseForm(instance=None)
+		form = CourseForm()
 	return render(request, 'create_course.html', {'form': form})
 
 @user_passes_test(teacher_check)
@@ -63,7 +59,8 @@ def edit_course(request, course_id):
 				messages.add_message(request, messages.INFO, 'Course updated successfully.')
 				return redirect('/courses/')						
 		if request.method == 'POST' and 'delete' in request.POST:
-			delete(course)		
+			course.delete()
+			Participation.objects.filter(course=course).delete()	
 			messages.add_message(request, messages.INFO, 'Course deleted successfully.')
 			return redirect('/courses/')		
 		else :
