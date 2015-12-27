@@ -5,8 +5,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login as django_login, authenticate, logout as django_logout
 from django.core.mail import send_mail
-from django.shortcuts import render, render_to_response, redirect, get_object_or_404
-from django.template import RequestContext
+from django.shortcuts import render, redirect, get_object_or_404
 
 from users.models import UserProfile
 from users.forms import AuthenticationForm, RegistrationForm
@@ -24,13 +23,13 @@ def login(request):
                 if user.is_active:
                     django_login(request, user)
                     if user.is_teacher:
-                        return redirect('/teachers')
+                        return redirect('/courses/teacher')
                     else:
-                        return redirect('/students')
+                        return redirect('/courses/student')
         messages.add_message(request, messages.ERROR, 'Please try again.')
     else:
         form = AuthenticationForm()
-    return render_to_response('login.html', {'form': form,}, context_instance=RequestContext(request))
+    return render(request, 'login.html', {'form': form,})
 
 def signup(request):
     if request.method == 'POST':
@@ -51,18 +50,18 @@ def signup(request):
         messages.add_message(request, messages.ERROR, 'Please try again.')
     else:
         form = RegistrationForm()        
-    return render_to_response('signup.html', {'form': form,}, context_instance=RequestContext(request))
+    return render(request, 'signup.html', {'form': form,})
 
 def confirm(request):
     activation_key = request.GET.get('q', '')
     profile = get_object_or_404(UserProfile, activation_key=activation_key)
     tz_info = profile.key_expires.tzinfo
     if profile.key_expires < datetime.datetime.now(tz_info):
-        return render_to_response('confirm.html', {'success': False})
+        return render(request, 'confirm.html', {'success': False})
     user = profile.user
     user.is_active = True
     user.save()
-    return render_to_response('confirm.html', {'success': True})
+    return render(request, 'confirm.html', {'success': True})
 
 def logout(request):
     django_logout(request)

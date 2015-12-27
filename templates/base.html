@@ -14,9 +14,9 @@
             <nav class="navbar navbar-default" role="navigation">              
                 {% if user.is_active %} 
                     {% if user.is_teacher %} 
-                        <a class="navbar-brand" href="/teachers">Dashboard</a>
+                        <a class="navbar-brand" href="{% url 'teacher_page' %}">Dashboard</a>
                     {% else %}
-                        <a class="navbar-brand" href="/students">Dashboard</a>
+                        <a class="navbar-brand" href="{% url 'student_page' %}">Dashboard</a>
                     {% endif %}
                     <a class="btn navbar-btn navbar-right" id="id_logout" href="{% url 'logout' %}">Log out</a>
                     <span class="navbar-text navbar-right">Logged in as {{ user.username }}</span>

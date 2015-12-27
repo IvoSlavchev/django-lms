@@ -2,7 +2,7 @@ import unittest
 
 from django.test import TestCase
 
-from teachers.forms import CourseForm
+from courses.forms import CourseForm
 
 class CourseFormTest(TestCase):
 

@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
-from teachers.models import Course
+from courses.models import Course
 from users.models import User
 
 class CourseForm(forms.ModelForm):
