@@ -11,14 +11,13 @@ class CourseTest(FunctionalTest):
 
 		self.browser.find_element_by_id('id_name').send_keys('Example course')		
 		self.browser.find_element_by_id('id_description').send_keys('Example description')
-		self.browser.find_element_by_id('id_participants_1').click()
+		self.browser.find_element_by_tag_name('option').click()
 		self.browser.find_element_by_id('id_submit').click()
 		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/')
 
 		self.browser.find_element_by_partial_link_text('Example course').click()
 		self.browser.find_element_by_id('id_description').clear()
 		self.browser.find_element_by_id('id_description').send_keys('Changed')
-		self.browser.find_element_by_id('id_participants_0').click()
 		self.browser.find_element_by_id('id_submit').click()
 		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/')
 		self.browser.find_element_by_link_text('Log out').click()

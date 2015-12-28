@@ -28,6 +28,9 @@
 {% endblock %}	
 
 {% block button %}
+	<input type="text" id="id_search" placeholder="Filter students">
+	<br>
+	<br>
 	<button class="btn btn-primary" id="id_submit" type="submit" name="update">Update</button>	
 	<button class="btn btn-danger" id="id_delete" name="delete" onclick="return confirmDelete()">Delete</button>
 {% endblock %}
@@ -37,15 +40,26 @@
 		var participants = [];
 		
 		{% for participant in participants %}
-			participants.push({{ participant.user.id }})
+			participants.push({{ participant.user.id }});
 		{% endfor %}
 
 		$("#id_name").val("{{ course.name }}");
 		$("#id_description").val("{{ course.description }}");
-		$("#id_participants input").each(function() {
+		$("option").each(function() {
 			if (participants.indexOf(parseInt($(this).attr("value"))) != -1) {
-				$(this).attr("checked", true);
+				$(this).attr("selected", true);
 			}
+		});
+
+		$('#id_search').change(function(){
+			var filter = $(this).val();
+			$('option').each(function(){
+				if ($(this).text().indexOf(filter) != -1) {
+					$(this).show();
+				} else {
+					$(this).hide();
+				}
+			});
 		});
 
 		function confirmDelete(){

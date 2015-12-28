@@ -4,7 +4,7 @@ from exams.models import Exam
 
 class ExamForm(forms.ModelForm):
 
-	name = forms.CharField(label="Exam name")
+	name = forms.CharField(label="Exam name", max_length=30)
 	description = forms.Textarea()
 	date_to_be_taken = forms.DateTimeField()
 
