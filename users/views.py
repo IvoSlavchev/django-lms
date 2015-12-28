@@ -42,7 +42,7 @@ def signup(request):
             email_subject = 'Your new Django-LMS account confirmation'
             email_body = "Hello, %s, and thanks for signing up for an Django-LMS account!\n\n \
                 To activate your account, click this link within 24 hours:\n\n \
-                http://localhost:8000/confirm/?q=%s" % (user.username, profile.activation_key)
+                http://localhost:8000/confirm?q=%s" % (user.username, profile.activation_key)
             send_mail(email_subject, email_body, settings.EMAIL_HOST, [user.email], fail_silently=False)
             messages.add_message(request, messages.INFO, 'Success. Check email for a confirmation link.')
             return redirect('/')

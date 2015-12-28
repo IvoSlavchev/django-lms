@@ -21,9 +21,9 @@ def create_exam(request, course_id):
 		if form.is_valid():			
 			exam = Exam.objects.create(owner=request.user, name=form.cleaned_data['name'], 
 				description=form.cleaned_data['description'], date_to_be_taken=form.cleaned_data['date_to_be_taken'], 
-				course=Course.objects.get(id=course_id))
+				course=course)
 			messages.add_message(request, messages.INFO, 'Exam created successfully.')		
-			return redirect('/courses/' + course_id + '/')
+			return redirect('/courses/' + course_id)
 	else:
 		form = ExamForm()
 	return render(request, 'create_exam.html', {'form': form, 'course': course })
@@ -38,15 +38,15 @@ def edit_exam(request, course_id, exam_id):
 			if form.is_valid():
 				update(form, exam)
 				messages.add_message(request, messages.INFO, 'Exam updated successfully.')
-				return redirect('/courses/' + course_id + '/')						
+				return redirect('/courses/' + course_id)						
 		if request.method == 'POST' and 'delete' in request.POST:
 			exam.delete()		
 			messages.add_message(request, messages.INFO, 'Exam deleted successfully.')
-			return redirect('/courses/' + course_id + '/')		
+			return redirect('/courses/' + course_id)		
 		else :
 			form = ExamForm(instance=exam)
 		return render(request, 'edit_exam.html', {'form': form, 'course': course, 'exam': exam })
-	return redirect('/courses/' + course_id + '/')
+	return redirect('/courses/' + course_id)
 
 @user_passes_test(student_check)
 def view_exam(request, course_id, exam_id):

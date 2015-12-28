@@ -13,9 +13,9 @@
 {% block dashboard %}
 	<h4>Your courses</h4>
 	<ul>
-	    {% for course in courses %}
-	        <li><a href="{% url 'edit_course' course.id %}">{{ course.name }} {{ course.updated }}</a></li>
-	    {% endfor %}
+    {% for course in courses %}
+        <li><a href="{% url 'edit_course' course.id %}">{{ course.name }} {{ course.updated }}</a></li>
+    {% endfor %}
 	</ul>
 	<a href="{% url 'create_course' %}">Create new course</a>
 {% endblock %}

@@ -50,7 +50,7 @@ class LoginTest(FunctionalTest):
 		self.browser.find_element_by_link_text('Log in').click()
 		# Login as teacher	
 		self.login(True)
-		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/teacher/')
+		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/')
 
 		# Logout
 		self.browser.find_element_by_link_text('Log out').click()
@@ -59,4 +59,4 @@ class LoginTest(FunctionalTest):
 		self.browser.find_element_by_link_text('Log in').click()
 		# Login as student
 		self.login(False)
-		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/student/')
+		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/s')
