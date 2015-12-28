@@ -5,3 +5,8 @@ body {
 #id_login, #id_logout {
 	padding-right: 2%;
 }
+
+.list-group-item-description {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}

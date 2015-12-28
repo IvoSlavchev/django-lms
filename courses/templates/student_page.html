@@ -6,15 +6,15 @@
 	    	{{ message }}
 	    {% endfor %}
 	{% else %}
-		Student dashboard
+		Your courses
 	{% endif %}
 {% endblock %}
 
 {% block dashboard %}
-	<h4>Your courses</h4>
-	<ul>
-	    {% for course in courses %}
-	        <li><a href="{% url 'view_course' course.id %}">{{ course.name }} {{ course.updated }}</a></li>
-	    {% endfor %}
-	</ul>
+	{% for course in courses %}
+		<a class="list-group-item" href="{% url 'view_course' course.id %}">
+			<h4 class="list-group-item-heading">{{ course.name }}</h4>
+			<p class="list-group-item-description">{{ course.description }}</p>
+		</a>
+	{% endfor %}
 {% endblock %}

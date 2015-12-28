@@ -9,7 +9,7 @@ class ExamTest(FunctionalTest):
 		self.browser.find_element_by_partial_link_text('newest').click()
 		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/14')
 
-		self.browser.find_element_by_link_text('Add test').click()
+		self.browser.find_element_by_link_text('Create new exam').click()
 		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/14/exams/create')
 
 		self.browser.find_element_by_id('id_name').send_keys('Example exam')		
@@ -36,4 +36,5 @@ class ExamTest(FunctionalTest):
 		self.browser.find_element_by_partial_link_text('newest').click()
 		self.browser.find_element_by_partial_link_text('Example exam').click()
 		self.browser.find_element_by_id('id_delete').click()
+		self.browser.switch_to_alert().accept()
 		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/14')

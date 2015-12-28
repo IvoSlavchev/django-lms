@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
-{% block confirm %}
+{% block header_text %}
 	{% if success %}
-		<h3 class='text-info'>Successfully confirmed!<h3>    
+		Successfully confirmed!
 	{% else %}
-	    <h3 class='text-info'>Link expired!<h3>
+	    Link expired!
 	{% endif %}
 {% endblock %}

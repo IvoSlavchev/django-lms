@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.contrib.auth import login as django_login, authenticate, logout as django_logout
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect, get_object_or_404
+from django.utils import timezone
 
 from users.models import UserProfile
 from users.forms import AuthenticationForm, RegistrationForm
@@ -36,7 +37,7 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             activation_key = hashlib.sha224(user.username.encode('utf-8')).hexdigest()
-            key_expires = datetime.datetime.today() + datetime.timedelta(1)
+            key_expires = timezone.now() + datetime.timedelta(1)
             profile = UserProfile(user=user, activation_key=activation_key, key_expires=key_expires)
             profile.save()
             email_subject = 'Your new Django-LMS account confirmation'
@@ -54,8 +55,7 @@ def signup(request):
 def confirm(request):
     activation_key = request.GET.get('q', '')
     profile = get_object_or_404(UserProfile, activation_key=activation_key)
-    tz_info = profile.key_expires.tzinfo
-    if profile.key_expires < datetime.datetime.now(tz_info):
+    if profile.key_expires < timezone.now():
         return render(request, 'confirm.html', {'success': False})
     user = profile.user
     user.is_active = True

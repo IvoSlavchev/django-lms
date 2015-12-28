@@ -3,8 +3,12 @@
 {% block header_text %}{{ exam.name }}{% endblock %}
 
 {% block dashboard %}
-	<p>Exam creator: {{ exam.owner }}</p>	
-	<p>Exam description: {{ exam.description }}</p>
-	<p>Exam updated: {{ exam.updated }}</p>
-	<P>Belongs to course: {{ course.name }}</p>
+	<b>Exam creator:</b> 
+	<p>{{ exam.owner }}</p>	
+	<b>Exam description:</b> 
+	<p>{{ exam.description }}</p>
+	<b>Exam updated:</b>  
+	<p>{{ exam.updated }}</p>
+	<b>Belongs to course:</b>  
+	<p>{{ course.name }}</p>
 {% endblock %}

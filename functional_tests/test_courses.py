@@ -32,4 +32,5 @@ class CourseTest(FunctionalTest):
 		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/')
 		self.browser.find_element_by_partial_link_text('Example course').click()
 		self.browser.find_element_by_id('id_delete').click()
+		self.browser.switch_to_alert().accept()
 		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/')

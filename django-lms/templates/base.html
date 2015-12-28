@@ -8,15 +8,16 @@
         <title>Django-LMS</title>
         <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="/static/base.css" rel="stylesheet">
+        <link rel="shortcut icon" type="image/ico" href="/static/favicon.ico"/>
 	</head>
     <body>
         <div class="container">
             <nav class="navbar navbar-default" role="navigation">              
                 {% if user.is_active %} 
                     {% if user.is_teacher %} 
-                        <a class="navbar-brand" href="{% url 'teacher_page' %}">Dashboard</a>
+                        <a class="navbar-brand" href="{% url 'teacher_page' %}">Django-LMS</a>
                     {% else %}
-                        <a class="navbar-brand" href="{% url 'student_page' %}">Dashboard</a>
+                        <a class="navbar-brand" href="{% url 'student_page' %}">Django-LMS</a>
                     {% endif %}
                     <a class="btn navbar-btn navbar-right" id="id_logout" href="{% url 'logout' %}">Log out</a>
                     <span class="navbar-text navbar-right">Logged in as {{ user.username }}</span>
@@ -26,26 +27,20 @@
                     <a class="btn navbar-btn navbar-right" id="id_signup" href="{% url 'signup' %}">Sign up</a>
                 {% endif %}
             </nav>
-
-            <div class="row" jumbotron>              
-                <h3 class='text-info text-center'>{% block header_text %}{% endblock %}</h3>  
-                {% block info %}{% endblock %}                 
-                {% block dashboard %}{% endblock %}
+            <div class="row">              
+                <h3 class="text-primary text-center">{% block header_text %}{% endblock %}</h3>       
+                <br>
                 <form class="form-horizontal col-md-6 col-md-offset-5" action="{% block form_action %}{% endblock %}" 
-                      method='POST'> 
+                    method="POST"> 
                     {% csrf_token %}
                     <div class="form-group col-xs-4">
                         {{ form.as_p }}
                         {% block button %}{% endblock %}
                     </div>
                 </form>
-                </div>
-            </div>
-            <div class="row" jumbotron>
-                <div class="text-center">
-                    <div class="col-md-6 col-md-offset-3" >
-                        {% block confirm %}
-                        {% endblock %}
+                <div class="col-md-4 col-md-offset-4" >                        
+                    <div class="list-group">
+                        {% block dashboard %}{% endblock %}
                     </div>
                 </div>
             </div>

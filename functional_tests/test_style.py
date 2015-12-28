@@ -11,4 +11,4 @@ class StyleTest(FunctionalTest):
 		self.assertEqual(elem_class, 'btn navbar-btn navbar-right')
 
 		elem_class = self.browser.find_element_by_tag_name('h3').get_attribute("class")
-		self.assertEqual(elem_class, 'text-info text-center')
+		self.assertEqual(elem_class, 'text-primary text-center')

@@ -5,10 +5,8 @@
 {% block form_action %}{% url 'edit_exam' course.id exam.id %}{% endblock %}
 
 {% block button %}
-	<button id='id_submit' type='submit' name='update'>Update</button>
-	<br>
-	<br>
-	<button id='id_delete' name='delete'>Delete</button>
+	<button class="btn btn-primary" id="id_submit" type="submit" name="update">Update</button>
+	<button class="btn btn-danger" id="id_delete" name="delete" onclick="return confirmDelete()">Delete</button>
 {% endblock %}
 
 {% block javascript %}
@@ -17,5 +15,9 @@
 		$("#id_description").val("{{ exam.description }}");
 		var date = new Date("{{ exam.date_to_be_taken.isoformat }}").toLocaleString().replace(",", "").replace("AM", "");
 		$("#id_date_to_be_taken").val(date);
+
+		function confirmDelete(){
+			return confirmed = confirm("Are you sure?");
+		}
 	</script>
 {% endblock %}

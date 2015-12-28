@@ -3,15 +3,21 @@
 {% block header_text %}{{ course.name }}{% endblock %}
 
 {% block dashboard %}
-	<p>Course owner: {{ course.owner }}</p>	
-	<p>Course description: {{ course.description }}</p>
-	<p>Course participants:</p>
+	<b>Course owner:</b> 
+	<p>{{ course.owner }}</p>
+	<b>Course description:</b> 
+	<p>{{ course.description }}</p>
+	<b>Course participants:</b>
 	{% for participant in participants %}
 		<p>{{ participant.user }}</p>
 	{% endfor %}
-	<p>Course tests:</p>
+	<b>Course updated:</b> 
+	<p>{{ course.updated }}</p>
+	<b>Course exams:</b>
 	{% for exam in exams %}
-		<li><a href="{% url 'view_exam' course.id exam.id %}">{{ exam.name }} {{ exam.date_to_be_taken }}</a></li>
+		<a class="list-group-item" href="{% url 'view_exam' course.id exam.id %}">
+			<h4 class="list-group-item-heading">{{ exam.name }}</h4>
+			<p class="list-group-item-description">{{ exam.description }}</p>
+		</a>
 	{% endfor %}
-	<p>Course updated: {{ course.updated }}</p>
 {% endblock %}

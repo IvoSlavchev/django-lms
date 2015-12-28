@@ -12,19 +12,24 @@
 
 {% block form_action %}{% url 'edit_course' course.id %}{% endblock %}
 
+{% block dashboard %}
+	<b>Exams:</b>
+	{% for exam in exams %}
+		<a class="list-group-item" href="{% url 'edit_exam' course.id exam.id %}">
+			<h4 class="list-group-item-heading">{{ exam.name }}</h4>
+			<p class="list-group-item-description">{{ exam.description }}</p>
+		</a>
+	{% endfor %}
+	<br>
+	<a href="{% url 'create_exam' course.id %}">
+		<span class="glyphicon glyphicon-plus"></span>
+		Create new exam
+	</a>	
+{% endblock %}	
+
 {% block button %}
-	<button id='id_submit' type='submit' name='update'>Update</button>
-	<br>
-	<br>	
-	<ul>
-    {% for exam in exams %}
-        <li><a href="{% url 'edit_exam' course.id exam.id %}">{{ exam.name }} {{ exam.date_to_be_taken }}</a></li>
-    {% endfor %}
-	</ul>
-	<a href="{% url 'create_exam' course.id %}">Add test</a>
-	<br>
-	<br>
-	<button id='id_delete' name='delete'>Delete</button>
+	<button class="btn btn-primary" id="id_submit" type="submit" name="update">Update</button>	
+	<button class="btn btn-danger" id="id_delete" name="delete" onclick="return confirmDelete()">Delete</button>
 {% endblock %}
 
 {% block javascript %}
@@ -42,5 +47,9 @@
 				$(this).attr("checked", true);
 			}
 		});
+
+		function confirmDelete(){
+			return confirmed = confirm("Are you sure?");
+		}
 	</script>
 {% endblock %}

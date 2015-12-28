@@ -6,16 +6,20 @@
 	    	{{ message }}
 	    {% endfor %}
 	{% else %}
-		Teacher dashboard
+		Your courses
 	{% endif %}
 {% endblock %}
 
 {% block dashboard %}
-	<h4>Your courses</h4>
-	<ul>
-    {% for course in courses %}
-        <li><a href="{% url 'edit_course' course.id %}">{{ course.name }} {{ course.updated }}</a></li>
-    {% endfor %}
-	</ul>
-	<a href="{% url 'create_course' %}">Create new course</a>
+	{% for course in courses %}
+		<a class="list-group-item" href="{% url 'edit_course' course.id %}">
+			<h4 class="list-group-item-heading">{{ course.name }}</h4>
+			<p class="list-group-item-description">{{ course.description }}</p>
+		</a>
+	{% endfor %}
+	<br>
+	<a href="{% url 'create_course' %}">
+		<span class="glyphicon glyphicon-plus"></span>
+		Create new course
+	</a>
 {% endblock %}

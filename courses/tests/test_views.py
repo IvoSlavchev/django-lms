@@ -14,7 +14,7 @@ class CoursesViewsTest(TestCase):
 		self.assertEqual(found.func, create_course)
 
 	def test_url_resolves_to_course_edit(self):
-		found = resolve('/courses/7')
+		found = resolve('/courses/8')
 		self.assertEqual(found.func, edit_course)
 
 	def test_url_resolves_to_student_page(self):
@@ -22,5 +22,5 @@ class CoursesViewsTest(TestCase):
 		self.assertEqual(found.func, student_page)
 
 	def test_url_resolves_to_course_view(self):
-		found = resolve('/courses/7/s')
+		found = resolve('/courses/8/s')
 		self.assertEqual(found.func, view_course)
