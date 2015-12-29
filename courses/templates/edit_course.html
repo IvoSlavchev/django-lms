@@ -25,6 +25,18 @@
 		<span class="glyphicon glyphicon-plus"></span>
 		Create new exam
 	</a>	
+	<br>
+	<b>Questions:</b>
+	{% for question in questions %}
+		<a class="list-group-item" href="{% url 'edit_question' course.id question.id %}">
+			<h4 class="list-group-item-heading">{{ question.name }}</h4>
+		</a>
+	{% endfor %}
+	<br>
+	<a href="{% url 'create_question' course.id %}">
+		<span class="glyphicon glyphicon-plus"></span>
+		Create new question
+	</a>
 {% endblock %}	
 
 {% block button %}
@@ -62,7 +74,7 @@
 			});
 		});
 
-		function confirmDelete(){
+		function confirmDelete() {
 			return confirmed = confirm("Are you sure?");
 		}
 	</script>

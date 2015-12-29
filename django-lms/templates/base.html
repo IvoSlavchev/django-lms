@@ -8,7 +8,7 @@
         <title>Django-LMS</title>
         <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="/static/base.css" rel="stylesheet">
-        <link rel="shortcut icon" type="image/ico" href="/static/favicon.ico"/>
+        <link rel="shortcut icon" type="image/ico" href="/static/favicon.ico">
 	</head>
     <body>
         <div class="container">
@@ -35,6 +35,7 @@
                     {% csrf_token %}
                     <div class="form-group col-xs-4">
                         {{ form.as_p }}
+                        {% block additional_forms %}{% endblock %}
                         {% block button %}{% endblock %}
                     </div>
                 </form>

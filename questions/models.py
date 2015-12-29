@@ -1,3 +1,16 @@
 from django.db import models
 
-# Create your models here.
+from courses.models import Course
+
+class Question(models.Model):
+
+	owner = models.CharField(max_length=30)
+	name = models.CharField(max_length=30)
+	question_text = models.TextField(blank=True)
+	course = models.ForeignKey(Course)
+
+class Choice(models.Model):
+
+	choice_text = models.CharField(max_length=30)
+	correct = models.BooleanField(default=False)
+	question = models.ForeignKey(Question)

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block header_text %}Question creation{% endblock %}
+
+{% block form_action %}{% url 'create_question' course.id %}{% endblock %}
+
+{% block additional_forms %}
+	{{ choice_formset.management_form }}
+	{{ choice_formset.as_p }}
+{% endblock %}
+
+{% block button %}
+	<button class="btn btn-primary" id="id_submit" type="submit" name="create">Create</button>
+{% endblock %}

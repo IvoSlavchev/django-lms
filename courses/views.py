@@ -8,6 +8,7 @@ from courses.forms import CourseForm
 from courses.models import Course
 from courses.models import Participation
 from exams.models import Exam
+from questions.models import Question
 from users.models import User
 
 def teacher_check(user):
@@ -35,8 +36,9 @@ def create_course(request):
 	if request.method == 'POST':		
 		form = CourseForm(data=request.POST)
 		if form.is_valid():							
-			course = Course.objects.create(owner=request.user, name=form.cleaned_data['name'], 
-				description=form.cleaned_data['description'])
+			course = form.save(commit=False)
+			course.owner = request.user
+			course.save()
 			for participant in form.cleaned_data['participants']:  
 				part = Participation(user=participant, course=course)
 				part.save()
@@ -50,6 +52,7 @@ def create_course(request):
 def edit_course(request, course_id):
 	course = Course.objects.get(id=course_id)
 	exams = Exam.objects.filter(course=course_id)
+	questions = Question.objects.filter(course=course_id)
 	if request.user.username == course.owner:
 		participants = list(Participation.objects.filter(course=course_id))
 		if request.method == 'POST' and 'update' in request.POST:
@@ -66,7 +69,7 @@ def edit_course(request, course_id):
 		else :
 			form = CourseForm(instance=course)
 		return render(request, 'edit_course.html', {'form': form, 'course': course, 'participants': participants,
-			'exams': exams })
+			'exams': exams, 'questions': questions })
 	return redirect('/courses/')
 
 @user_passes_test(student_check)

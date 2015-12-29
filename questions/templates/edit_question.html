@@ -1,8 +1,13 @@
 {% extends 'base.html' %}
 
-{% block header_text %}{{ exam.name }}{% endblock %}
+{% block header_text %}{{ question.name }}{% endblock %}
 
-{% block form_action %}{% url 'edit_exam' course.id exam.id %}{% endblock %}
+{% block form_action %}{% url 'edit_question' course.id question.id %}{% endblock %}
+
+{% block additional_forms %}
+	{{ choice_formset.management_form }}
+	{{ choice_formset.as_p }}
+{% endblock %}
 
 {% block button %}
 	<button class="btn btn-primary" id="id_submit" type="submit" name="update">Update</button>
@@ -11,10 +16,8 @@
 
 {% block javascript %}
 	<script type="text/javascript">
-		$("#id_name").val("{{ exam.name }}");
-		$("#id_description").val("{{ exam.description }}");
-		var date = new Date("{{ exam.date_to_be_taken.isoformat }}").toLocaleString().replace(",", "").replace("AM", "");
-		$("#id_date_to_be_taken").val(date);
+		$("#id_name").val("{{ question.name }}");
+		$("#id_question_text").val("{{ question.question_text }}");
 
 		function confirmDelete() {
 			return confirmed = confirm("Are you sure?");

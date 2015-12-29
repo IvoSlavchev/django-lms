@@ -19,9 +19,10 @@ def create_exam(request, course_id):
 	if request.method == 'POST':		
 		form = ExamForm(data=request.POST)
 		if form.is_valid():			
-			exam = Exam.objects.create(owner=request.user, name=form.cleaned_data['name'], 
-				description=form.cleaned_data['description'], date_to_be_taken=form.cleaned_data['date_to_be_taken'], 
-				course=course)
+			exam = form.save(commit=False)
+			exam.owner = request.user
+			exam.course = course
+			exam.save()
 			messages.add_message(request, messages.INFO, 'Exam created successfully.')		
 			return redirect('/courses/' + course_id)
 	else:
@@ -43,7 +44,7 @@ def edit_exam(request, course_id, exam_id):
 			exam.delete()		
 			messages.add_message(request, messages.INFO, 'Exam deleted successfully.')
 			return redirect('/courses/' + course_id)		
-		else :
+		else:
 			form = ExamForm(instance=exam)
 		return render(request, 'edit_exam.html', {'form': form, 'course': course, 'exam': exam })
 	return redirect('/courses/' + course_id)
