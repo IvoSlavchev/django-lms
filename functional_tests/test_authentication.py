@@ -1,6 +1,6 @@
 from .base import FunctionalTest
 
-class LoginTest(FunctionalTest):
+class AuthenticationTest(FunctionalTest):
 
 	def signup(self, is_teacher):
 		if is_teacher:		
@@ -41,7 +41,6 @@ class LoginTest(FunctionalTest):
 		# Sign up as student
 		self.browser.find_element_by_link_text('Sign up').click()
 		self.signup(False)
-		self.assertEqual(self.browser.current_url, 'http://localhost:8081/')
 		#self.confirm_email()
 
 	def test__login(self):	

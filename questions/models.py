@@ -6,7 +6,7 @@ class Question(models.Model):
 
 	owner = models.CharField(max_length=30)
 	name = models.CharField(max_length=30)
-	question_text = models.TextField(blank=True)
+	question_text = models.TextField()
 	course = models.ForeignKey(Course)
 
 class Choice(models.Model):
