@@ -63,9 +63,9 @@
 			}
 		});
 
-		$('#id_search').change(function(){
+		$('#id_search').change(function() {
 			var filter = $(this).val();
-			$('option').each(function(){
+			$('option').each(function() {
 				if ($(this).text().indexOf(filter) != -1) {
 					$(this).show();
 				} else {
@@ -73,9 +73,5 @@
 				}
 			});
 		});
-
-		function confirmDelete() {
-			return confirmed = confirm("Are you sure?");
-		}
 	</script>
 {% endblock %}

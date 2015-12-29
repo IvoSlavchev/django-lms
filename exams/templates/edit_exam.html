@@ -15,9 +15,5 @@
 		$("#id_description").val("{{ exam.description }}");
 		var date = new Date("{{ exam.date_to_be_taken.isoformat }}").toLocaleString().replace(",", "").replace("AM", "");
 		$("#id_date_to_be_taken").val(date);
-
-		function confirmDelete() {
-			return confirmed = confirm("Are you sure?");
-		}
 	</script>
 {% endblock %}

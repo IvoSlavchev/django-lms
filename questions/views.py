@@ -42,8 +42,9 @@ def create_question(request, course_id):
 @user_passes_test(teacher_check)
 def edit_question(request, course_id, question_id):
 	ChoiceFormSet = modelformset_factory(Choice, ChoiceForm, extra=0)
-	question = Question.objects.get(id=question_id)
 	course = Course.objects.get(id=course_id)
+	question = Question.objects.get(id=question_id)
+	choices = Choice.objects.filter(question=question)
 	if request.user.username == question.owner:
 		if request.method == 'POST' and 'update' in request.POST:
 			question_form = QuestionForm(instance=question, data=request.POST)
@@ -60,5 +61,5 @@ def edit_question(request, course_id, question_id):
 			question_form = QuestionForm(instance=question)
 			choice_formset = ChoiceFormSet(queryset=Choice.objects.filter(question=question))
 		return render(request, 'edit_question.html', {'form': question_form, 'choice_formset': choice_formset,
-			'course': course, 'question': question })
+			'course': course, 'question': question, 'choices': choices })
 	return redirect('/courses/' + course_id)
