@@ -4,11 +4,10 @@ from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import redirect, render
 
-from courses.forms import CourseForm
+from courses.forms import CourseForm, ParticipantsForm
 from courses.models import Course
 from courses.models import Participation
 from exams.models import Exam
-from questions.models import Question
 from users.models import User
 
 def teacher_check(user):
@@ -17,14 +16,10 @@ def teacher_check(user):
 def student_check(user):
     return not user.is_teacher
 
-def update(form, course):
+def update_course(form, course):
 	course.name = form.cleaned_data['name']
 	course.description = form.cleaned_data['description']
 	course.save()
-	Participation.objects.filter(course=course).delete()
-	for participant in form.cleaned_data['participants']:  
-		part = Participation(user=participant, course=course)
-		part.save()
 
 @user_passes_test(teacher_check)
 def teacher_page(request):
@@ -39,9 +34,6 @@ def create_course(request):
 			course = form.save(commit=False)
 			course.owner = request.user
 			course.save()
-			for participant in form.cleaned_data['participants']:  
-				part = Participation(user=participant, course=course)
-				part.save()
 			messages.add_message(request, messages.INFO, 'Course created successfully.')
 			return redirect('/courses/')
 	else:
@@ -51,14 +43,12 @@ def create_course(request):
 @user_passes_test(teacher_check)
 def edit_course(request, course_id):
 	course = Course.objects.get(id=course_id)
-	exams = Exam.objects.filter(course=course_id)
-	questions = Question.objects.filter(course=course_id)
-	if request.user.username == course.owner:
-		participants = list(Participation.objects.filter(course=course_id))
+	participants = list(Participation.objects.filter(course=course_id))
+	if request.user.username == course.owner:		
 		if request.method == 'POST' and 'update' in request.POST:
 			form = CourseForm(instance=course, data=request.POST)
 			if form.is_valid():
-				update(form, course)
+				update_course(form, course)
 				messages.add_message(request, messages.INFO, 'Course updated successfully.')
 				return redirect('/courses/')						
 		if request.method == 'POST' and 'delete' in request.POST:
@@ -66,11 +56,29 @@ def edit_course(request, course_id):
 			Participation.objects.filter(course=course).delete()	
 			messages.add_message(request, messages.INFO, 'Course deleted successfully.')
 			return redirect('/courses/')		
-		else :
+		else:
 			form = CourseForm(instance=course)
-		return render(request, 'edit_course.html', {'form': form, 'course': course, 'participants': participants,
-			'exams': exams, 'questions': questions })
+		return render(request, 'edit_course.html', {'form': form, 'course': course, 'participants': participants})
 	return redirect('/courses/')
+
+@user_passes_test(teacher_check)
+def edit_participants(request, course_id):
+	course = Course.objects.get(id=course_id)
+	participants = list(Participation.objects.filter(course=course_id))
+	if request.user.username == course.owner:
+		if request.method == 'POST':
+			form = ParticipantsForm(instance=course, data=request.POST)
+			if form.is_valid():
+				Participation.objects.filter(course=course).delete()
+				for participant in form.cleaned_data['participants']:  
+					part = Participation(user=participant, course=course)
+					part.save()
+				messages.add_message(request, messages.INFO, 'Participants updated successfully.')
+				return redirect('/courses/' + course_id)
+		form = ParticipantsForm(instance=course)
+		return render(request, 'edit_participants.html', {'form': form, 'course': course, 'participants': participants})
+	else:
+		return redirect('/courses/')
 
 @user_passes_test(student_check)
 def student_page(request):

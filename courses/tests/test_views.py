@@ -1,7 +1,7 @@
 from django.core.urlresolvers import resolve
 from django.test import TestCase
 
-from courses.views import teacher_page, student_page, create_course, edit_course, view_course
+from courses.views import teacher_page, student_page, create_course, edit_course, edit_participants, view_course
 
 class CoursesViewsTest(TestCase):
 
@@ -16,6 +16,10 @@ class CoursesViewsTest(TestCase):
 	def test_url_resolves_to_course_edit(self):
 		found = resolve('/courses/8')
 		self.assertEqual(found.func, edit_course)
+
+	def test_url_resolves_to_participants_edit(self):
+		found = resolve('/courses/8/participants')
+		self.assertEqual(found.func, edit_participants)
 
 	def test_url_resolves_to_student_page(self):
 		found = resolve('/courses/s')

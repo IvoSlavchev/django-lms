@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block header_text %}
+	{% if messages %}
+	    {% for message in messages %}
+	    	{{ message }}
+	    {% endfor %}
+	{% else %}
+		Exams for {{ course.name }}
+	{% endif %}
+{% endblock %}
+
+{% block dashboard %}
+	{% for exam in exams %}
+		<a class="list-group-item" href="{% url 'edit_exam' course.id exam.id %}">
+			<h4 class="list-group-item-heading">{{ exam.name }}</h4>
+			<p class="list-group-item-description">{{ exam.description }}</p>
+		</a>
+	{% endfor %}
+	<br>
+	<a href="{% url 'create_exam' course.id %}">
+		<span class="glyphicon glyphicon-plus"></span>
+		Create new exam
+	</a>
+	<br>	
+	<a href="{% url 'edit_course' course.id %}">
+		<span class="glyphicon glyphicon-arrow-left"></span>
+		Back to course
+	</a>
+{% endblock %}	

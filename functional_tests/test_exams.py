@@ -9,6 +9,7 @@ class ExamTest(FunctionalTest):
 		self.browser.find_element_by_partial_link_text('newest').click()
 		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/14')
 
+		self.browser.find_element_by_link_text('View exams').click()
 		self.browser.find_element_by_link_text('Create new exam').click()
 		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/14/exams/create')
 
@@ -16,13 +17,13 @@ class ExamTest(FunctionalTest):
 		self.browser.find_element_by_id('id_description').send_keys('Example description')
 		self.browser.find_element_by_id('id_date_to_be_taken').send_keys('10/10/2016 10:40')
 		self.browser.find_element_by_id('id_submit').click()
-		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/14')
+		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/14/exams/')
 
 		self.browser.find_element_by_partial_link_text('Example exam').click()
 		self.browser.find_element_by_id('id_description').clear()
 		self.browser.find_element_by_id('id_description').send_keys('Changed')
 		self.browser.find_element_by_id('id_submit').click()
-		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/14')
+		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/14/exams/')
 		self.browser.find_element_by_link_text('Log out').click()
 
 		self.login(False)
@@ -34,7 +35,8 @@ class ExamTest(FunctionalTest):
 		self.login(True)
 		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/')
 		self.browser.find_element_by_partial_link_text('newest').click()
+		self.browser.find_element_by_link_text('View exams').click()
 		self.browser.find_element_by_partial_link_text('Example exam').click()
 		self.browser.find_element_by_id('id_delete').click()
 		self.browser.switch_to_alert().accept()
-		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/14')
+		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/14/exams/')

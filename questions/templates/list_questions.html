@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block header_text %}
+	{% if messages %}
+	    {% for message in messages %}
+	    	{{ message }}
+	    {% endfor %}
+	{% else %}
+		Questions for {{ course.name }}
+	{% endif %}
+{% endblock %}
+
+{% block dashboard %}
+	{% for question in questions %}
+		<a class="list-group-item" href="{% url 'edit_question' course.id question.id %}">
+			<h4 class="list-group-item-heading">{{ question.name }}</h4>
+			<p class="list-group-item-description">{{ question.question_text }}</p>
+		</a>
+	{% endfor %}
+	<br>
+	<a href="{% url 'create_question' course.id %}">
+		<span class="glyphicon glyphicon-plus"></span>
+		Create new question
+	</a>	
+	<br>	
+	<a href="{% url 'edit_course' course.id %}">
+		<span class="glyphicon glyphicon-arrow-left"></span>
+		Back to course
+	</a>
+{% endblock %}	

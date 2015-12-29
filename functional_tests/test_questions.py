@@ -9,6 +9,7 @@ class QuestionTest(FunctionalTest):
 		self.browser.find_element_by_partial_link_text('newest').click()
 		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/14')
 
+		self.browser.find_element_by_link_text('View questions').click()
 		self.browser.find_element_by_link_text('Create new question').click()
 		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/14/questions/create')
 
@@ -20,15 +21,15 @@ class QuestionTest(FunctionalTest):
 		self.browser.find_element_by_id('id_form-2-choice_text').send_keys('Example choice 3')
 		self.browser.find_element_by_id('id_form-3-choice_text').send_keys('Example choice 4')
 		self.browser.find_element_by_id('id_submit').click()
-		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/14')
+		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/14/questions/')
 
 		self.browser.find_element_by_partial_link_text('Example question').click()
 		self.browser.find_element_by_id('id_question_text').clear()
 		self.browser.find_element_by_id('id_question_text').send_keys('Changed')
 		self.browser.find_element_by_id('id_submit').click()
-		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/14')
+		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/14/questions/')
 
 		self.browser.find_element_by_partial_link_text('Example question').click()
 		self.browser.find_element_by_id('id_delete').click()
 		self.browser.switch_to_alert().accept()
-		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/14')
+		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/14/questions/')

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block header_text %}
+	{% if messages %}
+	    {% for message in messages %}
+	    	{{ message }}
+	    {% endfor %}
+	{% else %}
+		{{ course.name }}
+	{% endif %}
+{% endblock %}
+
+{% block form_action %}{% url 'edit_participants' course.id %}{% endblock %}
+
+{% block button %}
+	<input type="text" id="id_search" placeholder="Filter students">
+	<br>
+	<br>
+	<button class="btn btn-primary" id="id_submit" type="submit" name="update">Update</button>	
+{% endblock %}
+
+{% block dashboard %}
+	<a href="{% url 'edit_course' course.id %}">
+		<span class="glyphicon glyphicon-arrow-left"></span>
+		Back to course
+	</a>
+{% endblock %}
+
+{% block javascript %}
+	<script type="text/javascript">
+		var participants = [];
+		
+		{% for participant in participants %}
+			participants.push({{ participant.user.id }});
+		{% endfor %}
+
+		$("option").each(function() {
+			if (participants.indexOf(parseInt($(this).attr("value"))) != -1) {
+				$(this).attr("selected", true);
+			}
+		});
+
+		$('#id_search').change(function() {
+			var filter = $(this).val();
+			$('option').each(function() {
+				if ($(this).text().indexOf(filter) != -1) {
+					$(this).show();
+				} else {
+					$(this).hide();
+				}
+			});
+		});
+	</script>
+{% endblock %}

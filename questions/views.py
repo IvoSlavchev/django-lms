@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
 from django.forms import modelformset_factory
 from django.shortcuts import redirect, render
@@ -32,7 +33,8 @@ def create_question(request, course_id):
 				choice = choice_form.save(commit=False)
 				choice.question = question
 				choice.save()	
-			return redirect('/courses/' + course_id)
+			messages.add_message(request, messages.INFO, 'Question created successfully.')	
+			return redirect('/courses/' + course_id + '/questions/')
 	else:
 		question_form = QuestionForm()
 		choice_formset = ChoiceFormSet(queryset=Choice.objects.none())
@@ -52,14 +54,25 @@ def edit_question(request, course_id, question_id):
 			if question_form.is_valid() and choice_formset.is_valid():
 				Choice.objects.filter(question=question).delete()	
 				update(question_form, question, choice_formset)
-				return redirect('/courses/' + course_id)						
+				messages.add_message(request, messages.INFO, 'Question updated successfully.')
+				return redirect('/courses/' + course_id + '/questions/')				
 		if request.method == 'POST' and 'delete' in request.POST:
 			question.delete()
-			Choice.objects.filter(question=question).delete()		
-			return redirect('/courses/' + course_id)		
+			Choice.objects.filter(question=question).delete()	
+			messages.add_message(request, messages.INFO, 'Question deleted successfully.')	
+			return redirect('/courses/' + course_id + '/questions/')	
 		else:
 			question_form = QuestionForm(instance=question)
 			choice_formset = ChoiceFormSet(queryset=Choice.objects.filter(question=question))
 		return render(request, 'edit_question.html', {'form': question_form, 'choice_formset': choice_formset,
 			'course': course, 'question': question, 'choices': choices })
 	return redirect('/courses/' + course_id)
+
+@user_passes_test(teacher_check)
+def list_questions(request, course_id):
+	course = Course.objects.get(id=course_id)
+	questions = Question.objects.filter(course=course_id)
+	if request.user.username == course.owner:
+		return render(request, 'list_questions.html', {'course': course, 'questions': questions})
+	else:
+		return redirect('/courses/')
