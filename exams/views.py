@@ -6,6 +6,7 @@ from courses.models import Course
 from courses.views import teacher_check, student_check
 from exams.forms import ExamForm, ExamQuestionForm
 from exams.models import Exam, ExamQuestion
+from questions.models import Question
 
 def update(form, exam):
 	exam.name = form.cleaned_data['name']
@@ -53,7 +54,8 @@ def edit_exam(request, course_id, exam_id):
 def edit_questions(request, course_id, exam_id):
 	course = Course.objects.get(id=course_id)
 	exam = Exam.objects.get(id=exam_id)
-	questions = list(ExamQuestion.objects.filter(exam=exam))
+	#questions = list(ExamQuestion.objects.filter(exam=exam))
+	questions = list(Question.objects.filter(course=course))
 	if request.user.username == course.owner:
 		if request.method == 'POST':
 			form = ExamQuestionForm(instance=exam, course=course, data=request.POST)
@@ -62,7 +64,7 @@ def edit_questions(request, course_id, exam_id):
 				for question in form.cleaned_data['questions']:  
 					quest = ExamQuestion(question=question, exam=exam)
 					quest.save()
-				messages.add_message(request, messages.INFO, 'Participants updated successfully.')
+				messages.add_message(request, messages.INFO, 'Questions updated successfully.')
 				return redirect('/courses/' + course_id + '/exams/' + exam_id)
 		form = ExamQuestionForm(instance=exam, course=course)
 		return render(request, 'edit_questions.html', {'form': form, 'course': course, 'exam': exam, 

@@ -16,6 +16,9 @@ class ExamForm(forms.ModelForm):
 	def __init__(self, instance=None, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.instance.exam = instance
+		self.initial['name'] = instance.name
+		self.initial['description'] = instance.description
+		self.initial['date_to_be_taken'] = instance.date_to_be_taken
 
 class ExamQuestionForm(forms.ModelForm):
 
@@ -29,3 +32,4 @@ class ExamQuestionForm(forms.ModelForm):
 		super().__init__(*args, **kwargs)
 		self.instance.exam = instance
 		self.fields['questions'].queryset = Question.objects.filter(course=course)
+		self.initial['questions'] = [question.question for question in ExamQuestion.objects.filter(exam=instance)]

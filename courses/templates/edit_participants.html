@@ -12,7 +12,7 @@
 
 {% block filter %}
 	<br>
-	<input class="col-md-offset-5" type="text" id="id_search" placeholder="Filter participants">
+	<input class="col-md-offset-5" type="text" id="id_search" placeholder="Filter participants" onkeypress="searchFilter">
 	<br>
 	<br>
 {% endblock %}
@@ -28,33 +28,4 @@
 		<span class="glyphicon glyphicon-arrow-left"></span>
 		Back to course
 	</a>
-{% endblock %}
-
-{% block javascript %}
-	<script type="text/javascript">
-		var participants = [];
-		
-		{% for participant in participants %}
-			participants.push({{ participant.user.id }});
-		{% endfor %}
-
-		$(":checkbox").each(function() {
-			if (participants.indexOf(parseInt($(this).attr("value"))) != -1) {
-				$(this).attr("checked", true);
-			}
-		});
-
-		$('#id_search').keyup(function() {
-			var filter = $(this).val();
-			$(':checkbox').each(function() {
-				if ($(this).parent().text().indexOf(filter) != -1) {
-					$(this).show();
-					$(this).parent().show();
-				} else {
-					$(this).hide();
-					$(this).parent().hide();
-				}
-			});
-		});
-	</script>
 {% endblock %}

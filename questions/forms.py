@@ -14,6 +14,8 @@ class QuestionForm(forms.ModelForm):
 	def __init__(self, instance=None, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.instance.question = instance
+		self.initial['name'] = instance.name
+		self.initial['question_text'] = instance.question_text
 
 class ChoiceForm(forms.ModelForm):
 
@@ -27,3 +29,5 @@ class ChoiceForm(forms.ModelForm):
 	def __init__(self, instance=None, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.instance.choice = instance
+		self.initial['choice_text'] = instance.choice_text
+		self.initial['correct'] = instance.correct

@@ -33,10 +33,3 @@
 	<button class="btn btn-primary" id="id_submit" type="submit" name="update">Update</button>	
 	<button class="btn btn-danger" id="id_delete" name="delete" onclick="return confirmDelete()">Delete</button>
 {% endblock %}
-
-{% block javascript %}
-	<script type="text/javascript">
-		$("#id_name").val("{{ course.name }}");
-		$("#id_description").val("{{ course.description }}");
-	</script>
-{% endblock %}

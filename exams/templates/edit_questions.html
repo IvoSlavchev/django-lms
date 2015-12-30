@@ -12,7 +12,7 @@
 
 {% block filter %}
 	<br>
-	<input class="col-md-offset-5" type="text" id="id_search" placeholder="Filter questions">
+	<input class="col-md-offset-5" type="text" id="id_search" placeholder="Filter questions" onkeypress="searchFilter()">
 	<br>
 	<br>
 {% endblock %}
@@ -28,4 +28,18 @@
 		<span class="glyphicon glyphicon-arrow-left"></span>
 		Back to exam
 	</a>
+{% endblock %}
+
+{% block javascript %}
+	<script type="text/javascript">
+		var questions = [];
+		
+		{% for question in questions %}
+			questions.push("{{ question.name }}");
+		{% endfor %}
+
+		$(":checkbox").each(function(i) {
+			$(this).parent().html($(this).parent().html().replace("Question object", questions[i]));
+		});
+	</script>
 {% endblock %}

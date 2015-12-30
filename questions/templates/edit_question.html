@@ -20,28 +20,3 @@
 		Back to questions
 	</a>	
 {% endblock %}
-
-{% block javascript %}
-	<script type="text/javascript">
-		var choice_text = [];
-		var choice_correct = [];
-		
-		{% for choice in choices %}
-			choice_text.push("{{ choice.choice_text }}");
-			choice_correct.push("{{ choice.correct }}");
-		{% endfor %}
-
-		$("#id_name").val("{{ question.name }}");
-		$("#id_question_text").val("{{ question.question_text }}");
-
-		$("input[name*='choice_text']").each(function(i) {
-			$(this).val(choice_text[i]);
-		});
-
-		$(":checkbox").each(function(i) {
-			if (choice_correct[i] == "True") {
-				$(this).attr("checked", true);			
-			}
-		});
-	</script>
-{% endblock %}

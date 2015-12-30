@@ -20,12 +20,3 @@
 		Back to exams
 	</a>	
 {% endblock %}
-
-{% block javascript %}
-	<script type="text/javascript">
-		$("#id_name").val("{{ exam.name }}");
-		$("#id_description").val("{{ exam.description }}");
-		var date = new Date("{{ exam.date_to_be_taken.isoformat }}").toLocaleString().replace(",", "").replace("AM", "");
-		$("#id_date_to_be_taken").val(date);
-	</script>
-{% endblock %}

@@ -7,7 +7,6 @@ from django.shortcuts import redirect, render
 from courses.forms import CourseForm, ParticipantsForm
 from courses.models import Course, Participation
 from exams.models import Exam
-from users.models import User
 
 def teacher_check(user):
     return user.is_teacher
