@@ -3,14 +3,28 @@
 {% block header_text %}Viewing exam: {{ exam.name }}{% endblock %}
 
 {% block dashboard %}
-	<b>Exam creator:</b> 
-	<p>{{ exam.owner }}</p>	
-	<b>Exam description:</b> 
-	<p>{{ exam.description }}</p>
-	<b>Exam updated:</b>  
-	<p>{{ exam.updated }}</p>
-	<b>Belongs to course:</b>  
-	<p>{{ course.name }}</p>
+	<table class="table">
+		<tr>
+			<th>Exam creator:</th>
+			<td>{{ exam.owner }}</td>
+		</tr>
+		<tr>
+			<th>Exam description:</th>
+			<td>{{ exam.description }}</td>
+		</tr>
+		<tr>
+			<th>Date to be taken:</th>
+			<td>{{ exam.date_to_be_taken }}</td>
+		</tr>
+		<tr>
+			<th>Exam updated:</th>
+			<td>{{ exam.updated }}</td>
+		</tr>
+		<tr>
+			<th>Belongs to course::</th>
+			<td>{{ course.name }}</td>
+		</tr>
+	</table>
 	<a href="{% url 'view_course' course.id %}">
 		<span class="glyphicon glyphicon-arrow-left"></span>
 		Back to course

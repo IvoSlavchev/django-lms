@@ -3,23 +3,39 @@
 {% block header_text %}Viewing course: {{ course.name }}{% endblock %}
 
 {% block dashboard %}
-	<b>Course owner:</b> 
-	<p>{{ course.owner }}</p>
-	<b>Course description:</b> 
-	<p>{{ course.description }}</p>
-	<b>Course participants:</b>
-	{% for participant in participants %}
-		<p>{{ participant.user }}</p>
-	{% endfor %}
-	<b>Course updated:</b> 
-	<p>{{ course.updated }}</p>
-	<b>Course exams:</b>
-	{% for exam in exams %}
-		<a class="list-group-item" href="{% url 'view_exam' course.id exam.id %}">
-			<h4 class="list-group-item-heading">{{ exam.name }}</h4>
-			<p class="list-group-item-description">{{ exam.description }}</p>
-		</a>
-	{% endfor %}
+	<table class="table">
+		<tr>
+			<th>Course creator:</th>
+			<td>{{ course.owner }}</td>
+		</tr>
+		<tr>
+			<th>Course description:</th>
+			<td>{{ course.description }}</td>
+		</tr>
+		<tr>
+			<th>Course updated:</th>
+			<td>{{ course.updated }}</td>
+		</tr>
+		<tr>
+			<th>Course participants:</th>
+			<td>
+				{% for participant in participants %}
+					<p>{{ participant.user }}</p>
+				{% endfor %}
+			</td>
+		</tr>
+		<tr>
+			<th>Course exams:</th>
+			<td>
+				{% for exam in exams %}
+					<a class="list-group-item" href="{% url 'view_exam' course.id exam.id %}">
+						<h4 class="list-group-item-heading">{{ exam.name }}</h4>
+						<p class="list-group-item-description">{{ exam.description }}</p>
+					</a>
+				{% endfor %}
+			</td>
+		</tr>
+	</table>
 	<a href="{% url 'student_page' %}">
 		<span class="glyphicon glyphicon-arrow-left"></span>
 		Back to courses

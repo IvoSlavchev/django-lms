@@ -3,7 +3,6 @@ function confirmDelete() {
 }
 
 function searchFilter() {
-    alert("called");
     var filter = $("#id_search").val();
     $(':checkbox').each(function() {
         if ($(this).parent().text().indexOf(filter) != -1) {
