@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block header_text %}{{ course.name }}{% endblock %}
+{% block header_text %}Viewing course: {{ course.name }}{% endblock %}
 
 {% block dashboard %}
 	<b>Course owner:</b> 
@@ -20,4 +20,8 @@
 			<p class="list-group-item-description">{{ exam.description }}</p>
 		</a>
 	{% endfor %}
+	<a href="{% url 'student_page' %}">
+		<span class="glyphicon glyphicon-arrow-left"></span>
+		Back to courses
+	</a>
 {% endblock %}

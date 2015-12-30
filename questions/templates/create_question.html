@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block header_text %}Question creation{% endblock %}
+{% block header_text %}New question{% endblock %}
 
 {% block form_action %}{% url 'create_question' course.id %}{% endblock %}
 
@@ -11,4 +11,11 @@
 
 {% block button %}
 	<button class="btn btn-primary" id="id_submit" type="submit" name="create">Create</button>
+{% endblock %}
+
+{% block dashboard %}
+	<a href="{% url 'list_questions' course.id %}">
+		<span class="glyphicon glyphicon-arrow-left"></span>
+		Back to questions
+	</a>
 {% endblock %}

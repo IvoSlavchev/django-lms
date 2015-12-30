@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block header_text %}{{ exam.name }}{% endblock %}
+{% block header_text %}Viewing exam: {{ exam.name }}{% endblock %}
 
 {% block dashboard %}
 	<b>Exam creator:</b> 
@@ -11,4 +11,8 @@
 	<p>{{ exam.updated }}</p>
 	<b>Belongs to course:</b>  
 	<p>{{ course.name }}</p>
+	<a href="{% url 'view_course' course.id %}">
+		<span class="glyphicon glyphicon-arrow-left"></span>
+		Back to course
+	</a>
 {% endblock %}

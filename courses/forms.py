@@ -14,9 +14,10 @@ class CourseForm(forms.ModelForm):
 
 	def __init__(self, instance=None, *args, **kwargs):
 		super().__init__(*args, **kwargs)
-		self.instance.course = instance
-		self.initial['name'] = instance.name
-		self.initial['description'] = instance.description
+		if instance:
+			self.instance.course = instance
+			self.initial['name'] = instance.name
+			self.initial['description'] = instance.description
 
 class ParticipantsForm(forms.ModelForm):
 
@@ -29,5 +30,7 @@ class ParticipantsForm(forms.ModelForm):
 
 	def __init__(self, instance=None, *args, **kwargs):
 		super().__init__(*args, **kwargs)
-		self.instance.course = instance
-		self.initial['participants'] = [participant.user for participant in Participation.objects.filter(course=instance)]
+		if instance:
+			self.instance.course = instance
+			self.initial['participants'] = [participant.user for participant in 
+				Participation.objects.filter(course=instance)]

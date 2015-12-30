@@ -7,3 +7,10 @@
 	    Link expired!
 	{% endif %}
 {% endblock %}
+
+{% block dashboard %}
+	<a href="{% url 'login' %}">
+		<span class="glyphicon glyphicon-arrow-left"></span>
+		Back to login
+	</a>
+{% endblock %}

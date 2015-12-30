@@ -5,3 +5,10 @@
 {% block form_action %}{% url 'create_course' %}{% endblock %}
 
 {% block button %}<button class="btn btn-primary" id="id_submit" type="submit">Create</button>{% endblock %}
+
+{% block dashboard %}
+	<a href="{% url 'teacher_page' %}">
+		<span class="glyphicon glyphicon-arrow-left"></span>
+		Back to courses
+	</a>
+{% endblock %}

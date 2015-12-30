@@ -6,7 +6,7 @@
 	    	{{ message }}
 	    {% endfor %}
 	{% else %}
-		{{ course.name }}
+		Editing course: {{ course.name }}
 	{% endif %}
 {% endblock %}
 
@@ -27,6 +27,11 @@
 		<span class="glyphicon glyphicon-question-sign"></span>
 		View questions
 	</a>	
+	<br>
+	<a href="{% url 'teacher_page' %}">
+		<span class="glyphicon glyphicon-arrow-left"></span>
+		Back to courses
+	</a>
 {% endblock %}	
 
 {% block button %}
