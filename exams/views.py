@@ -4,8 +4,8 @@ from django.shortcuts import redirect, render
 
 from courses.models import Course
 from courses.views import teacher_check, student_check
-from exams.forms import ExamForm
-from exams.models import Exam
+from exams.forms import ExamForm, ExamQuestionForm
+from exams.models import Exam, ExamQuestion
 
 def update(form, exam):
 	exam.name = form.cleaned_data['name']
@@ -31,8 +31,8 @@ def create_exam(request, course_id):
 
 @user_passes_test(teacher_check)
 def edit_exam(request, course_id, exam_id):
-	exam = Exam.objects.get(id=exam_id)
 	course = Course.objects.get(id=course_id)
+	exam = Exam.objects.get(id=exam_id)	
 	if request.user.username == exam.owner:
 		if request.method == 'POST' and 'update' in request.POST:
 			form = ExamForm(instance=exam, data=request.POST)
@@ -48,6 +48,27 @@ def edit_exam(request, course_id, exam_id):
 			form = ExamForm(instance=exam)
 		return render(request, 'edit_exam.html', {'form': form, 'course': course, 'exam': exam })
 	return redirect('/courses/' + course_id + '/exams/')
+
+@user_passes_test(teacher_check)
+def edit_questions(request, course_id, exam_id):
+	course = Course.objects.get(id=course_id)
+	exam = Exam.objects.get(id=exam_id)
+	questions = list(ExamQuestion.objects.filter(exam=exam))
+	if request.user.username == course.owner:
+		if request.method == 'POST':
+			form = ExamQuestionForm(instance=exam, course=course, data=request.POST)
+			if form.is_valid():
+				ExamQuestion.objects.filter(exam=exam).delete()
+				for question in form.cleaned_data['questions']:  
+					quest = ExamQuestion(question=question, exam=exam)
+					quest.save()
+				messages.add_message(request, messages.INFO, 'Participants updated successfully.')
+				return redirect('/courses/' + course_id + '/exams/' + exam_id)
+		form = ExamQuestionForm(instance=exam, course=course)
+		return render(request, 'edit_questions.html', {'form': form, 'course': course, 'exam': exam, 
+			'questions': questions})
+	else:
+		return redirect('/courses/')
 
 @user_passes_test(teacher_check)
 def list_exams(request, course_id):

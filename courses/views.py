@@ -5,8 +5,7 @@ from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import redirect, render
 
 from courses.forms import CourseForm, ParticipantsForm
-from courses.models import Course
-from courses.models import Participation
+from courses.models import Course, Participation
 from exams.models import Exam
 from users.models import User
 
@@ -43,7 +42,6 @@ def create_course(request):
 @user_passes_test(teacher_check)
 def edit_course(request, course_id):
 	course = Course.objects.get(id=course_id)
-	participants = list(Participation.objects.filter(course=course_id))
 	if request.user.username == course.owner:		
 		if request.method == 'POST' and 'update' in request.POST:
 			form = CourseForm(instance=course, data=request.POST)
@@ -58,7 +56,7 @@ def edit_course(request, course_id):
 			return redirect('/courses/')		
 		else:
 			form = CourseForm(instance=course)
-		return render(request, 'edit_course.html', {'form': form, 'course': course, 'participants': participants})
+		return render(request, 'edit_course.html', {'form': form, 'course': course})
 	return redirect('/courses/')
 
 @user_passes_test(teacher_check)

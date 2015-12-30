@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block header_text %}
+	{% if messages %}
+	    {% for message in messages %}
+	    	{{ message }}
+	    {% endfor %}
+	{% else %}
+		{{ exam.name }}
+	{% endif %}
+{% endblock %}
+
+{% block filter %}
+	<br>
+	<input class="col-md-offset-5" type="text" id="id_search" placeholder="Filter questions">
+	<br>
+	<br>
+{% endblock %}
+
+{% block form_action %}{% url 'edit_questions' course.id exam.id %}{% endblock %}
+
+{% block button %}
+	<button class="btn btn-primary" id="id_submit" type="submit" name="update">Update</button>	
+{% endblock %}
+
+{% block dashboard %}
+	<a href="{% url 'edit_exam' course.id exam.id %}">
+		<span class="glyphicon glyphicon-arrow-left"></span>
+		Back to exam
+	</a>
+{% endblock %}

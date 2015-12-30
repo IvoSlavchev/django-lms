@@ -1,6 +1,7 @@
 from django.db import models
 
 from courses.models import Course
+from questions.models import Question
 
 class Exam(models.Model):
 	
@@ -10,3 +11,9 @@ class Exam(models.Model):
 	updated = models.DateTimeField(auto_now=True)
 	date_to_be_taken = models.DateTimeField()
 	course = models.ForeignKey(Course)
+	questions = models.ManyToManyField(Question, blank=True, through='ExamQuestion')
+
+class ExamQuestion(models.Model):
+
+	question = models.ForeignKey(Question)
+	exam = models.ForeignKey(Exam)

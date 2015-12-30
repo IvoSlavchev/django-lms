@@ -1,6 +1,7 @@
 from django import forms
 
-from exams.models import Exam
+from exams.models import Exam, ExamQuestion
+from questions.models import Question
 
 class ExamForm(forms.ModelForm):
 
@@ -15,3 +16,16 @@ class ExamForm(forms.ModelForm):
 	def __init__(self, instance=None, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.instance.exam = instance
+
+class ExamQuestionForm(forms.ModelForm):
+
+	questions = forms.ModelMultipleChoiceField(required=False, queryset = None, widget=forms.CheckboxSelectMultiple())
+
+	class Meta:
+		model = Question
+		fields = ['questions']
+
+	def __init__(self, course, instance=None, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.instance.exam = instance
+		self.fields['questions'].queryset = Question.objects.filter(course=course)
