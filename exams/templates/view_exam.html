@@ -3,7 +3,7 @@
 {% block header_text %}Viewing exam: {{ exam.name }}{% endblock %}
 
 {% block dashboard %}
-	<table class="table">
+	<table class="table table-hover">
 		<tr>
 			<th>Exam creator:</th>
 			<td>{{ exam.owner }}</td>
@@ -21,7 +21,7 @@
 			<td>{{ exam.updated }}</td>
 		</tr>
 		<tr>
-			<th>Belongs to course::</th>
+			<th>Belongs to course:</th>
 			<td>{{ course.name }}</td>
 		</tr>
 	</table>

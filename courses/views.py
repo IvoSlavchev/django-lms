@@ -6,7 +6,8 @@ from django.shortcuts import redirect, render
 
 from courses.forms import CourseForm, ParticipantsForm
 from courses.models import Course, Participation
-from exams.models import Exam
+from exams.models import Exam, ExamQuestion
+from questions.models import Question, Choice
 
 def teacher_check(user):
     return user.is_teacher
@@ -18,6 +19,16 @@ def update_course(form, course):
 	course.name = form.cleaned_data['name']
 	course.description = form.cleaned_data['description']
 	course.save()
+
+def delete_course(course):
+	Participation.objects.filter(course=course).delete()	
+	Exam.objects.filter(course=course).delete()
+	questions = Question.objects.filter(course=course)	
+	for question in questions:
+		ExamQuestion.objects.filter(question=question).delete()
+		Choice.objects.filter(question=question).delete()
+	questions.delete()
+	course.delete()
 
 @user_passes_test(teacher_check)
 def teacher_page(request):
@@ -49,8 +60,7 @@ def edit_course(request, course_id):
 				messages.add_message(request, messages.INFO, 'Course updated successfully.')
 				return redirect('/courses/')						
 		if request.method == 'POST' and 'delete' in request.POST:
-			course.delete()
-			Participation.objects.filter(course=course).delete()	
+			delete_course(course)
 			messages.add_message(request, messages.INFO, 'Course deleted successfully.')
 			return redirect('/courses/')		
 		else:
