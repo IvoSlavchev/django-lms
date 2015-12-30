@@ -16,7 +16,7 @@ class CourseTest(FunctionalTest):
 
 		self.browser.find_element_by_partial_link_text('Example course').click()
 		self.browser.find_element_by_link_text('Edit participants').click()
-		self.browser.find_element_by_tag_name('option').click()
+		self.browser.find_element_by_id('id_participants_0').click()
 		self.browser.find_element_by_id('id_submit').click()
 		self.browser.find_element_by_id('id_description').clear()
 		self.browser.find_element_by_id('id_description').send_keys('Changed')

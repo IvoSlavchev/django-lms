@@ -10,12 +10,16 @@
 	{% endif %}
 {% endblock %}
 
+{% block filter %}
+	<br>
+	<input class="col-md-offset-5" type="text" id="id_search" placeholder="Filter participants">
+	<br>
+	<br>
+{% endblock %}
+
 {% block form_action %}{% url 'edit_participants' course.id %}{% endblock %}
 
 {% block button %}
-	<input type="text" id="id_search" placeholder="Filter students">
-	<br>
-	<br>
 	<button class="btn btn-primary" id="id_submit" type="submit" name="update">Update</button>	
 {% endblock %}
 
@@ -34,19 +38,21 @@
 			participants.push({{ participant.user.id }});
 		{% endfor %}
 
-		$("option").each(function() {
+		$(":checkbox").each(function() {
 			if (participants.indexOf(parseInt($(this).attr("value"))) != -1) {
-				$(this).attr("selected", true);
+				$(this).attr("checked", true);
 			}
 		});
 
-		$('#id_search').change(function() {
+		$('#id_search').keyup(function() {
 			var filter = $(this).val();
-			$('option').each(function() {
-				if ($(this).text().indexOf(filter) != -1) {
+			$(':checkbox').each(function() {
+				if ($(this).parent().text().indexOf(filter) != -1) {
 					$(this).show();
+					$(this).parent().show();
 				} else {
 					$(this).hide();
+					$(this).parent().hide();
 				}
 			});
 		});

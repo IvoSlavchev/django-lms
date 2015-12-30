@@ -14,6 +14,13 @@
 	<button class="btn btn-danger" id="id_delete" name="delete" onclick="return confirmDelete()">Delete</button>
 {% endblock %}
 
+{% block dashboard %}
+	<a href="{% url 'list_questions' course.id %}">
+		<span class="glyphicon glyphicon-arrow-left"></span>
+		Back to questions
+	</a>	
+{% endblock %}
+
 {% block javascript %}
 	<script type="text/javascript">
 		var choice_text = [];

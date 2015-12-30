@@ -29,7 +29,7 @@
             </nav>
             <div class="row">              
                 <h3 class="text-primary text-center">{% block header_text %}{% endblock %}</h3>       
-                <br>
+                {% block filter %}{% endblock %}
                 <form class="form-horizontal col-md-6 col-md-offset-5" action="{% block form_action %}{% endblock %}" 
                     method="POST"> 
                     {% csrf_token %}

@@ -10,3 +10,7 @@ body {
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
+
+li {
+	list-style-type: none;
+}
