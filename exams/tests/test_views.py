@@ -14,7 +14,7 @@ class ExamsViewsTest(TestCase):
 		self.assertEqual(found.func, edit_exam)
 
 	def test_url_resolves_to_edit_questions(self):
-		found = resolve('/courses/27/exams/11')
+		found = resolve('/courses/27/exams/11/questions')
 		self.assertEqual(found.func, edit_questions)
 
 	def test_url_resolves_to_exam_view(self):
