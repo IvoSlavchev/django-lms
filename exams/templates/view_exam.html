@@ -1,6 +1,14 @@
 {% extends 'base.html' %}
 
-{% block header_text %}Viewing exam: {{ exam.name }}{% endblock %}
+{% block header_text %}
+	{% if messages %}
+	    {% for message in messages %}
+	    	{{ message }}
+	    {% endfor %}
+	{% else %}
+		Viewing exam: {{ exam.name }}
+	{% endif %}
+{% endblock %}
 
 {% block dashboard %}
 	<table class="table table-hover">

@@ -11,6 +11,6 @@ body {
 	text-overflow: ellipsis;
 }
 
-li {
+ul li {
 	list-style-type: none;
 }

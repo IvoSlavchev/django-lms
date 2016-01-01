@@ -91,8 +91,12 @@ def take_exam(request, course_id, exam_id):
 	course = Course.objects.get(id=course_id)
 	exam = Exam.objects.get(id=exam_id)
 	questions = Question.objects.filter(exam=exam)
-	question_choices = {}
-	for question in questions:
-		choices = Choice.objects.filter(question=question)
-		question_choices.update({question: choices})
-	return render(request, 'take_exam.html', {'course': course, 'exam': exam, 'question_choices': question_choices})
+	if request.method == 'POST':
+		answered = 0
+		for question in questions:
+			selected_answer = question.choice_set.get(id=request.POST.get(str(question.id)))
+			if selected_answer.correct:
+				answered += 1
+		messages.add_message(request, messages.INFO, 'Exam finished with ' + str(answered) + ' correct answers')
+		return redirect('/courses/' +  course_id + '/exams/' + exam_id + '/s')
+	return render(request, 'take_exam.html', {'course': course, 'exam': exam, 'questions': questions})
