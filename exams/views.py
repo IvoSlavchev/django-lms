@@ -6,7 +6,7 @@ from courses.models import Course
 from courses.views import teacher_check, student_check
 from exams.forms import ExamForm, ExamQuestionForm
 from exams.models import Exam, ExamQuestion
-from questions.models import Question
+from questions.models import Question, Choice
 
 def update(form, exam):
 	exam.name = form.cleaned_data['name']
@@ -54,7 +54,6 @@ def edit_exam(request, course_id, exam_id):
 def edit_questions(request, course_id, exam_id):
 	course = Course.objects.get(id=course_id)
 	exam = Exam.objects.get(id=exam_id)
-	#questions = list(ExamQuestion.objects.filter(exam=exam))
 	questions = list(Question.objects.filter(course=course))
 	if request.user.username == course.owner:
 		if request.method == 'POST':
@@ -86,3 +85,14 @@ def view_exam(request, course_id, exam_id):
 	course = Course.objects.get(id=course_id)
 	exam = Exam.objects.get(id=exam_id)
 	return render(request, 'view_exam.html', {'course': course, 'exam': exam})
+
+@user_passes_test(student_check)
+def take_exam(request, course_id, exam_id):
+	course = Course.objects.get(id=course_id)
+	exam = Exam.objects.get(id=exam_id)
+	questions = Question.objects.filter(exam=exam)
+	question_choices = {}
+	for question in questions:
+		choices = Choice.objects.filter(question=question)
+		question_choices.update({question: choices})
+	return render(request, 'take_exam.html', {'course': course, 'exam': exam, 'question_choices': question_choices})

@@ -25,6 +25,11 @@
 			<td>{{ course.name }}</td>
 		</tr>
 	</table>
+	<a href="{% url 'take_exam' course.id exam.id %}">
+		<span class="glyphicon glyphicon-pencil"></span>
+		Take exam
+	</a>
+	<br>
 	<a href="{% url 'view_course' course.id %}">
 		<span class="glyphicon glyphicon-arrow-left"></span>
 		Back to course

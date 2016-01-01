@@ -8,4 +8,5 @@ urlpatterns = [
 	url(r'^(\d+)$', views.edit_exam, name='edit_exam'),	
 	url(r'^(\d+)/questions$', views.edit_questions, name='edit_questions'),	
 	url(r'^(\d+)/s$', views.view_exam, name='view_exam'),
+	url(r'^(\d+)/take$', views.take_exam, name='take_exam'),
 ]

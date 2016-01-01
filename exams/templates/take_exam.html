@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block header_text %}Taking exam: {{ exam.name }}, belonging to course: {{ course.name }}{% endblock %}
+
+{% block dashboard %}
+	<table class="table table-hover">		
+		{% for question, choices in question_choices.items %}
+			<tr>
+				<th>{{ question.question_text }}</th>
+			</tr>
+			{% for choice in choices %}
+				<tr>		
+					<td><input type="radio" name="{{ question.id }}" value="{{ choice.id }}">{{ choice.choice_text }}</td>	
+				</tr>	
+			{% endfor %}	
+		{% endfor %}
+	</table>
+	<a href="{% url 'view_exam' course.id exam.id %}">
+		<span class="glyphicon glyphicon-arrow-left"></span>
+		Back to exam
+	</a>
+{% endblock %}
