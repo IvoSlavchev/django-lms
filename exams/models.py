@@ -10,7 +10,10 @@ class Exam(models.Model):
 	name = models.CharField(max_length=30)
 	description = models.TextField(blank=True)
 	updated = models.DateTimeField(auto_now=True)
-	date_to_be_taken = models.DateTimeField()
+	password = models.CharField(max_length=10, blank=True)
+	time_limit = models.TimeField()
+	active_from = models.DateTimeField()
+	active_to = models.DateTimeField()
 	course = models.ForeignKey(Course)
 	questions = models.ManyToManyField(Question, blank=True, through='ExamQuestion')
 

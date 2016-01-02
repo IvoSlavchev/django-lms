@@ -9,7 +9,7 @@ class User(AbstractBaseUser):
 	email = models.EmailField(max_length=30, unique=True)
 	is_teacher = models.BooleanField(default=False)
 	date_joined = models.DateTimeField(default=timezone.now)
-	is_active = models.BooleanField(default=True)
+	is_active = models.BooleanField(default=False)
 
 	USERNAME_FIELD = 'username'
 
@@ -21,5 +21,5 @@ class User(AbstractBaseUser):
 class UserProfile(models.Model):
 
 	user = models.OneToOneField(User)
-	activation_key = models.CharField(max_length=40, default='')
+	activation_key = models.CharField(max_length=40)
 	key_expires = models.DateTimeField(default=timezone.now)

@@ -12,7 +12,10 @@ from questions.models import Question, Choice
 def update(form, exam):
 	exam.name = form.cleaned_data['name']
 	exam.description = form.cleaned_data['description']
-	exam.date_to_be_taken = form.cleaned_data['date_to_be_taken']
+	exam.password = form.cleaned_data['password']
+	exam.time_limit = form.cleaned_data['time_limit']
+	exam.active_from = form.cleaned_data['active_from']
+	exam.active_to = form.cleaned_data['active_to']
 	exam.save()
 
 @user_passes_test(teacher_check)

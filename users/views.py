@@ -26,7 +26,6 @@ def login(request):
                         return redirect('/courses/')
                     else:
                         return redirect('/courses/s')
-        messages.add_message(request, messages.ERROR, 'Please try again.')
     else:
         form = AuthenticationForm()
     return render(request, 'login.html', {'form': form,})
@@ -45,9 +44,8 @@ def signup(request):
                 To activate your account, click this link within 24 hours:\n\n \
                 http://localhost:8000/confirm?q=%s" % (user.username, profile.activation_key)
             send_mail(email_subject, email_body, settings.EMAIL_HOST, [user.email], fail_silently=False)
-            messages.add_message(request, messages.INFO, 'Success. Check email for a confirmation link.')
+            messages.add_message(request, messages.INFO, 'Check email for a confirmation link.')
             return redirect('/')
-        messages.add_message(request, messages.ERROR, 'Please try again.')
     else:
         form = RegistrationForm()        
     return render(request, 'signup.html', {'form': form,})

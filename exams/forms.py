@@ -7,11 +7,14 @@ class ExamForm(forms.ModelForm):
 
 	name = forms.CharField(label="Exam name", max_length=30)
 	description = forms.Textarea()
-	date_to_be_taken = forms.DateTimeField()
+	password = forms.CharField(label="Password (optional)", widget=forms.PasswordInput(), required=False)
+	time_limit = forms.TimeField(widget=forms.TimeInput(format='%H:%M'))
+	active_from = forms.DateTimeField()
+	active_to = forms.DateTimeField()
 
 	class Meta:
 		model = Exam
-		fields = ['name', 'description', 'date_to_be_taken']
+		fields = ['name', 'description', 'password', 'time_limit', 'active_from', 'active_to']
 
 	def __init__(self, instance=None, *args, **kwargs):
 		super().__init__(*args, **kwargs)
@@ -19,7 +22,9 @@ class ExamForm(forms.ModelForm):
 			self.instance.exam = instance
 			self.initial['name'] = instance.name
 			self.initial['description'] = instance.description
-			self.initial['date_to_be_taken'] = instance.date_to_be_taken
+			self.initial['time_limit'] = instance.time_limit
+			self.initial['active_from'] = instance.active_from
+			self.initial['active_to'] = instance.active_to
 
 class ExamQuestionForm(forms.ModelForm):
 

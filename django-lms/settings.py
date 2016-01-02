@@ -86,12 +86,14 @@ LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'EET'
 
-USE_I18N = True
+USE_I18N = False
 
-USE_L10N = True
+USE_L10N = False
 
 USE_TZ = True
 
+TIME_FORMAT = "H:i"
+DATE_FORMAT = "d M Y, H:i"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/

@@ -21,8 +21,20 @@
 			<td>{{ exam.description }}</td>
 		</tr>
 		<tr>
-			<th>Date to be taken:</th>
-			<td>{{ exam.date_to_be_taken }}</td>
+			<th>Time limit:</th>
+			<td>{{ exam.time_limit }}</td>
+		</tr>
+		<tr>
+			<th>Active from:</th>
+			<td>{{ exam.active_from|date }}</td>
+		</tr>
+		<tr>
+			<th>Until:</th>
+			<td>{{ exam.active_to|date }}</td>
+		</tr>
+		<tr>
+			<th>Remaining:</th>
+			<td>{{ exam.active_to|timeuntil }}</td>
 		</tr>
 		<tr>
 			<th>Your result:</th>
@@ -30,7 +42,7 @@
 		</tr>
 		<tr>
 			<th>Exam updated:</th>
-			<td>{{ exam.updated }}</td>
+			<td>{{ exam.updated|date }}</td>
 		</tr>
 		<tr>
 			<th>Belongs to course:</th>
