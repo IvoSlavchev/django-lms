@@ -25,6 +25,10 @@
 			<td>{{ exam.date_to_be_taken }}</td>
 		</tr>
 		<tr>
+			<th>Your result:</th>
+			<td>{{ result }}</td>
+		</tr>
+		<tr>
 			<th>Exam updated:</th>
 			<td>{{ exam.updated }}</td>
 		</tr>
@@ -33,11 +37,13 @@
 			<td>{{ course.name }}</td>
 		</tr>
 	</table>
-	<a href="{% url 'take_exam' course.id exam.id %}">
-		<span class="glyphicon glyphicon-pencil"></span>
-		Take exam
-	</a>
-	<br>
+	{% if questions and not score %}
+		<a href="{% url 'take_exam' course.id exam.id %}">
+			<span class="glyphicon glyphicon-pencil"></span>
+			Take exam
+		</a>
+		<br>
+	{% endif %}
 	<a href="{% url 'view_course' course.id %}">
 		<span class="glyphicon glyphicon-arrow-left"></span>
 		Back to course

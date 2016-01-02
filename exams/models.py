@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 
 from courses.models import Course
@@ -17,3 +18,9 @@ class ExamQuestion(models.Model):
 
 	question = models.ForeignKey(Question)
 	exam = models.ForeignKey(Exam)
+
+class Score(models.Model):
+
+	student = models.ForeignKey(settings.AUTH_USER_MODEL)
+	exam = models.ForeignKey(Exam)
+	score = models.IntegerField()

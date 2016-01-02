@@ -1,11 +1,12 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect, render
 
 from courses.models import Course
 from courses.views import teacher_check, student_check
 from exams.forms import ExamForm, ExamQuestionForm
-from exams.models import Exam, ExamQuestion
+from exams.models import Exam, ExamQuestion, Score
 from questions.models import Question, Choice
 
 def update(form, exam):
@@ -84,19 +85,37 @@ def list_exams(request, course_id):
 def view_exam(request, course_id, exam_id):
 	course = Course.objects.get(id=course_id)
 	exam = Exam.objects.get(id=exam_id)
-	return render(request, 'view_exam.html', {'course': course, 'exam': exam})
+	questions = ExamQuestion.objects.filter(exam=exam)
+	if questions:
+		try:
+			score = Score.objects.get(student=request.user, exam=exam)
+			precentage = str(float(score.score)/float(questions.count())*100)+'%'
+			result = precentage + ' '+ str(score.score) +'/' + str(questions.count())
+		except ObjectDoesNotExist:
+			score = None
+			result = "Exam not yet taken."
+	else:
+		result = "Exam has no assigned questions."
+	return render(request, 'view_exam.html', {'course': course, 'exam': exam, 'questions': questions, 
+		'score': score, 'result': result})
 
 @user_passes_test(student_check)
 def take_exam(request, course_id, exam_id):
 	course = Course.objects.get(id=course_id)
 	exam = Exam.objects.get(id=exam_id)
 	questions = Question.objects.filter(exam=exam)
-	if request.method == 'POST':
-		answered = 0
-		for question in questions:
-			selected_answer = question.choice_set.get(id=request.POST.get(str(question.id)))
-			if selected_answer.correct:
-				answered += 1
-		messages.add_message(request, messages.INFO, 'Exam finished with ' + str(answered) + ' correct answers')
+	try:
+		score = Score.objects.get(student=request.user, exam=exam)
+		messages.add_message(request, messages.INFO, 'Exam already taken')
 		return redirect('/courses/' +  course_id + '/exams/' + exam_id + '/s')
-	return render(request, 'take_exam.html', {'course': course, 'exam': exam, 'questions': questions})
+	except ObjectDoesNotExist:
+		if request.method == 'POST':
+			answered = 0
+			for question in questions:
+				selected_answer = question.choice_set.get(id=request.POST.get(str(question.id)))
+				if selected_answer.correct:
+					answered += 1
+			score = Score.objects.create(student=request.user, exam=exam, score=answered)
+			messages.add_message(request, messages.INFO, 'Exam finished with ' + str(answered) + ' correct answers')
+			return redirect('/courses/' +  course_id + '/exams/' + exam_id + '/s')
+		return render(request, 'take_exam.html', {'course': course, 'exam': exam, 'questions': questions})
