@@ -1,3 +1,5 @@
+from django.utils import timezone
+
 from django.conf import settings
 from django.db import models
 
@@ -16,6 +18,10 @@ class Exam(models.Model):
 	active_to = models.DateTimeField()
 	course = models.ForeignKey(Course)
 	questions = models.ManyToManyField(Question, blank=True, through='ExamQuestion')
+
+	@property
+	def expired(self):
+		return timezone.now() > self.active_to
 
 class ExamQuestion(models.Model):
 

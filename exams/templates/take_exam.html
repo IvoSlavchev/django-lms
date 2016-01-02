@@ -3,21 +3,22 @@
 {% block header_text %}Taking exam: {{ exam.name }}, belonging to course: {{ course.name }}{% endblock %}
 
 {% block dashboard %}
-		<form action="{% url 'take_exam' course.id exam.id %}" method="post">
-		{% csrf_token %}	
-		<ol>
-			{% for question in questions %}
-				<li><h4>{{ question.question_text }}</h4></li>
-				{% for choice in question.choice_set.all %}	
-					<input type="radio" name="{{ question.id }}" value="{{ choice.id }}"> {{ choice.choice_text }}
-					<br>
-				{% endfor %}		
+	{{ exam.time_limit }}
+	<form action="{% url 'take_exam' course.id exam.id %}" method="post">
+	{% csrf_token %}	
+	<ol>
+		{% for question in questions %}
+			<li><h4>{{ question.question_text }}</h4></li>
+			{% for choice in question.choice_set.all %}	
+				<input type="radio" name="{{ question.id }}" value="{{ choice.id }}"> {{ choice.choice_text }}
 				<br>
-			{% endfor %}
-		</ol>
-		<button class="btn btn-primary" id="id_submit" type="submit">Submit</button>
-		</form>
-		<br>
+			{% endfor %}		
+			<br>
+		{% endfor %}
+	</ol>
+	<button class="btn btn-primary" id="id_submit" type="submit">Submit</button>
+	</form>
+	<br>
 	<a href="{% url 'view_exam' course.id exam.id %}">
 		<span class="glyphicon glyphicon-arrow-left"></span>
 		Back to exam

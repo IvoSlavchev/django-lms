@@ -8,7 +8,7 @@ class ExamForm(forms.ModelForm):
 	name = forms.CharField(label="Exam name", max_length=30)
 	description = forms.Textarea()
 	password = forms.CharField(label="Password (optional)", widget=forms.PasswordInput(), required=False)
-	time_limit = forms.TimeField(widget=forms.TimeInput(format='%H:%M'))
+	time_limit = forms.TimeField(widget=forms.TimeInput(format='%H:%M'), help_text=("Hours:Minutes"))
 	active_from = forms.DateTimeField()
 	active_to = forms.DateTimeField()
 

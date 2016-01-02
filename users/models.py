@@ -15,9 +15,6 @@ class User(AbstractBaseUser):
 
 	objects = UserManager()
 
-	def __unicode__(self):
-		return self.username
-
 class UserProfile(models.Model):
 
 	user = models.OneToOneField(User)

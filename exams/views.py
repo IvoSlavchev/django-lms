@@ -91,34 +91,39 @@ def view_exam(request, course_id, exam_id):
 	questions = ExamQuestion.objects.filter(exam=exam)
 	if questions:
 		try:
-			score = Score.objects.get(student=request.user, exam=exam)
-			precentage = str(float(score.score)/float(questions.count())*100)+'%'
-			result = precentage + ' '+ str(score.score) +'/' + str(questions.count())
+			score = Score.objects.get(student=request.user, exam=exam).score
+			precentage = str(float(score)/float(questions.count())*100)+'%'
+			result = precentage + ' '+ str(score) +'/' + str(questions.count())
 		except ObjectDoesNotExist:
-			score = None
 			result = "Exam not yet taken."
 	else:
 		result = "Exam has no assigned questions."
 	return render(request, 'view_exam.html', {'course': course, 'exam': exam, 'questions': questions, 
-		'score': score, 'result': result})
+		'result': result})
 
 @user_passes_test(student_check)
 def take_exam(request, course_id, exam_id):
 	course = Course.objects.get(id=course_id)
 	exam = Exam.objects.get(id=exam_id)
 	questions = Question.objects.filter(exam=exam)
-	try:
-		score = Score.objects.get(student=request.user, exam=exam)
-		messages.add_message(request, messages.INFO, 'Exam already taken')
-		return redirect('/courses/' +  course_id + '/exams/' + exam_id + '/s')
-	except ObjectDoesNotExist:
-		if request.method == 'POST':
-			answered = 0
-			for question in questions:
-				selected_answer = question.choice_set.get(id=request.POST.get(str(question.id)))
-				if selected_answer.correct:
-					answered += 1
-			score = Score.objects.create(student=request.user, exam=exam, score=answered)
-			messages.add_message(request, messages.INFO, 'Exam finished with ' + str(answered) + ' correct answers')
+	if not exam.expired:
+		try:
+			score = Score.objects.get(student=request.user, exam=exam)
+			messages.add_message(request, messages.INFO, 'Exam already taken')
 			return redirect('/courses/' +  course_id + '/exams/' + exam_id + '/s')
-		return render(request, 'take_exam.html', {'course': course, 'exam': exam, 'questions': questions})
+		except ObjectDoesNotExist:
+			if request.method == 'POST':
+				answered = 0
+				for question in questions:
+					try:
+						selected_answer = question.choice_set.get(id=request.POST.get(str(question.id)))
+						if selected_answer.correct:
+							answered += 1
+					except ObjectDoesNotExist:
+						continue;
+				score = Score.objects.create(student=request.user, exam=exam, score=answered)
+				messages.add_message(request, messages.INFO, 'Exam finished with ' + str(answered) + ' correct answers')
+				return redirect('/courses/' +  course_id + '/exams/' + exam_id + '/s')
+			return render(request, 'take_exam.html', {'course': course, 'exam': exam, 'questions': questions})
+	messages.add_message(request, messages.INFO, 'Exam closed.')
+	return redirect('/courses/' +  course_id + '/exams/' + exam_id + '/s')
