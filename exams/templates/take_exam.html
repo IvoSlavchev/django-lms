@@ -3,7 +3,7 @@
 {% block header_text %}Taking exam: {{ exam.name }}, belonging to course: {{ course.name }}{% endblock %}
 
 {% block dashboard %}
-	{{ exam.time_limit }}
+	<h4 id="id_remaining"></h4>
 	<form action="{% url 'take_exam' course.id exam.id %}" method="post">
 	{% csrf_token %}	
 	<ol>
@@ -23,4 +23,32 @@
 		<span class="glyphicon glyphicon-arrow-left"></span>
 		Back to exam
 	</a>
+{% endblock %}
+
+{% block javascript %}
+	function rebuildTime(time) {
+		var hr = Math.floor(time / 3600);
+		var min = Math.floor(time / 60);
+		var sec = time - min * 60;	
+		var rem = (hr > 9 ? hr : "0" + hr) + ":" + (min > 9 ? min : "0" + min) + ":" + (sec > 9 ? sec : "0" + sec);
+		if (time <= 30) {
+			$("#id_remaining").css('color', 'red')
+		}
+		$("#id_remaining").text("Remaining time: " + rem);
+	}
+
+	var limit = "{{ exam.time_limit }}".split(":");
+	var seconds = limit[0] * 3600 + limit[1] * 60;
+	rebuildTime(seconds);
+	var counter = setInterval(timer, 1000);
+
+	function timer() {
+		seconds -= 1;
+		if (seconds == 0) {
+			clearInterval(counter);
+	    	$("#id_submit").click();
+	 	}
+	 	rebuildTime(seconds);
+	 	
+	}
 {% endblock %}
