@@ -1,5 +1,5 @@
 function confirmDelete() {
-    return confirmed = confirm("Are you sure?");
+    return confirm("Are you sure?");
 }
 
 function searchFilter() {
