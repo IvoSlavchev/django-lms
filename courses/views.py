@@ -33,7 +33,12 @@ def delete_course(course):
 @user_passes_test(teacher_check)
 def teacher_page(request):
 	courses = Course.objects.filter(owner=request.user).order_by('-updated')
-	return render(request, 'teacher_page.html', {'courses': courses})
+	exams_unflattened = list()
+	for course in courses:
+		exams_unflattened.append(Exam.objects.filter(course=course))
+	exams = list(chain.from_iterable(exams_unflattened))
+	exams.sort(key=lambda x: x.active_to)
+	return render(request, 'teacher_page.html', {'courses': courses, 'exams': exams})
 
 @user_passes_test(teacher_check)
 def create_course(request):
@@ -102,11 +107,12 @@ def student_page(request):
 			if (not Score.objects.filter(student=request.user, exam=exam).exists() and 
 				ExamQuestion.objects.filter(exam=exam).exists()):
 					unfinished_exams.append(exam)
+	unfinished_exams.sort(key=lambda x: x.active_to)
 	return render(request, 'student_page.html', {'courses': courses, 'exams': unfinished_exams})
 
 @user_passes_test(student_check)
 def view_course(request, course_id):
     course = Course.objects.get(id=course_id)
     participants = list(Participation.objects.filter(course=course_id))
-    exams = Exam.objects.filter(course=course_id)
+    exams = Exam.objects.filter(course=course_id).order_by('active_to')
     return render(request, 'view_course.html', {'course': course, 'participants': participants, 'exams': exams})

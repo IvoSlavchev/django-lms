@@ -78,7 +78,7 @@ def edit_questions(request, course_id, exam_id):
 @user_passes_test(teacher_check)
 def list_exams(request, course_id):
 	course = Course.objects.get(id=course_id)
-	exams = Exam.objects.filter(course=course_id)
+	exams = Exam.objects.filter(course=course_id).order_by('active_to')
 	if request.user.username == course.owner:
 		return render(request, 'list_exams.html', {'course': course, 'exams': exams})
 	else:
