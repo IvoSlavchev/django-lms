@@ -6,7 +6,7 @@ from django.shortcuts import redirect, render
 
 from courses.forms import CourseForm, ParticipantsForm
 from courses.models import Course, Participation
-from exams.models import Exam, ExamQuestion
+from exams.models import Exam, ExamQuestion, Score
 from questions.models import Question, Choice
 
 def teacher_check(user):
@@ -89,13 +89,20 @@ def edit_participants(request, course_id):
 
 @user_passes_test(student_check)
 def student_page(request):
-	participants = list(Participation.objects.filter(user=request.user.id))
+	participants = list(Participation.objects.filter(user=request.user))
 	courses_unflattened = list()
+	unfinished_exams = list()
 	for participant in participants:
 		courses_unflattened.append(list(Course.objects.filter(id=participant.course.id)))
 	courses = list(chain.from_iterable(courses_unflattened))
 	courses.sort(key=lambda x: x.updated, reverse=True)
-	return render(request, 'student_page.html', {'courses': courses})
+	for course in courses:
+		exams = Exam.objects.filter(course=course)
+		for exam in exams:
+			if (not Score.objects.filter(student=request.user, exam=exam).exists() and 
+				ExamQuestion.objects.filter(exam=exam).exists()):
+					unfinished_exams.append(exam)
+	return render(request, 'student_page.html', {'courses': courses, 'exams': unfinished_exams})
 
 @user_passes_test(student_check)
 def view_course(request, course_id):
