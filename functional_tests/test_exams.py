@@ -48,7 +48,7 @@ class ExamTest(FunctionalTest):
 		self.browser.find_element_by_link_text('Edit questions').click()
 		self.browser.find_element_by_id('id_questions_1').click()
 		self.browser.find_element_by_id('id_submit').click()
-		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/27/exams/13')
+		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/14/exams/42')
 		self.browser.find_element_by_link_text('Log out').click()
 
 	def test_exam_viewing_and_taking(self):
