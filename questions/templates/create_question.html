@@ -6,10 +6,17 @@
 
 {% block additional_forms %}
 	{{ choice_formset.management_form }}
-	{{ choice_formset.as_p }}
+	<div id="choices_form_container">
+		{% for choice_form in choice_formset %}
+			<div id="choice_{{ forloop.counter0 }}">
+				{{ choice_form.as_p }}
+			</div>
+		{% endfor %}
+	</div>
 {% endblock %}
 
 {% block button %}
+	<button class="btn btn-info" id="id_add_choice">Add choice</button>
 	<button class="btn btn-primary" id="id_submit" type="submit" name="create">Create</button>
 {% endblock %}
 
@@ -18,4 +25,23 @@
 		<span class="glyphicon glyphicon-arrow-left"></span>
 		Back to questions
 	</a>
+{% endblock %}
+
+{% block javascript %}
+	<script type="text/html" id="choice_template">
+		<div id="choice___prefix__">
+		    {{ choice_formset.empty_form }}
+		</div>
+	</script>
+
+	<script type="text/javascript">
+		$("#id_add_choice").click(function(e) {
+			e.preventDefault();
+	        var count = $('#choices_form_container').children().length;
+	        var template = $('#choice_template').html();
+	        var updatedTemplate = template.replace(/__prefix__/g, count);
+	        $('div#choices_form_container').append(updatedTemplate);
+	        $('#id_form-TOTAL_FORMS').attr('value', count+1);
+		});
+	</script>
 {% endblock %}

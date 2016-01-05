@@ -19,7 +19,7 @@ def update(question_form, question, choice_formset):
 
 @user_passes_test(teacher_check)
 def create_question(request, course_id):
-	ChoiceFormSet = modelformset_factory(Choice, ChoiceForm, extra=4)
+	ChoiceFormSet = modelformset_factory(Choice, ChoiceForm, extra=2)
 	course = Course.objects.get(id=course_id)
 	if request.method == 'POST':			
 		question_form = QuestionForm(data=request.POST)

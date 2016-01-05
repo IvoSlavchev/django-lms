@@ -23,13 +23,15 @@
 {% endblock %}
 
 {% block javascript %}
-	var questions = [];
-	
-	{% for question in questions %}
-		questions.push("{{ question.name }}");
-	{% endfor %}
+	<script type="text/javascript">
+		var questions = [];
+		
+		{% for question in questions %}
+			questions.push("{{ question.name }}");
+		{% endfor %}
 
-	$(":checkbox").each(function(i) {
-		$(this).parent().html($(this).parent().html().replace("Question object", questions[i]));
-	});
+		$(":checkbox").each(function(i) {
+			$(this).parent().html($(this).parent().html().replace("Question object", questions[i]));
+		});
+	</script>
 {% endblock %}

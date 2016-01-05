@@ -29,56 +29,58 @@
 {% endblock %}
 
 {% block javascript %}
-	function setCookie(timer) {
-		document.cookie = 'time_limit=' + timer;
-	}
-
-	function getCookie() {
-		var re = new RegExp('time_limit' + "=([^;]+)");
-	    var value = re.exec(document.cookie);
-	    var limit = "{{ exam.time_limit }}".split(":");
-	    return (value != null) ? unescape(value[1]) : limit[0] * 3600 + limit[1] * 60;
-	}
-
-	function clearCookie() {
-		document.cookie += ';expires=Thu, 01 Jan 1970 00:00:01 GMT';
-	}
-
-	function rebuildTime(time) {
-		var hr = Math.floor(time / 3600);
-		var min = Math.floor(time / 60);
-		var sec = time - min * 60;	
-		var rem = (hr > 9 ? hr : "0" + hr) + ":" + (min > 9 ? min : "0" + min) + ":" + (sec > 9 ? sec : "0" + sec);
-		if (time <= 60) {
-			$("#id_remaining").css('color', 'red');
+	<script type="text/javascript">
+		function setCookie(timer) {
+			document.cookie = 'time_limit=' + timer;
 		}
-		$("#id_remaining").text("Remaining time: " + rem);
-	}
-	
-	var seconds = getCookie();
-	var counter = setInterval(timer, 1000);
-	rebuildTime(seconds);
 
-	function timer() {
-		seconds -= 1;
-		if (seconds == 0) {
-			clearInterval(counter);
-			clearCookie();
-	    	$("form").submit();
-	 	}
-	 	rebuildTime(seconds);
-	 	setCookie(seconds);
-	}
-
-	$("a").click(function(e) {
-		if (confirm("Exam in progress. Choosing to continue will submit your current answers.")) {		
-			clearCookie();
-	    	$("form").submit();
+		function getCookie() {
+			var re = new RegExp('time_limit' + "=([^;]+)");
+		    var value = re.exec(document.cookie);
+		    var limit = "{{ exam.time_limit }}".split(":");
+		    return (value != null) ? unescape(value[1]) : limit[0] * 3600 + limit[1] * 60;
 		}
-		return false;
-	});
 
-	$("#id_submit").click(function() {
-		clearCookie();
-	});
+		function clearCookie() {
+			document.cookie += ';expires=Thu, 01 Jan 1970 00:00:01 GMT';
+		}
+
+		function rebuildTime(time) {
+			var hr = Math.floor(time / 3600);
+			var min = Math.floor(time / 60);
+			var sec = time - min * 60;	
+			var rem = (hr > 9 ? hr : "0" + hr) + ":" + (min > 9 ? min : "0" + min) + ":" + (sec > 9 ? sec : "0" + sec);
+			if (time <= 60) {
+				$("#id_remaining").css('color', 'red');
+			}
+			$("#id_remaining").text("Remaining time: " + rem);
+		}
+		
+		var seconds = getCookie();
+		var counter = setInterval(timer, 1000);
+		rebuildTime(seconds);
+
+		function timer() {
+			seconds -= 1;
+			if (seconds == 0) {
+				clearInterval(counter);
+				clearCookie();
+		    	$("form").submit();
+		 	}
+		 	rebuildTime(seconds);
+		 	setCookie(seconds);
+		}
+
+		$("a").click(function(e) {
+			if (confirm("Exam in progress. Choosing to continue will submit your current answers.")) {		
+				clearCookie();
+		    	$("form").submit();
+			}
+			return false;
+		});
+
+		$("#id_submit").click(function() {
+			clearCookie();
+		});
+	</script>
 {% endblock %}
