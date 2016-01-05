@@ -11,7 +11,7 @@ class AuthenticationTest(FunctionalTest):
 		self.browser.find_element_by_id('id_email').send_keys('taccount@mail.bg')		
 		self.browser.find_element_by_id('id_password1').send_keys('example')
 		self.browser.find_element_by_id('id_password2').send_keys('example')
-		self.browser.find_element_by_id('id_submit').click()
+		self.browser.find_element_by_id('submit').click()
 
 	def test_home_page(self):
 		self.browser.get("http://localhost:8081")

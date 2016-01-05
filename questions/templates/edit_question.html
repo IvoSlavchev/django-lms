@@ -6,9 +6,9 @@
 
 {% block additional_forms %}
 	{{ choice_formset.management_form }}
-	<div id="choices_form_container">
+	<div id="choices-form-container">
 		{% for choice_form in choice_formset %}
-			<div id="choice_{{ forloop.counter0 }}">
+			<div id="choice-{{ forloop.counter0 }}">
 				{{ choice_form.as_p }}
 			</div>
 		{% endfor %}
@@ -16,9 +16,9 @@
 {% endblock %}
 
 {% block button %}
-	<button class="btn btn-info" id="id_add_choice">Add choice</button>
-	<button class="btn btn-primary" id="id_submit" type="submit" name="update">Update</button>
-	<button class="btn btn-danger" id="id_delete" name="delete" onclick="return confirmDelete()">Delete</button>
+	<button class="btn btn-info" id="add-choice">Add choice</button>
+	<button class="btn btn-primary" id="submit" type="submit" name="update">Update</button>
+	<button class="btn btn-danger" id="delete" name="delete" onclick="return confirmDelete()">Delete</button>
 {% endblock %}
 
 {% block dashboard %}
@@ -29,19 +29,19 @@
 {% endblock %}
 
 {% block javascript %}
-	<script type="text/html" id="choice_template">
-		<div id="choice___prefix__">
+	<script type="text/html" id="choice-template">
+		<div id="choice-__prefix__">
 		    {{ choice_formset.empty_form }}
 		</div>
 	</script>
 
 	<script type="text/javascript">
-		$("#id_add_choice").click(function(e) {
+		$("#add-choice").click(function(e) {
 			e.preventDefault();
-	        var count = $('#choices_form_container').children().length;
-	        var template = $('#choice_template').html();
+	        var count = $('#choices-form-container').children().length;
+	        var template = $('#choice-template').html();
 	        var updatedTemplate = template.replace(/__prefix__/g, count);
-	        $('div#choices_form_container').append(updatedTemplate);
+	        $('div#choices-form-container').append(updatedTemplate);
 	        $('#id_form-TOTAL_FORMS').attr('value', count+1);
 		});
 	</script>

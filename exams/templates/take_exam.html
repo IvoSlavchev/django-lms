@@ -5,7 +5,7 @@
 {% block header_text %}Taking exam: {{ exam.name }}, belonging to course: {{ course.name }}{% endblock %}
 
 {% block dashboard %}
-	<h4 id="id_remaining"></h4>
+	<h4 id="remaining"></h4>
 	<form action="{% url 'take_exam' course.id exam.id %}" method="post">
 	{% csrf_token %}	
 	<table>	
@@ -24,7 +24,7 @@
 			{% endfor %}	
 		{% endfor %}
 	</table>
-	<button class="btn btn-primary" id="id_submit" type="submit">Submit</button>
+	<button class="btn btn-primary" id="submit" type="submit">Submit</button>
 	</form>
 {% endblock %}
 
@@ -51,9 +51,9 @@
 			var sec = time - min * 60;	
 			var rem = (hr > 9 ? hr : "0" + hr) + ":" + (min > 9 ? min : "0" + min) + ":" + (sec > 9 ? sec : "0" + sec);
 			if (time <= 60) {
-				$("#id_remaining").css('color', 'red');
+				$("#remaining").css('color', 'red');
 			}
-			$("#id_remaining").text("Remaining time: " + rem);
+			$("#remaining").text("Remaining time: " + rem);
 		}
 		
 		var seconds = getCookie();
@@ -79,7 +79,7 @@
 			return false;
 		});
 
-		$("#id_submit").click(function() {
+		$("#submit").click(function() {
 			clearCookie();
 		});
 	</script>

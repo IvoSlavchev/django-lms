@@ -17,4 +17,4 @@ class FunctionalTest(StaticLiveServerTestCase):
 			self.browser.find_element_by_id('id_username').send_keys('taccount@mail.bg')
 
 		self.browser.find_element_by_id('id_password').send_keys('example')
-		self.browser.find_element_by_id('id_submit').click()
+		self.browser.find_element_by_id('submit').click()

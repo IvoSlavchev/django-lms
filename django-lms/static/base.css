@@ -2,7 +2,7 @@ body {
 	background-color: #F8F8FF;
 }
 
-#id_login, #id_logout {
+#login, #logout {
 	padding-right: 2%;
 }
 
@@ -19,6 +19,11 @@ tr.choices:last-child > td {
 	padding-bottom: 20px;
 }
 
-button#id_add_choice {
+button#add-choice {
+	margin-bottom: 10px;
+}
+
+input#search {
+	margin-top: 10px;
 	margin-bottom: 10px;
 }

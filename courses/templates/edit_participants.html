@@ -3,16 +3,13 @@
 {% block header_text %}Editing participants for: {{ course.name }}{% endblock %}
 
 {% block filter %}
-	<br>
-	<input class="col-md-offset-5" type="text" id="id_search" placeholder="Filter participants" onkeyup="searchFilter()">
-	<br>
-	<br>
+	<input class="col-md-offset-5" type="text" id="search" placeholder="Filter participants" onkeyup="searchFilter()">
 {% endblock %}
 
 {% block form_action %}{% url 'edit_participants' course.id %}{% endblock %}
 
 {% block button %}
-	<button class="btn btn-primary" id="id_submit" type="submit" name="update">Update</button>	
+	<button class="btn btn-primary" id="submit" type="submit" name="update">Update</button>	
 {% endblock %}
 
 {% block dashboard %}
