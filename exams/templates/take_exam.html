@@ -1,21 +1,29 @@
 {% extends 'base.html' %}
 
+{% load to_char %}
+
 {% block header_text %}Taking exam: {{ exam.name }}, belonging to course: {{ course.name }}{% endblock %}
 
 {% block dashboard %}
 	<h4 id="id_remaining"></h4>
 	<form action="{% url 'take_exam' course.id exam.id %}" method="post">
 	{% csrf_token %}	
-	<ol>
+	<table>	
 		{% for question in questions %}
-			<li><h4>{{ question.question_text }}</h4></li>
+			<thead>
+				<tr>
+					<th>{{ forloop.counter }}. {{ question.question_text }}</th>
+				</tr>
+			</thead>
 			{% for choice in question.choice_set.all %}	
-				<input type="radio" name="{{ question.id }}" value="{{ choice.id }}"> {{ choice.choice_text }}
-				<br>
-			{% endfor %}		
-			<br>
+				<tr class="choices">
+					<td><input type="radio" name="{{ question.id }}" value="{{ choice.id }}">
+						{{ forloop.counter|to_char }}) {{ choice.choice_text }}
+					</td>
+				</tr>
+			{% endfor %}	
 		{% endfor %}
-	</ol>
+	</table>
 	<button class="btn btn-primary" id="id_submit" type="submit">Submit</button>
 	</form>
 {% endblock %}

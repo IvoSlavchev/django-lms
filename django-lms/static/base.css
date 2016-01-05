@@ -14,3 +14,7 @@ body {
 form ul li {
 	list-style-type: none;
 }
+
+tr.choices:last-child > td {
+	padding-bottom: 20px;
+}

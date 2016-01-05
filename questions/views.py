@@ -71,7 +71,7 @@ def edit_question(request, course_id, question_id):
 @user_passes_test(teacher_check)
 def list_questions(request, course_id):
 	course = Course.objects.get(id=course_id)
-	questions = Question.objects.filter(course=course_id).order_by('updated')
+	questions = Question.objects.filter(course=course_id)
 	if request.user.username == course.owner:
 		return render(request, 'list_questions.html', {'course': course, 'questions': questions})
 	else:

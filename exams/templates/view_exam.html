@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load to_char %}
+
 {% block header_text %}
 	{% if messages %}
 	    {% for message in messages %}
@@ -59,6 +61,27 @@
 			Take exam
 		</a>
 		<br>
+	{% endif %}
+	{% if questions and not 'Exam' in result %}
+		<h4 class="text-primary">Exam questions and answers:</h4>
+		<table>
+		{% for quest in questions %}
+			<thead>
+				<tr>
+					<th>{{ forloop.counter }}. {{ quest.question.question_text }}</th>
+				</tr>
+			</thead>
+			{% for choice in quest.question.choice_set.all %}	
+				<tr class="choices">
+					{% if choice.correct %}
+						<td>{{ forloop.counter|to_char }}) {{ choice.choice_text }} - <b>Correct.</b></td>
+					{% else %}
+						<td>{{ forloop.counter|to_char }}) {{ choice.choice_text }}</td>
+					{% endif %}
+				</tr>
+			{% endfor %}		
+		{% endfor %}
+		</table>
 	{% endif %}
 	<a href="{% url 'view_course' course.id %}">
 		<span class="glyphicon glyphicon-arrow-left"></span>
