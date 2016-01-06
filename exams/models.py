@@ -20,6 +20,10 @@ class Exam(models.Model):
 	questions = models.ManyToManyField(Question, blank=True, through='ExamQuestion')
 
 	@property
+	def activated(self):
+		return timezone.now() >= self.active_from
+
+	@property
 	def expired(self):
 		return timezone.now() > self.active_to
 

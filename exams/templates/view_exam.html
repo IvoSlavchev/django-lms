@@ -55,7 +55,7 @@
 			<td>{{ course.name }}</td>
 		</tr>
 	</table>
-	{% if questions and 'Exam' in result and not exam.expired %}
+	{% if questions and 'Exam' in result and exam.activated and not exam.expired %}
 		<a href="{% url 'take_exam' course.id exam.id %}">
 			<span class="glyphicon glyphicon-pencil"></span>
 			Take exam

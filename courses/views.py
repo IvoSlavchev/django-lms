@@ -1,7 +1,9 @@
 from itertools import chain
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
+from django.core.mail import send_mail
 from django.shortcuts import redirect, render
 
 from courses.forms import CourseForm, ParticipantsForm
@@ -29,6 +31,15 @@ def delete_course(course):
 		Choice.objects.filter(question=question).delete()
 	questions.delete()
 	course.delete()
+
+def send_email(student, course):
+	email_subject = 'Django-LMS course enrollment'
+	email_body = "Hello, %s,\n\n\
+		You have been enrolled in the %s course by the course creator %s.\
+		You can visit the course page by clicking the link below.\n\
+		http://localhost:8000/courses/%d/s" % (student.username, course.name, 
+			course.owner, course.id)
+	send_mail(email_subject, email_body, settings.EMAIL_HOST, [student.email])
 
 @user_passes_test(teacher_check)
 def teacher_page(request):
@@ -76,7 +87,7 @@ def edit_course(request, course_id):
 @user_passes_test(teacher_check)
 def edit_participants(request, course_id):
 	course = Course.objects.get(id=course_id)
-	participants = list(Participation.objects.filter(course=course_id))
+	participants = Participation.objects.filter(course=course_id)
 	if request.user.username == course.owner:
 		if request.method == 'POST':
 			form = ParticipantsForm(instance=course, data=request.POST)
@@ -85,6 +96,7 @@ def edit_participants(request, course_id):
 				for participant in form.cleaned_data['participants']:  
 					part = Participation(user=participant, course=course)
 					part.save()
+					send_email(part.user, course)
 				messages.add_message(request, messages.INFO, 'Participants updated successfully.')
 				return redirect('/courses/' + course_id)
 		form = ParticipantsForm(instance=course)
@@ -94,18 +106,18 @@ def edit_participants(request, course_id):
 
 @user_passes_test(student_check)
 def student_page(request):
-	participants = list(Participation.objects.filter(user=request.user))
+	participants = Participation.objects.filter(user=request.user)
 	courses_unflattened = list()
 	unfinished_exams = list()
 	for participant in participants:
-		courses_unflattened.append(list(Course.objects.filter(id=participant.course.id)))
+		courses_unflattened.append(Course.objects.filter(id=participant.course.id))
 	courses = list(chain.from_iterable(courses_unflattened))
 	courses.sort(key=lambda x: x.updated, reverse=True)
 	for course in courses:
 		exams = Exam.objects.filter(course=course)
 		for exam in exams:
-			if (not Score.objects.filter(student=request.user, exam=exam).exists() and 
-				ExamQuestion.objects.filter(exam=exam).exists()):
+			if (exam.activated and not exam.expired and not Score.objects.filter(student=request.user, exam=exam).exists() 
+				and ExamQuestion.objects.filter(exam=exam).exists()):
 					unfinished_exams.append(exam)
 	unfinished_exams.sort(key=lambda x: x.active_to)
 	return render(request, 'student_page.html', {'courses': courses, 'exams': unfinished_exams})
@@ -113,6 +125,6 @@ def student_page(request):
 @user_passes_test(student_check)
 def view_course(request, course_id):
     course = Course.objects.get(id=course_id)
-    participants = list(Participation.objects.filter(course=course_id))
+    participants = Participation.objects.filter(course=course_id)
     exams = Exam.objects.filter(course=course_id).order_by('active_to')
     return render(request, 'view_course.html', {'course': course, 'participants': participants, 'exams': exams})

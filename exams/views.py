@@ -1,9 +1,11 @@
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.mail import send_mail
 from django.shortcuts import redirect, render
 
-from courses.models import Course
+from courses.models import Course, Participation
 from courses.views import teacher_check, student_check
 from exams.forms import ExamForm, ExamQuestionForm
 from exams.models import Exam, ExamQuestion, Score
@@ -18,6 +20,15 @@ def update(form, exam):
 	exam.active_to = form.cleaned_data['active_to']
 	exam.save()
 
+def send_email(student, course, exam):
+	email_subject = 'Django-LMS new exam added'
+	email_body = "Hello, %s,\n\n\
+		Exam %s has been added for the %s course and will be active from %s.\
+		You can view the exam by clicking the link below.\n\
+		http://localhost:8000/courses/%d/exams/%d/s" % (student.username, exam.name, 
+			course.name, exam.active_from, course.id, exam.id)
+	send_mail(email_subject, email_body, settings.EMAIL_HOST, [student.email])
+
 @user_passes_test(teacher_check)
 def create_exam(request, course_id):
 	course = Course.objects.get(id=course_id)
@@ -28,6 +39,9 @@ def create_exam(request, course_id):
 			exam.owner = request.user
 			exam.course = course
 			exam.save()
+			participants = Participation.objects.filter(course=course_id)
+			for participant in participants:
+				send_email(participant.user, course, exam)
 			messages.add_message(request, messages.INFO, 'Exam created successfully.')		
 			return redirect('/courses/' + course_id + '/exams/')
 	else:
@@ -58,7 +72,7 @@ def edit_exam(request, course_id, exam_id):
 def edit_questions(request, course_id, exam_id):
 	course = Course.objects.get(id=course_id)
 	exam = Exam.objects.get(id=exam_id)
-	questions = list(Question.objects.filter(course=course))
+	questions = Question.objects.filter(course=course)
 	if request.user.username == course.owner:
 		if request.method == 'POST':
 			form = ExamQuestionForm(instance=exam, course=course, data=request.POST)
@@ -106,7 +120,7 @@ def take_exam(request, course_id, exam_id):
 	course = Course.objects.get(id=course_id)
 	exam = Exam.objects.get(id=exam_id)
 	questions = Question.objects.filter(exam=exam)
-	if not exam.expired:
+	if exam.activated and not exam.expired:
 		try:
 			score = Score.objects.get(student=request.user, exam=exam)
 			messages.add_message(request, messages.INFO, 'Exam already taken')

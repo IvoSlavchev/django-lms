@@ -11,6 +11,14 @@ from django.utils import timezone
 from users.models import UserProfile
 from users.forms import AuthenticationForm, RegistrationForm
 
+def send_email(user, profile):
+    email_subject = 'Your new Django-LMS account confirmation'
+    email_body = "Hello, %s,\n\n\
+        Thank you for signing up for Django-LMS! To activate your account, click this link within 24 hours:\n\
+        http://localhost:8000/confirm?q=%s" % (
+            user.username, profile.activation_key)
+    send_mail(email_subject, email_body, settings.EMAIL_HOST, [user.email])
+
 def home_page(request):
     return render(request, 'home.html')
 
@@ -39,11 +47,7 @@ def signup(request):
             key_expires = timezone.now() + datetime.timedelta(1)
             profile = UserProfile(user=user, activation_key=activation_key, key_expires=key_expires)
             profile.save()
-            email_subject = 'Your new Django-LMS account confirmation'
-            email_body = "Hello, %s, and thanks for signing up for an Django-LMS account!\n\n \
-                To activate your account, click this link within 24 hours:\n\n \
-                http://localhost:8000/confirm?q=%s" % (user.username, profile.activation_key)
-            send_mail(email_subject, email_body, settings.EMAIL_HOST, [user.email], fail_silently=False)
+            send_email(user, profile)
             messages.add_message(request, messages.INFO, 'Check email for a confirmation link.')
             return redirect('/')
     else:
