@@ -3,6 +3,7 @@ from itertools import chain
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import send_mail
 from django.shortcuts import redirect, render
 
@@ -86,9 +87,9 @@ def edit_course(request, course_id):
 
 @user_passes_test(teacher_check)
 def edit_participants(request, course_id):
-	course = Course.objects.get(id=course_id)
-	participants = Participation.objects.filter(course=course_id)
+	course = Course.objects.get(id=course_id)	
 	if request.user.username == course.owner:
+		participants = Participation.objects.filter(course=course_id)
 		if request.method == 'POST':
 			form = ParticipantsForm(instance=course, data=request.POST)
 			if form.is_valid():
@@ -104,6 +105,25 @@ def edit_participants(request, course_id):
 	else:
 		return redirect('/courses/')
 
+@user_passes_test(teacher_check)
+def view_scores(request, course_id):
+	course = Course.objects.get(id=course_id)
+	if request.user.username == course.owner:
+		participants = Participation.objects.filter(course=course_id)
+		exams = Exam.objects.filter(course=course_id)
+		scores  = {}
+		for participant in participants:
+			scores[participant] = {}
+			for exam in exams:
+				try:
+					scores[participant][exam] = Score.objects.get(student=participant.user, exam=exam).score
+				except ObjectDoesNotExist:
+					scores[participant][exam] = "Not taken"
+		return render(request, 'view_scores.html', {'course': course, 'participants': participants, 
+			'exams': exams, 'scores': scores})
+	else:
+		return redirect('/courses/')
+
 @user_passes_test(student_check)
 def student_page(request):
 	participants = Participation.objects.filter(user=request.user)
@@ -116,7 +136,8 @@ def student_page(request):
 	for course in courses:
 		exams = Exam.objects.filter(course=course)
 		for exam in exams:
-			if (exam.activated and not exam.expired and not Score.objects.filter(student=request.user, exam=exam).exists() 
+			if (exam.activated and not exam.expired and 
+				not Score.objects.filter(student=request.user, exam=exam).exists() 
 				and ExamQuestion.objects.filter(exam=exam).exists()):
 					unfinished_exams.append(exam)
 	unfinished_exams.sort(key=lambda x: x.active_to)

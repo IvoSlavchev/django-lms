@@ -7,6 +7,7 @@ urlpatterns = [
 	url(r'^create$', views.create_course, name='create_course'),
 	url(r'^(\d+)$', views.edit_course, name='edit_course'),
 	url(r'^(\d+)/participants$', views.edit_participants, name='edit_participants'),
+	url(r'^(\d+)/scores$', views.view_scores, name='view_scores'),
 	url(r'^s', views.student_page, name='student_page'),
 	url(r'^(\d+)/s$', views.view_course, name='view_course'),
 ]
