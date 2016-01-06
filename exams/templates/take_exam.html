@@ -32,27 +32,28 @@
 {% block javascript %}
 	<script type="text/javascript">
 		$(document).ready(function() {		
+
 			function lockExam() {	
 				var input = prompt("Enter exam password:");
 				if (input == "{{ exam.password }}") {
+					setCookie('password', input);
 					return $(".hidden").removeClass("hidden");
 				}
-				return history.go(-1);;
+				history.go(-1);;
 			}
 
-			function setCookie(timer) {
-				document.cookie = 'time_limit=' + timer;
+			function setCookie(name, value) {
+				document.cookie = name + '=' + value;
 			}
 
-			function getCookie() {
-				var re = new RegExp('time_limit' + "=([^;]+)");
+			function getCookie(name) {
+				var re = new RegExp(name + "=([^;]+)");
 			    var value = re.exec(document.cookie);
-			    var limit = "{{ exam.time_limit }}".split(":");
-			    return (value != null) ? unescape(value[1]) : limit[0] * 3600 + limit[1] * 60;
+			    return (value != null) ? unescape(value[1]) : null;
 			}
 
-			function clearCookie() {
-				document.cookie += ';expires=Thu, 01 Jan 1970 00:00:01 GMT';
+			function clearCookie(name) {
+				document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 			}
 
 			function rebuildTime(time) {
@@ -66,11 +67,15 @@
 				$("#remaining").text("Remaining time: " + rem);
 			}
 		
-    		if ("{{ exam.password }}") {	
+			var password = getCookie('password');
+    		if ("{{ exam.password }}" && password == null) {	
 				lockExam();
+			} else {
+				$(".hidden").removeClass("hidden");
 			}
-	
-			var seconds = getCookie();
+		
+			var limit = "{{ exam.time_limit }}".split(":");
+			var seconds = getCookie('time_limit') || limit[0] * 3600 + limit[1] * 60;
 			var counter = setInterval(timer, 1000);
 			rebuildTime(seconds);
 
@@ -78,23 +83,26 @@
 				seconds -= 1;
 				if (seconds == 0) {
 					clearInterval(counter);
-					clearCookie();
+					clearCookie('time_limit');
+					clearCookie('password');
 			    	$("form").submit();
 			 	}
 			 	rebuildTime(seconds);
-			 	setCookie(seconds);
+			 	setCookie('time_limit', seconds);
 			}
 
 			$("a").click(function(e) {
 				if (confirm("Exam in progress. Choosing to continue will submit your current answers.")) {		
-					clearCookie();
+					clearCookie('time_limit');
+					clearCookie('password');
 			    	$("form").submit();
 				}
 				return false;
 			});
 
 			$("#submit").click(function() {
-				clearCookie();
+				clearCookie('time_limit');
+				clearCookie('password');
 			});
 		});
 	</script>
