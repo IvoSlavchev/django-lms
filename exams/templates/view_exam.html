@@ -88,3 +88,15 @@
 		Back to course
 	</a>
 {% endblock %}
+
+{% block javascript %}
+	<script type="text/javascript">
+		$("#take-exam").click(function() {
+			var input = prompt("Enter exam password:");
+			if (input == "{{ exam.password }}") {
+				return true;
+			}
+			return history.go(-1);
+		});
+	</script>
+{% endblock %}
