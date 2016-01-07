@@ -51,6 +51,17 @@ class ExamTest(FunctionalTest):
 		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/14/exams/42')
 		self.browser.find_element_by_link_text('Log out').click()
 
+	def test_exam_score_viewing(self):
+		self.browser.get("http://localhost:8000")
+		self.browser.find_element_by_link_text('Log in').click()
+		self.login(True)
+		self.browser.find_element_by_partial_link_text('newest').click()
+		self.browser.find_element_by_link_text('View exams').click()
+		self.browser.find_element_by_partial_link_text('hurr').click()
+		self.browser.find_element_by_link_text('View scores').click()
+		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/14/exams/42/scores')
+		self.browser.find_element_by_link_text('Log out').click()
+
 	def test_exam_viewing_and_taking(self):
 		self.browser.get("http://localhost:8000")
 		self.browser.find_element_by_link_text('Log in').click()

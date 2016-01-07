@@ -6,19 +6,15 @@
 	<table class="table table-hover">
 		<tr>
 			<th></th>
-			{% for values in scores.values %}
-				{% if forloop.first %}
-					{% for key in values.keys %}
-						<th>{{ key.name }}</th>
-					{% endfor %}
-				{% endif %}
+			{% for exam in exams %}
+				<th>{{ exam.name }}</th>
 			{% endfor %}
 		</tr>
-		{% for key, value in scores.items %}
+		{% for student, value in scores.items %}
 			<tr>
-				<th>{{ key.user }}</th>
-				{% for val in value.values %}
-					<td>{{ val }}</td>
+				<th>{{ student.user }}</th>
+				{% for score in value.values %}
+					<td>{{ score }}</td>
 				{% endfor %}
 			</tr>
 		{% endfor %}

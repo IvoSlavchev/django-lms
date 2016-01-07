@@ -116,11 +116,13 @@ def view_scores(request, course_id):
 			scores[participant] = {}
 			for exam in exams:
 				try:
-					scores[participant][exam] = Score.objects.get(student=participant.user, exam=exam).score
+					questions = ExamQuestion.objects.filter(exam=exam)
+					score = Score.objects.get(student=participant.user, exam=exam).score
+					percentage = str(float(score)/float(questions.count())*100)+'%'
+					scores[participant][exam] = str(score) + '/' + str(questions.count()) + ' ' + percentage
 				except ObjectDoesNotExist:
 					scores[participant][exam] = "Not taken"
-		return render(request, 'view_scores.html', {'course': course, 'participants': participants, 
-			'exams': exams, 'scores': scores})
+		return render(request, 'view_scores.html', {'course': course, 'exams': exams, 'scores': scores})
 	else:
 		return redirect('/courses/')
 

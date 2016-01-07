@@ -92,9 +92,29 @@ def edit_questions(request, course_id, exam_id):
 @user_passes_test(teacher_check)
 def list_exams(request, course_id):
 	course = Course.objects.get(id=course_id)
-	exams = Exam.objects.filter(course=course_id).order_by('active_to')
 	if request.user.username == course.owner:
+		exams = Exam.objects.filter(course=course_id).order_by('active_to')
 		return render(request, 'list_exams.html', {'course': course, 'exams': exams})
+	else:
+		return redirect('/courses/')
+
+@user_passes_test(teacher_check)
+def view_scores(request, course_id, exam_id):
+	exam = Exam.objects.get(id=exam_id)
+	if request.user.username == exam.owner:
+		course = Course.objects.get(id=course_id)
+		participants = Participation.objects.filter(course=course)
+		questions = ExamQuestion.objects.filter(exam=exam)
+		scores = {}		
+		for participant in participants:	
+			try:			
+				score = Score.objects.get(student=participant.user, exam=exam).score
+				percentage = str(float(score)/float(questions.count())*100)+'%'
+				scores[participant] = str(score) + '/' + str(questions.count()) + ' ' + percentage
+			except ObjectDoesNotExist:
+				scores[participant] = "Not taken"
+		print(scores)
+		return render(request, 'view_score.html', {'course': course, 'exam': exam, 'scores': scores})
 	else:
 		return redirect('/courses/')
 

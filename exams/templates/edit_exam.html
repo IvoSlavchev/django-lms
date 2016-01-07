@@ -15,6 +15,11 @@
 		Edit questions
 	</a>	
 	<br>
+	<a href="{% url 'view_scores' course.id exam.id %}">
+		<span class="glyphicon glyphicon-education"></span>
+		View scores
+	</a>	
+	<br>
 	<a href="{% url 'list_exams' course.id %}">
 		<span class="glyphicon glyphicon-arrow-left"></span>
 		Back to exams
