@@ -49,10 +49,10 @@ def create_exam(request, course_id):
 	return render(request, 'create_exam.html', {'form': form, 'course': course })
 
 @user_passes_test(teacher_check)
-def edit_exam(request, course_id, exam_id):
-	course = Course.objects.get(id=course_id)
+def edit_exam(request, course_id, exam_id):	
 	exam = Exam.objects.get(id=exam_id)	
 	if request.user.username == exam.owner:
+		course = Course.objects.get(id=course_id)
 		if request.method == 'POST' and 'update' in request.POST:
 			form = ExamForm(instance=exam, data=request.POST)
 			if form.is_valid():
@@ -70,10 +70,10 @@ def edit_exam(request, course_id, exam_id):
 
 @user_passes_test(teacher_check)
 def edit_questions(request, course_id, exam_id):
-	course = Course.objects.get(id=course_id)
 	exam = Exam.objects.get(id=exam_id)
-	questions = Question.objects.filter(course=course)
-	if request.user.username == course.owner:
+	if request.user.username == exam.owner:
+		course = Course.objects.get(id=course_id)
+		questions = Question.objects.filter(course=course)
 		if request.method == 'POST':
 			form = ExamQuestionForm(instance=exam, course=course, data=request.POST)
 			if form.is_valid():
@@ -120,44 +120,50 @@ def view_scores(request, course_id, exam_id):
 
 @user_passes_test(student_check)
 def view_exam(request, course_id, exam_id):
-	course = Course.objects.get(id=course_id)
-	exam = Exam.objects.get(id=exam_id)
-	questions = ExamQuestion.objects.filter(exam=exam)
-	if questions:
-		try:
-			score = Score.objects.get(student=request.user, exam=exam).score
-			precentage = str(float(score)/float(questions.count())*100)+'%'
-			result = precentage + ' '+ str(score) +'/' + str(questions.count())
-		except ObjectDoesNotExist:
-			result = "Exam not yet taken."
+	if Participation.objects.filter(user=request.user, course=course_id).exists():
+		course = Course.objects.get(id=course_id)
+		exam = Exam.objects.get(id=exam_id)
+		questions = ExamQuestion.objects.filter(exam=exam)
+		if questions:
+			try:
+				score = Score.objects.get(student=request.user, exam=exam).score
+				precentage = str(float(score)/float(questions.count())*100)+'%'
+				result = precentage + ' '+ str(score) +'/' + str(questions.count())
+			except ObjectDoesNotExist:
+				result = "Exam not yet taken."
+		else:
+			result = "Exam has no assigned questions."
+		return render(request, 'view_exam.html', {'course': course, 'exam': exam, 'questions': questions, 
+			'result': result})
 	else:
-		result = "Exam has no assigned questions."
-	return render(request, 'view_exam.html', {'course': course, 'exam': exam, 'questions': questions, 
-		'result': result})
+		return redirect('/courses/s')
 
 @user_passes_test(student_check)
 def take_exam(request, course_id, exam_id):
-	course = Course.objects.get(id=course_id)
-	exam = Exam.objects.get(id=exam_id)
-	questions = Question.objects.filter(exam=exam)
-	if exam.activated and not exam.expired:
-		try:
-			score = Score.objects.get(student=request.user, exam=exam)
-			messages.add_message(request, messages.INFO, 'Exam already taken')
-			return redirect('/courses/' +  course_id + '/exams/' + exam_id + '/s')
-		except ObjectDoesNotExist:
-			if request.method == 'POST':
-				answered = 0
-				for question in questions:
-					try:
-						selected_answer = question.choice_set.get(id=request.POST.get(str(question.id)))
-						if selected_answer.correct:
-							answered += 1
-					except ObjectDoesNotExist:
-						continue;
-				score = Score.objects.create(student=request.user, exam=exam, score=answered)
-				messages.add_message(request, messages.INFO, 'Exam finished with ' + str(answered) + ' correct answers')
+	if Participation.objects.filter(user=request.user, course=course_id).exists():
+		course = Course.objects.get(id=course_id)
+		exam = Exam.objects.get(id=exam_id)
+		questions = Question.objects.filter(exam=exam)
+		if exam.activated and not exam.expired:
+			try:
+				score = Score.objects.get(student=request.user, exam=exam)
+				messages.add_message(request, messages.INFO, 'Exam already taken')
 				return redirect('/courses/' +  course_id + '/exams/' + exam_id + '/s')
-			return render(request, 'take_exam.html', {'course': course, 'exam': exam, 'questions': questions})
-	messages.add_message(request, messages.INFO, 'Exam closed.')
-	return redirect('/courses/' +  course_id + '/exams/' + exam_id + '/s')
+			except ObjectDoesNotExist:
+				if request.method == 'POST':
+					answered = 0
+					for question in questions:
+						try:
+							selected_answer = question.choice_set.get(id=request.POST.get(str(question.id)))
+							if selected_answer.correct:
+								answered += 1
+						except ObjectDoesNotExist:
+							continue;
+					score = Score.objects.create(student=request.user, exam=exam, score=answered)
+					messages.add_message(request, messages.INFO, 'Exam finished with ' + str(answered) + ' correct answers')
+					return redirect('/courses/' +  course_id + '/exams/' + exam_id + '/s')
+				return render(request, 'take_exam.html', {'course': course, 'exam': exam, 'questions': questions})
+		messages.add_message(request, messages.INFO, 'Exam closed.')
+		return redirect('/courses/' +  course_id + '/exams/' + exam_id + '/s')
+	else:
+		return redirect('/courses/s')

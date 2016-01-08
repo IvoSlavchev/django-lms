@@ -1,5 +1,4 @@
 from django.conf.urls import include, url
-from django.contrib import admin
 
 from courses import urls as courses_urls
 from exams import urls as exams_urls

@@ -13,7 +13,11 @@
 			<td>{{ course.description }}</td>
 		</tr>
 		<tr>
-			<th>Course updated:</th>
+			<th>Course created:</th>
+			<td>{{ course.created|date }}</td>
+		</tr>
+		<tr>
+			<th>Course last updated:</th>
 			<td>{{ course.updated|date }}</td>
 		</tr>
 		<tr>

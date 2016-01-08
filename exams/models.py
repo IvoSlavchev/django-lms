@@ -11,6 +11,7 @@ class Exam(models.Model):
 	owner = models.CharField(max_length=30)
 	name = models.CharField(max_length=30)
 	description = models.TextField(blank=True)
+	created = models.DateTimeField(auto_now_add=True)
 	updated = models.DateTimeField(auto_now=True)
 	password = models.CharField(max_length=10, blank=True)
 	time_limit = models.TimeField()

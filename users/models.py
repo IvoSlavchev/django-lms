@@ -8,7 +8,7 @@ class User(AbstractBaseUser):
 	username = models.CharField(max_length=30, unique=True)
 	email = models.EmailField(max_length=30, unique=True)
 	is_teacher = models.BooleanField(default=False)
-	date_joined = models.DateTimeField(default=timezone.now)
+	created = models.DateTimeField(auto_now_add=True)
 	is_active = models.BooleanField(default=False)
 
 	USERNAME_FIELD = 'username'

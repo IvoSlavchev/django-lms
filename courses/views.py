@@ -108,7 +108,7 @@ def edit_participants(request, course_id):
 @user_passes_test(teacher_check)
 def view_scores(request, course_id):
 	course = Course.objects.get(id=course_id)
-	if request.user.username == course.owner:
+	if request.user == course.owner:
 		participants = Participation.objects.filter(course=course_id)
 		exams = Exam.objects.filter(course=course_id)
 		scores  = {}
@@ -146,8 +146,11 @@ def student_page(request):
 	return render(request, 'student_page.html', {'courses': courses, 'exams': unfinished_exams})
 
 @user_passes_test(student_check)
-def view_course(request, course_id):
-    course = Course.objects.get(id=course_id)
-    participants = Participation.objects.filter(course=course_id)
-    exams = Exam.objects.filter(course=course_id).order_by('active_to')
-    return render(request, 'view_course.html', {'course': course, 'participants': participants, 'exams': exams})
+def view_course(request, course_id):	
+	if Participation.objects.filter(user=request.user, course=course_id).exists():
+		course = Course.objects.get(id=course_id)
+		exams = Exam.objects.filter(course=course_id).order_by('active_to')
+		participants = Participation.objects.filter(course=course_id)
+		return render(request, 'view_course.html', {'course': course, 'participants': participants, 'exams': exams})
+	else:
+		return redirect('/courses/s')
