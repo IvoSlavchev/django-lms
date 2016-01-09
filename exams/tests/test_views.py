@@ -1,7 +1,8 @@
 from django.core.urlresolvers import resolve
 from django.test import TestCase
 
-from exams.views import create_exam, edit_exam, edit_questions, list_exams, view_scores, view_exam, take_exam
+from exams.views import create_exam, edit_exam, edit_questions, list_exams
+from exams.views import view_scores, view_exam, take_exam
 
 class ExamsViewsTest(TestCase):
 

@@ -6,6 +6,7 @@ from django.db import models
 from courses.models import Course
 from questions.models import Question
 
+
 class Exam(models.Model):
 	
 	owner = models.CharField(max_length=30)
@@ -18,7 +19,8 @@ class Exam(models.Model):
 	active_from = models.DateTimeField()
 	active_to = models.DateTimeField()
 	course = models.ForeignKey(Course)
-	questions = models.ManyToManyField(Question, blank=True, through='ExamQuestion')
+	questions = models.ManyToManyField(Question, blank=True,
+		through='ExamQuestion')
 
 	@property
 	def activated(self):
@@ -28,10 +30,12 @@ class Exam(models.Model):
 	def expired(self):
 		return timezone.now() > self.active_to
 
+
 class ExamQuestion(models.Model):
 
 	question = models.ForeignKey(Question)
 	exam = models.ForeignKey(Exam)
+
 
 class Score(models.Model):
 
