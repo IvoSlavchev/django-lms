@@ -3,7 +3,6 @@ from .base import FunctionalTest
 
 class StyleTest(FunctionalTest):
 
-
 	def test_correct_bootstrap_class(self):
 		self.browser.get("http://localhost:8081")
 		elem_class = self.browser.get_by_link_text('Django-LMS')

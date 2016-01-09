@@ -3,7 +3,6 @@ from .base import FunctionalTest
 
 class AuthenticationTest(FunctionalTest):
 
-
 	def signup(self, is_teacher):
 		if is_teacher:		
 			self.get_element_by_id('id_username').send_keys('teacher')

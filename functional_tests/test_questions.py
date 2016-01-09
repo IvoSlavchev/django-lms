@@ -3,7 +3,6 @@ from .base import FunctionalTest
 
 class QuestionTest(FunctionalTest):
 
-
 	def test_question_creation_and_deletion(self):
 		self.login(True)
 		self.get_by_partial('newest').click()

@@ -12,11 +12,13 @@ from courses.models import Course, Participation
 from exams.models import Exam, ExamQuestion, Score
 from questions.models import Question, Choice
 
+
 def teacher_check(user):
     return user.is_teacher
 
 def student_check(user):
     return not user.is_teacher
+
 
 def update_course(form, course):
 	course.name = form.cleaned_data['name']
@@ -33,14 +35,16 @@ def delete_course(course):
 	questions.delete()
 	course.delete()
 
+
 def send_email(student, course):
 	email_subject = 'Django-LMS course enrollment'
 	email_body = "Hello, %s,\n\n\
 		You have been enrolled in the %s course by the course creator %s.\
 		You can visit the course page by clicking the link below.\n\
-		http://localhost:8000/courses/%d/s" % (student.username, course.name, 
+		http://localhost:8000/courses/%d/s" % (student.username, course.name,
 			course.owner, course.id)
 	send_mail(email_subject, email_body, settings.EMAIL_HOST, [student.email])
+
 
 @user_passes_test(teacher_check)
 def teacher_page(request):
@@ -50,7 +54,9 @@ def teacher_page(request):
 		exams_unflattened.append(Exam.objects.filter(course=course))
 	exams = list(chain.from_iterable(exams_unflattened))
 	exams.sort(key=lambda x: x.active_to)
-	return render(request, 'teacher_page.html', {'courses': courses, 'exams': exams})
+	return render(request, 'teacher_page.html', {'courses': courses, 
+		'exams': exams})
+
 
 @user_passes_test(teacher_check)
 def create_course(request):
@@ -60,11 +66,13 @@ def create_course(request):
 			course = form.save(commit=False)
 			course.owner = request.user
 			course.save()
-			messages.add_message(request, messages.INFO, 'Course created successfully.')
+			messages.add_message(request, messages.INFO,
+				'Course created successfully.')
 			return redirect('/courses/')
 	else:
 		form = CourseForm()
 	return render(request, 'create_course.html', {'form': form})
+
 
 @user_passes_test(teacher_check)
 def edit_course(request, course_id):
@@ -74,16 +82,20 @@ def edit_course(request, course_id):
 			form = CourseForm(instance=course, data=request.POST)
 			if form.is_valid():
 				update_course(form, course)
-				messages.add_message(request, messages.INFO, 'Course updated successfully.')
+				messages.add_message(request, messages.INFO,
+					'Course updated successfully.')
 				return redirect('/courses/')						
 		if request.method == 'POST' and 'delete' in request.POST:
 			delete_course(course)
-			messages.add_message(request, messages.INFO, 'Course deleted successfully.')
+			messages.add_message(request, messages.INFO,
+				'Course deleted successfully.')
 			return redirect('/courses/')		
 		else:
 			form = CourseForm(instance=course)
-		return render(request, 'edit_course.html', {'form': form, 'course': course})
+		return render(request, 'edit_course.html', {'form': form,
+			'course': course})
 	return redirect('/courses/')
+
 
 @user_passes_test(teacher_check)
 def edit_participants(request, course_id):
@@ -98,12 +110,15 @@ def edit_participants(request, course_id):
 					part = Participation(user=participant, course=course)
 					part.save()
 					send_email(part.user, course)
-				messages.add_message(request, messages.INFO, 'Participants updated successfully.')
+				messages.add_message(request, messages.INFO,
+					'Participants updated successfully.')
 				return redirect('/courses/' + course_id)
 		form = ParticipantsForm(instance=course)
-		return render(request, 'edit_participants.html', {'form': form, 'course': course, 'participants': participants})
+		return render(request, 'edit_participants.html', {'form': form,
+			'course': course, 'participants': participants})
 	else:
 		return redirect('/courses/')
+
 
 @user_passes_test(teacher_check)
 def view_scores(request, course_id):
@@ -117,40 +132,49 @@ def view_scores(request, course_id):
 			for exam in exams:
 				try:
 					questions = ExamQuestion.objects.filter(exam=exam)
-					score = Score.objects.get(student=participant.user, exam=exam).score
-					percentage = str(float(score)/float(questions.count())*100)+'%'
-					scores[participant][exam] = str(score) + '/' + str(questions.count()) + ' ' + percentage
+					score = Score.objects.get(student=participant.user,
+						exam=exam).score
+					perc = str(float(score)/float(questions.count())*100)+'%'
+					scores[participant][exam] = (str(score) + '/' + 
+						str(questions.count()) + ' ' + perc)
 				except ObjectDoesNotExist:
 					scores[participant][exam] = "Not taken"
-		return render(request, 'view_scores.html', {'course': course, 'exams': exams, 'scores': scores})
+		return render(request, 'view_scores.html', {'course': course,
+			'exams': exams, 'scores': scores})
 	else:
 		return redirect('/courses/')
+
 
 @user_passes_test(student_check)
 def student_page(request):
 	participants = Participation.objects.filter(user=request.user)
-	courses_unflattened = list()
-	unfinished_exams = list()
+	courses = list()
+	unfinished = list()
 	for participant in participants:
-		courses_unflattened.append(Course.objects.filter(id=participant.course.id))
-	courses = list(chain.from_iterable(courses_unflattened))
+		courses.append(Course.objects.filter(id=participant.course.id))
+	courses = list(chain.from_iterable(courses))
 	courses.sort(key=lambda x: x.updated, reverse=True)
 	for course in courses:
 		exams = Exam.objects.filter(course=course)
 		for exam in exams:
 			if (exam.activated and not exam.expired and 
-				not Score.objects.filter(student=request.user, exam=exam).exists() 
+				not Score.objects.filter(student=request.user, exam=exam)
+					.exists() 
 				and ExamQuestion.objects.filter(exam=exam).exists()):
-					unfinished_exams.append(exam)
-	unfinished_exams.sort(key=lambda x: x.active_to)
-	return render(request, 'student_page.html', {'courses': courses, 'exams': unfinished_exams})
+					unfinished.append(exam)
+	unfinished.sort(key=lambda x: x.active_to)
+	return render(request, 'student_page.html', {'courses': courses,
+		'exams': unfinished})
+
 
 @user_passes_test(student_check)
 def view_course(request, course_id):	
-	if Participation.objects.filter(user=request.user, course=course_id).exists():
+	if (Participation.objects.filter(user=request.user, course=course_id)
+		.exists()):
 		course = Course.objects.get(id=course_id)
 		exams = Exam.objects.filter(course=course_id).order_by('active_to')
 		participants = Participation.objects.filter(course=course_id)
-		return render(request, 'view_course.html', {'course': course, 'participants': participants, 'exams': exams})
+		return render(request, 'view_course.html', {'course': course,
+			'participants': participants, 'exams': exams})
 	else:
 		return redirect('/courses/s')

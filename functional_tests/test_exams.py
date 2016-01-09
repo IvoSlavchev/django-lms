@@ -3,7 +3,6 @@ from .base import FunctionalTest
 
 class ExamTest(FunctionalTest):
 
-
 	def test_exam_creation_and_deletion(self):
 		self.login(True)
 		self.get_by_partial('newest').click()

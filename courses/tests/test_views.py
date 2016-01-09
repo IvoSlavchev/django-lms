@@ -1,8 +1,10 @@
 from django.core.urlresolvers import resolve
 from django.test import TestCase
 
-from courses.views import teacher_page, student_page, create_course, edit_course, edit_participants, view_scores
+from courses.views import teacher_page, student_page, create_course
+from courses.views import edit_course, edit_participants, view_scores
 from courses.views import view_course
+
 
 class CoursesViewsTest(TestCase):
 

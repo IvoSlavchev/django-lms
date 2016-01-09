@@ -3,7 +3,6 @@ from .base import FunctionalTest
 
 class CourseTest(FunctionalTest):
 
-
 	def test_course_creation_and_deletion(self):
 		self.login(True)
 		self.get_by_link_text('Create new course').click()
