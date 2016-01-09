@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.models import AbstractBaseUser, UserManager
 from django.db import models
 
+
 class User(AbstractBaseUser):
 
 	username = models.CharField(max_length=30, unique=True)
@@ -14,6 +15,7 @@ class User(AbstractBaseUser):
 	USERNAME_FIELD = 'username'
 
 	objects = UserManager()
+
 
 class UserProfile(models.Model):
 

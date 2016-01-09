@@ -8,7 +8,9 @@ from django.http import Http404
 from users.models import User
 from users.views import home_page, login, signup, confirm
 
+
 User = User()
+
 
 class HomePageTest(TestCase):
 
@@ -21,6 +23,7 @@ class HomePageTest(TestCase):
 		response_home = home_page(request)
 		with self.assertTemplateUsed('home.html'):
 			render_to_string('home.html')
+
 
 class LoginAndSignup(TestCase):
 

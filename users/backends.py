@@ -1,13 +1,16 @@
-from users.models import User
 from django.core.validators import validate_email
+
+from users.models import User
+
 
 class BasicBackend:
 
     def get_user(self, user_id):
         try:
-            return User.objects.get(pk=user_id)
+            return User.objects.get(id=user_id)
         except User.DoesNotExist:
             return None
+
 
 class EmailBackend(BasicBackend):
 

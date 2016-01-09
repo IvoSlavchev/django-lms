@@ -44,6 +44,7 @@ def create_question(request, course_id):
 	return render(request, 'create_question.html', {'form': question_form,
 		'choice_formset': choice_formset, 'course': course })
 
+
 @user_passes_test(teacher_check)
 def edit_question(request, course_id, question_id):
 	question = Question.objects.get(id=question_id)
@@ -74,6 +75,7 @@ def edit_question(request, course_id, question_id):
 			'choice_formset': choice_formset,'course': course,
 			'question': question, 'choices': choices })
 	return redirect('/courses/' + course_id)
+
 
 @user_passes_test(teacher_check)
 def list_questions(request, course_id):

@@ -2,6 +2,7 @@ from django.conf.urls import url
 
 from users import views
 
+
 urlpatterns = [
 	url(r'^$', views.home_page, name='home'),
     url(r'^signup$', views.signup, name='signup'),
