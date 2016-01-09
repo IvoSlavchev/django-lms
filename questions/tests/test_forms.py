@@ -2,10 +2,12 @@ from django.test import TestCase
 
 from questions.forms import QuestionForm, ChoiceForm
 
+
 class QuestionFormTest(TestCase):
 
 	def test_if_valid_on_all_required_fields(self):
-		form_data = {'name': 'Example name', 'question_text': 'Example question text'}
+		form_data = {'name': 'Example name',
+			'question_text': 'Example question text'}
 		form = QuestionForm(data=form_data)
 		self.assertTrue(form.is_valid())
 

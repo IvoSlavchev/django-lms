@@ -123,8 +123,8 @@ def view_scores(request, course_id, exam_id):
 		scores = {}		
 		for participant in participants:	
 			try:			
-				score = Score.objects.get(student=participant.user, exam=exam)
-					.score
+				score = (Score.objects.get(student=participant.user, exam=exam)
+					.score)
 				perc = str(float(score)/float(questions.count())*100)+'%'
 				scores[participant] = (str(score) + '/' + 
 					str(questions.count()) + ' ' + perc)
@@ -145,8 +145,8 @@ def view_exam(request, course_id, exam_id):
 		questions = ExamQuestion.objects.filter(exam=exam)
 		if questions:
 			try:
-				score = Score.objects.get(student=request.user, exam=exam)
-					.score
+				score = (Score.objects.get(student=request.user, exam=exam)
+					.score)
 				perc = str(float(score)/float(questions.count())*100)+'%'
 				result = perc + ' '+ str(score) +'/' + str(questions.count())
 			except ObjectDoesNotExist:

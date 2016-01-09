@@ -2,12 +2,14 @@ from django.db import models
 
 from courses.models import Course
 
+
 class Question(models.Model):
 
 	owner = models.CharField(max_length=30)
 	name = models.CharField(max_length=30)
 	question_text = models.TextField()
 	course = models.ForeignKey(Course)
+
 
 class Choice(models.Model):
 

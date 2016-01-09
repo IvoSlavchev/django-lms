@@ -3,6 +3,7 @@ from django.test import TestCase
 
 from questions.views import create_question, edit_question, list_questions
 
+
 class QuestionsViewsTest(TestCase):
 
 	def test_url_resolves_to_question_creation(self):

@@ -44,7 +44,7 @@ class ExamQuestionForm(forms.ModelForm):
 		super().__init__(*args, **kwargs)
 		if instance:
 			self.instance.exam = instance
-			self.fields['questions'].queryset = Question.objects
-				.filter(course=course)
+			self.fields['questions'].queryset = (Question.objects
+				.filter(course=course))
 			self.initial['questions'] = [question.question for question in
 				ExamQuestion.objects.filter(exam=instance)]

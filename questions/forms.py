@@ -2,6 +2,7 @@ from django import forms
 
 from questions.models import Question, Choice
 
+
 class QuestionForm(forms.ModelForm):
 
 	name = forms.CharField(label="Question title", max_length=30)
@@ -17,6 +18,7 @@ class QuestionForm(forms.ModelForm):
 			self.instance.question = instance
 			self.initial['name'] = instance.name
 			self.initial['question_text'] = instance.question_text
+
 
 class ChoiceForm(forms.ModelForm):
 
