@@ -108,7 +108,7 @@ def edit_participants(request, course_id):
 @user_passes_test(teacher_check)
 def view_scores(request, course_id):
 	course = Course.objects.get(id=course_id)
-	if request.user == course.owner:
+	if request.user.username == course.owner:
 		participants = Participation.objects.filter(course=course_id)
 		exams = Exam.objects.filter(course=course_id)
 		scores  = {}

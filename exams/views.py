@@ -113,7 +113,6 @@ def view_scores(request, course_id, exam_id):
 				scores[participant] = str(score) + '/' + str(questions.count()) + ' ' + percentage
 			except ObjectDoesNotExist:
 				scores[participant] = "Not taken"
-		print(scores)
 		return render(request, 'view_score.html', {'course': course, 'exam': exam, 'scores': scores})
 	else:
 		return redirect('/courses/')
