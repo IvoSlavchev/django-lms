@@ -10,11 +10,16 @@ class FunctionalTest(StaticLiveServerTestCase):
 	def tearDown(self):
 		self.browser.quit()
 
+	def get_by_id(self, id):
+		return self.browser.find_element_by_id(id)
+
+	def get_by_link_text(self, text):
+		return self.browser.find_element_by_link_text(text)
+
 	def login(self, is_teacher):
 		if is_teacher:
-			self.browser.find_element_by_id('id_username').send_keys('teacher')
+			self.get_by_id('id_username').send_keys('teacher')
 		else:
-			self.browser.find_element_by_id('id_username').send_keys('taccount@mail.bg')
-
-		self.browser.find_element_by_id('id_password').send_keys('example')
-		self.browser.find_element_by_id('submit').click()
+			self.get_by_id('id_username').send_keys('taccount@mail.bg')
+		self.get_by_id('id_password').send_keys('example')
+		self.get_by_id('submit').click()
