@@ -21,7 +21,7 @@ class FunctionalTest(StaticLiveServerTestCase):
 		return self.browser.find_element_by_partial_link_text(text);
 
 	def login(self, is_teacher):
-		if self.browser.current_url not "http://localhost:8000/login":
+		if self.browser.current_url != "http://localhost:8000/login":
 			self.browser.get("http://localhost:8000/login")
 		if is_teacher:
 			self.get_by_id('id_username').send_keys('teacher')

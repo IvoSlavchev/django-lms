@@ -4,7 +4,6 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.mail import send_mail
 from django.shortcuts import redirect, render
 
 from courses.forms import CourseForm, ParticipantsForm
@@ -34,16 +33,6 @@ def delete_course(course):
 		Choice.objects.filter(question=question).delete()
 	questions.delete()
 	course.delete()
-
-
-def send_email(student, course):
-	email_subject = 'Django-LMS course enrollment'
-	email_body = "Hello, %s,\n\n\
-		You have been enrolled in the %s course by the course creator %s.\
-		You can visit the course page by clicking the link below.\n\
-		http://localhost:8000/courses/%d/s" % (student.username, course.name,
-			course.owner, course.id)
-	send_mail(email_subject, email_body, settings.EMAIL_HOST, [student.email])
 
 
 @user_passes_test(teacher_check)
@@ -109,7 +98,6 @@ def edit_participants(request, course_id):
 				for participant in form.cleaned_data['participants']:  
 					part = Participation(user=participant, course=course)
 					part.save()
-					send_email(part.user, course)
 				messages.add_message(request, messages.INFO,
 					'Participants updated successfully.')
 				return redirect('/courses/' + course_id)

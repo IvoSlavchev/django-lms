@@ -2,7 +2,6 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.mail import send_mail
 from django.shortcuts import redirect, render
 
 from courses.models import Course, Participation
@@ -22,16 +21,6 @@ def update(form, exam):
 	exam.save()
 
 
-def send_email(student, course, exam):
-	email_subject = 'Django-LMS new exam added'
-	email_body = "Hello, %s,\n\n\
-		Exam %s has been added for the %s course and will be active from %s.\
-		You can view the exam by clicking the link below.\n\
-		http://localhost:8000/courses/%d/exams/%d/s" % (student.username, 
-			exam.name, course.name, exam.active_from, course.id, exam.id)
-	send_mail(email_subject, email_body, settings.EMAIL_HOST, [student.email])
-
-
 @user_passes_test(teacher_check)
 def create_exam(request, course_id):
 	course = Course.objects.get(id=course_id)
@@ -42,9 +31,6 @@ def create_exam(request, course_id):
 			exam.owner = request.user
 			exam.course = course
 			exam.save()
-			participants = Participation.objects.filter(course=course_id)
-			for participant in participants:
-				send_email(participant.user, course, exam)
 			messages.add_message(request, messages.INFO,
 				'Exam created successfully.')		
 			return redirect('/courses/' + course_id + '/exams/')
