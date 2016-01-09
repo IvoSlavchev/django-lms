@@ -3,8 +3,6 @@ from .base import FunctionalTest
 class QuestionTest(FunctionalTest):
 
 	def test_question_creation_and_deletion(self):
-		self.browser.get("http://localhost:8000")
-		self.get_by_link_text('Log in').click()
 		self.login(True)
 		self.get_by_partial('newest').click()
 		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/14')
@@ -24,11 +22,9 @@ class QuestionTest(FunctionalTest):
 		self.get_by_id('delete').click()
 		self.browser.switch_to_alert().accept()
 		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/14/questions/')
-		self.get_by_link_text('Log out').click()
+		self.logout()
 
 	def test_question_editing(self):
-		self.browser.get("http://localhost:8000")
-		self.get_by_link_text('Log in').click()
 		self.login(True)
 		self.get_by_partial('newest').click()
 		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/14')
@@ -38,4 +34,4 @@ class QuestionTest(FunctionalTest):
 		self.get_by_id('id_question_text').send_keys('Changed')
 		self.get_by_id('submit').click()
 		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/14/questions/')
-		self.get_by_link_text('Log out').click()
+		self.logout()

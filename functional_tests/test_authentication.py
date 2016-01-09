@@ -25,16 +25,10 @@ class AuthenticationTest(FunctionalTest):
 		self.get_by_link_text('Sign up').click()
 		self.signup(False)
 
-	def test_login(self):	
-		self.browser.get("http://localhost:8000")
-		self.get_by_link_text('Log in').click()
+	def test_login_and_logout(self):	
 		self.login(True)
 		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/')
-		self.get_by_link_text('Log out').click()
+		self.logout()
 		self.assertEqual(self.browser.current_url, 'http://localhost:8000/login')	
-		
-		self.get_by_link_text('Log in').click()
 		self.login(False)
 		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/s')
-		self.get_by_link_text('Log out').click()
-		self.assertEqual(self.browser.current_url, 'http://localhost:8000/login')	
