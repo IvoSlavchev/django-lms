@@ -1,6 +1,8 @@
 from .base import FunctionalTest
 
+
 class AuthenticationTest(FunctionalTest):
+
 
 	def signup(self, is_teacher):
 		if is_teacher:		
@@ -27,8 +29,11 @@ class AuthenticationTest(FunctionalTest):
 
 	def test_login_and_logout(self):	
 		self.login(True)
-		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/')
+		self.assertEqual(self.browser.current_url,
+			'http://localhost:8000/courses/')
 		self.logout()
-		self.assertEqual(self.browser.current_url, 'http://localhost:8000/login')	
+		self.assertEqual(self.browser.current_url,
+			'http://localhost:8000/login')	
 		self.login(False)
-		self.assertEqual(self.browser.current_url, 'http://localhost:8000/courses/s')
+		self.assertEqual(self.browser.current_url,
+			'http://localhost:8000/courses/s')
