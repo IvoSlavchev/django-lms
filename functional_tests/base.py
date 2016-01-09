@@ -16,6 +16,9 @@ class FunctionalTest(StaticLiveServerTestCase):
 	def get_by_link_text(self, text):
 		return self.browser.find_element_by_link_text(text)
 
+	def get_by_partial(self, text):
+		return self.browser.find_element_by_partial_link_text(text);
+
 	def login(self, is_teacher):
 		if is_teacher:
 			self.get_by_id('id_username').send_keys('teacher')
