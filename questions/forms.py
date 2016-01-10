@@ -6,17 +6,19 @@ from questions.models import Question, Choice
 class QuestionForm(forms.ModelForm):
 
 	name = forms.CharField(label="Question title", max_length=30)
+	category = forms.CharField(max_length=30)
 	question_text = forms.Textarea()
 
 	class Meta:
 		model = Question
-		fields = ['name', 'question_text']
+		fields = ['name', 'category', 'question_text']
 
 	def __init__(self, instance=None, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		if instance:
 			self.instance.question = instance
 			self.initial['name'] = instance.name
+			self.initial['category'] = instance.category
 			self.initial['question_text'] = instance.question_text
 
 

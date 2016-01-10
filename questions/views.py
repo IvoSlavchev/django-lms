@@ -11,6 +11,7 @@ from questions.models import Question, Choice
 
 def update(question_form, question, choice_formset):
 	question.name = question_form.cleaned_data['name']
+	question.category = question_form.cleaned_data['category']
 	question.question_text = question_form.cleaned_data['question_text']
 	question.save()
 	for choice_form in choice_formset.forms:
