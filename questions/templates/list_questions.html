@@ -14,7 +14,7 @@
 	{% for question in questions %}
 		<a class="list-group-item" href="{% url 'edit_question' course.id question.id %}">
 			<h4 class="list-group-item-heading">{{ question.name }}</h4>
-			<p class="list-group-item-description">{{ question.category }}</p>
+			<p class="list-group-item-description">{{ question.question_text }}</p>
 		</a>
 	{% endfor %}
 	<br>
