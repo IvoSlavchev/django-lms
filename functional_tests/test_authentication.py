@@ -5,9 +5,9 @@ class AuthenticationTest(FunctionalTest):
 
     def signup(self, is_teacher):
         if is_teacher:
-            self.get_element_by_id('id_username').send_keys('teacher')
+            self.get_by_id('id_username').send_keys('teacher')
         else:
-            self.get_element_by_id('id_username').send_keys('student')
+            self.by_id('id_username').send_keys('student')
         self.get_by_id('id_email').send_keys('taccount@mail.bg')
         self.get_by_id('id_password1').send_keys('example')
         self.get_by_id('id_password2').send_keys('example')
