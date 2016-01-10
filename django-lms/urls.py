@@ -7,8 +7,8 @@ from users import urls as users_urls
 
 
 urlpatterns = [
-	url(r'^', include(users_urls)),
-	url(r'^courses/', include(courses_urls)),
-	url(r'^courses/(\d+)/exams/', include(exams_urls)),
-	url(r'^courses/(\d+)/questions/', include(questions_urls)),
+    url(r'^', include(users_urls)),
+    url(r'^courses/', include(courses_urls)),
+    url(r'^courses/(\d+)/exams/', include(exams_urls)),
+    url(r'^courses/(\d+)/questions/', include(questions_urls)),
 ]
