@@ -6,7 +6,7 @@ from users.models import User
 class RegistrationForm(forms.ModelForm):
 
     username = forms.CharField(label="Username", max_length=30)
-    email = forms.EmailField(label="E-Mail", max_length=30)   
+    email = forms.EmailField(label="E-Mail", max_length=30)
     password1 = forms.CharField(widget=forms.PasswordInput, label="Password")
     password2 = forms.CharField(widget=forms.PasswordInput,
         label="Password (again)")
@@ -37,7 +37,7 @@ class RegistrationForm(forms.ModelForm):
 
 class AuthenticationForm(forms.Form):
 
-    username = forms.CharField(label="Username or E-Mail", max_length=30)   
+    username = forms.CharField(label="Username or E-Mail", max_length=30)
     password = forms.CharField(widget=forms.PasswordInput)
 
     class Meta:

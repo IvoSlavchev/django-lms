@@ -14,31 +14,31 @@ User = User()
 
 class HomePageTest(TestCase):
 
-	def test_root_url_resolves_to_home_page_view(self):
-		found = resolve('/')
-		self.assertEqual(found.func, home_page)
+    def test_root_url_resolves_to_home_page_view(self):
+        found = resolve('/')
+        self.assertEqual(found.func, home_page)
 
-	def test_home_page_uses_correct_template(self):
-		request = HttpRequest()
-		response_home = home_page(request)
-		with self.assertTemplateUsed('home.html'):
-			render_to_string('home.html')
+    def test_home_page_uses_correct_template(self):
+        request = HttpRequest()
+        response_home = home_page(request)
+        with self.assertTemplateUsed('home.html'):
+            render_to_string('home.html')
 
 
 class LoginAndSignup(TestCase):
 
-	def test_signup_login_and_confirm_use_correct_template(self):
-		request = HttpRequest()
-		response_signup = signup(request)
-		with self.assertTemplateUsed('signup.html'):
-			render_to_string('signup.html')
+    def test_signup_login_and_confirm_use_correct_template(self):
+        request = HttpRequest()
+        response_signup = signup(request)
+        with self.assertTemplateUsed('signup.html'):
+            render_to_string('signup.html')
 
-		request = HttpRequest()
-		response_login = login(request)
-		with self.assertTemplateUsed('login.html'):
-			render_to_string('login.html')
+        request = HttpRequest()
+        response_login = login(request)
+        with self.assertTemplateUsed('login.html'):
+            render_to_string('login.html')
 
-	def test_confirm_raises_404_error(self):
-		request = HttpRequest()
-		with self.assertRaises(Http404):
-			response_confirm = confirm(request)
+    def test_confirm_raises_404_error(self):
+        request = HttpRequest()
+        with self.assertRaises(Http404):
+            response_confirm = confirm(request)

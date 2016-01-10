@@ -15,7 +15,7 @@ class BasicBackend:
 class EmailBackend(BasicBackend):
 
     def authenticate(self, username=None, password=None):
-        try:         
+        try:
             validate_email(username)
             try:
                 user = User.objects.get(email=username)
