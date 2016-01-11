@@ -47,7 +47,7 @@ def create_exam(request, course_id):
                 'Exam created successfully.')
             return redirect('/courses/' + course_id + '/exams/')
     else:
-        form = ExamForm()
+        form = ExamForm(course=course)
     return render(request, 'create_exam.html', {'form': form,
         'course': course })
 

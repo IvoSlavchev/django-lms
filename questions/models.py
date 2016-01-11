@@ -10,7 +10,7 @@ class Question(models.Model):
     category = models.CharField(max_length=30)
     question_text = models.TextField()
     course = models.ForeignKey(Course)
-
+    
 
 class Choice(models.Model):
 

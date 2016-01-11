@@ -14,7 +14,7 @@ class ExamForm(forms.ModelForm):
         help_text=("Hours:Minutes"))
     active_from = forms.DateTimeField()
     active_to = forms.DateTimeField()
-    category = forms.CharField(max_length=30)
+    category = forms.ChoiceField()
     question_count = forms.IntegerField(label="Number of questions")
 
     class Meta:
@@ -22,7 +22,7 @@ class ExamForm(forms.ModelForm):
         fields = ['name', 'description', 'password', 'time_limit',
             'active_from', 'active_to', 'category', 'question_count']
 
-    def __init__(self, instance=None, *args, **kwargs):
+    def __init__(self, instance=None, course=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if instance:
             self.instance.exam = instance
@@ -33,3 +33,9 @@ class ExamForm(forms.ModelForm):
             self.initial['active_to'] = instance.active_to
             self.initial['category'] = instance.category
             self.initial['question_count'] = instance.question_count
+            question_course = instance.course
+        elif course:
+            question_course = course
+        self.fields['category'].choices = [(x, x) for x in 
+            Question.objects.filter(course=question_course)
+            .values_list('category',flat=True).distinct()]
