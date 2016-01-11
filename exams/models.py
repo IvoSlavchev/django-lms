@@ -19,6 +19,7 @@ class Exam(models.Model):
     active_from = models.DateTimeField()
     active_to = models.DateTimeField()
     course = models.ForeignKey(Course)
+    category = models.CharField(max_length=30)
     questions = models.ManyToManyField(Question, blank=True,
         through='ExamQuestion')
 
