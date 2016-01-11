@@ -20,6 +20,7 @@ class Exam(models.Model):
     active_to = models.DateTimeField()
     course = models.ForeignKey(Course)
     category = models.CharField(max_length=30)
+    question_count = models.IntegerField()
     questions = models.ManyToManyField(Question, blank=True,
         through='ExamQuestion')
 
