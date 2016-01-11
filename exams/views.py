@@ -6,7 +6,7 @@ from django.shortcuts import redirect, render
 
 from courses.models import Course, Participation
 from courses.views import teacher_check, student_check
-from exams.forms import ExamForm, ExamQuestionForm
+from exams.forms import ExamForm
 from exams.models import Exam, ExamQuestion, Score
 from questions.models import Question, Choice
 
@@ -118,16 +118,13 @@ def view_exam(request, course_id, exam_id):
         course = Course.objects.get(id=course_id)
         exam = Exam.objects.get(id=exam_id)
         questions = ExamQuestion.objects.filter(exam=exam)
-        if questions:
-            try:
-                score = (Score.objects.get(student=request.user, exam=exam)
-                    .score)
-                perc = str(float(score)/float(questions.count())*100)+'%'
-                result = perc + ' '+ str(score) +'/' + str(questions.count())
-            except ObjectDoesNotExist:
-                result = "Exam not yet taken."
-        else:
-            result = "Exam has no assigned questions."
+        try:
+            score = (Score.objects.get(student=request.user, exam=exam)
+                .score)
+            perc = str(float(score)/float(questions.count())*100)+'%'
+            result = perc + ' '+ str(score) +'/' + str(questions.count())
+        except ObjectDoesNotExist:
+            result = "Exam not yet taken."
         return render(request, 'view_exam.html', {'course': course,
             'exam': exam, 'questions': questions, 'result': result})
     else:

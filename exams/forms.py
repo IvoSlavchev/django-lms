@@ -33,22 +33,3 @@ class ExamForm(forms.ModelForm):
             self.initial['active_to'] = instance.active_to
             self.initial['category'] = instance.category
             self.initial['question_count'] = instance.question_count
-
-
-class ExamQuestionForm(forms.ModelForm):
-
-    questions = forms.ModelMultipleChoiceField(required=False, queryset = None,
-        widget=forms.CheckboxSelectMultiple())
-
-    class Meta:
-        model = Question
-        fields = ['questions']
-
-    def __init__(self, course, instance=None, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if instance:
-            self.instance.exam = instance
-            self.fields['questions'].queryset = (Question.objects
-                .filter(course=course))
-            self.initial['questions'] = [question.question for question in
-                ExamQuestion.objects.filter(exam=instance)]
