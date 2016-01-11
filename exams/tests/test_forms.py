@@ -9,7 +9,8 @@ class ExamFormTest(TestCase):
         form_data = {'name': 'Example name',
             'description': 'Example description', 'password': 'example',
             'time_limit': '00:10', 'active_from': '01/01/2016 10:00',
-            'active_to': '10/10/2016 22:00'}
+            'active_to': '10/10/2016 22:00', 'category': 'Examples', 
+            'question_count': '2'}
         form = ExamForm(data=form_data)
         self.assertTrue(form.is_valid())
 
@@ -17,20 +18,31 @@ class ExamFormTest(TestCase):
         form_data = {'name': 'Example name', 'description': '',
             'password': '', 'time_limit': '00:10',
             'active_from': '01/01/2016 10:00',
-            'active_to': '10/10/2016 22:00'}
+            'active_to': '10/10/2016 22:00', 'category': 'Examples', 
+            'question_count': '2'}
         form = ExamForm(data=form_data)
         self.assertTrue(form.is_valid())
 
     def test_if_not_valid_on_empty_name(self):
         form_data = {'name': '', 'description': '', 'password': 'example',
             'time_limit': '00:10', 'active_from': '01/01/2016 10:00',
-            'active_to': '10/10/2016 22:00'}
+            'active_to': '10/10/2016 22:00', 'category': 'Examples', 
+            'question_count': '2'}
         form = ExamForm(data=form_data)
         self.assertFalse(form.is_valid())
 
     def test_if_not_valid_on_empty_limit_and_dates(self):
         form_data = {'name': 'Example name', 'description': '',
             'password': 'example', 'time_limit': '', 'active_from': '',
-            'active_to': ''}
+            'active_to': '', 'category': 'Examples', 
+            'question_count': '2'}
+        form = ExamForm(data=form_data)
+        self.assertFalse(form.is_valid())
+
+    def test_if_not_valid_on_empty_category_and_questions(self):
+        form_data = {'name': 'Example name', 'description': '',
+            'password': 'example', 'time_limit': '00:10',
+            'active_from': '01/01/2016 10:00', 'active_to': '10/10/2016 22:00',
+            'category': '', 'question_count': ''}
         form = ExamForm(data=form_data)
         self.assertFalse(form.is_valid())
