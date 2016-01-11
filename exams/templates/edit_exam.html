@@ -10,11 +10,6 @@
 {% endblock %}
 
 {% block dashboard %}
-	<a href="{% url 'edit_questions' course.id exam.id %}">
-		<span class="glyphicon glyphicon-question-sign"></span>
-		Edit questions
-	</a>	
-	<br>
 	<a href="{% url 'view_scores' course.id exam.id %}">
 		<span class="glyphicon glyphicon-education"></span>
 		View scores

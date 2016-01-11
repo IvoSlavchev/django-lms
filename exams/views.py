@@ -18,7 +18,18 @@ def update(form, exam):
     exam.time_limit = form.cleaned_data['time_limit']
     exam.active_from = form.cleaned_data['active_from']
     exam.active_to = form.cleaned_data['active_to']
+    exam.category = form.cleaned_data['category']
+    exam.question_count = form.cleaned_data['question_count']
     exam.save()
+    
+
+def add_questions(course, exam):
+    ExamQuestion.objects.filter(exam=exam).delete()
+    questions = (Question.objects.filter(course=course, category=exam.category)
+        .order_by('?')[:exam.question_count])
+    for question in questions:
+        quest = ExamQuestion(question=question, exam=exam)
+        quest.save()
 
 
 @user_passes_test(teacher_check)
@@ -31,6 +42,7 @@ def create_exam(request, course_id):
             exam.owner = request.user
             exam.course = course
             exam.save()
+            add_questions(course, exam)
             messages.add_message(request, messages.INFO,
                 'Exam created successfully.')
             return redirect('/courses/' + course_id + '/exams/')
@@ -49,6 +61,7 @@ def edit_exam(request, course_id, exam_id):
             form = ExamForm(instance=exam, data=request.POST)
             if form.is_valid():
                 update(form, exam)
+                add_questions(course, exam)
                 messages.add_message(request, messages.INFO,
                     'Exam updated successfully.')
                 return redirect('/courses/' + course_id + '/exams/')
@@ -62,30 +75,6 @@ def edit_exam(request, course_id, exam_id):
         return render(request, 'edit_exam.html', {'form': form,
             'course': course, 'exam': exam })
     return redirect('/courses/' + course_id + '/exams/')
-
-
-@user_passes_test(teacher_check)
-def edit_questions(request, course_id, exam_id):
-    exam = Exam.objects.get(id=exam_id)
-    if request.user.username == exam.owner:
-        course = Course.objects.get(id=course_id)
-        questions = Question.objects.filter(course=course)
-        if request.method == 'POST':
-            form = ExamQuestionForm(instance=exam, course=course,
-                data=request.POST)
-            if form.is_valid():
-                ExamQuestion.objects.filter(exam=exam).delete()
-                for question in form.cleaned_data['questions']:
-                    quest = ExamQuestion(question=question, exam=exam)
-                    quest.save()
-                messages.add_message(request, messages.INFO,
-                    'Questions updated successfully.')
-                return redirect('/courses/' + course_id + '/exams/' + exam_id)
-        form = ExamQuestionForm(instance=exam, course=course)
-        return render(request, 'edit_questions.html', {'form': form,
-            'course': course, 'exam': exam, 'questions': questions})
-    else:
-        return redirect('/courses/')
 
 
 @user_passes_test(teacher_check)
