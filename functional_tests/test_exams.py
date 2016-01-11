@@ -18,6 +18,8 @@ class ExamTest(FunctionalTest):
         self.get_by_id('id_time_limit').send_keys('00:30')
         self.get_by_id('id_active_from').send_keys('01/01/2016 10:00')
         self.get_by_id('id_active_to').send_keys('10/10/2016 10:40')
+        self.get_by_id('id_category').send_keys('Examples')
+        self.get_by_id('id_question_count').send_keys('1')
         self.get_by_id('submit').click()
         self.assertEqual(self.browser.current_url,
             'http://localhost:8000/courses/14/exams/')
@@ -35,21 +37,11 @@ class ExamTest(FunctionalTest):
         self.get_by_partial('newest_exam').click()
         self.get_by_id('id_description').clear()
         self.get_by_id('id_description').send_keys('Changed')
+        self.get_by_id('id_question_count').clear()
+        self.get_by_id('id_question_count').send_keys('2')
         self.get_by_id('submit').click()
         self.assertEqual(self.browser.current_url,
             'http://localhost:8000/courses/14/exams/')
-        self.logout()
-
-    def test_exam_questions_editing(self):
-        self.login(True)
-        self.get_by_partial('newest').click()
-        self.get_by_link_text('View exams').click()
-        self.get_by_partial('hurr').click()
-        self.get_by_link_text('Edit questions').click()
-        self.get_by_id('id_questions_1').click()
-        self.get_by_id('submit').click()
-        self.assertEqual(self.browser.current_url,
-            'http://localhost:8000/courses/14/exams/42')
         self.logout()
 
     def test_exam_score_viewing(self):
