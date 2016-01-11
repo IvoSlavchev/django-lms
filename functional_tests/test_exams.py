@@ -18,17 +18,10 @@ class ExamTest(FunctionalTest):
         self.get_by_id('id_time_limit').send_keys('00:30')
         self.get_by_id('id_active_from').send_keys('01/01/2016 10:00')
         self.get_by_id('id_active_to').send_keys('10/10/2016 10:40')
-        self.get_by_id('id_category').send_keys('Examples')
         self.get_by_id('id_question_count').send_keys('1')
         self.get_by_id('submit').click()
         self.assertEqual(self.browser.current_url,
-            'http://localhost:8000/courses/14/exams/')
-        self.get_by_partial('Example exam').click()
-        self.get_by_id('delete').click()
-        self.browser.switch_to_alert().accept()
-        self.assertEqual(self.browser.current_url,
-            'http://localhost:8000/courses/14/exams/')
-        self.logout()
+            'http://localhost:8000/courses/14/exams/create')
 
     def test_exam_editing(self):
         self.login(True)
