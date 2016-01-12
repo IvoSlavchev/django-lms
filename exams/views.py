@@ -117,16 +117,16 @@ def view_exam(request, course_id, exam_id):
         .exists()):
         course = Course.objects.get(id=course_id)
         exam = Exam.objects.get(id=exam_id)
-        questions = ExamQuestion.objects.filter(exam=exam)
+        exam_questions = ExamQuestion.objects.filter(exam=exam)
         try:
             score = (Score.objects.get(student=request.user, exam=exam)
                 .score)
-            perc = str(float(score)/float(questions.count())*100)+'%'
-            result = perc + ' '+ str(score) +'/' + str(questions.count())
+            perc = str(float(score)/float(exam_questions.count())*100)+'%'
+            result = perc + ' '+ str(score) +'/' + str(exam_questions.count())
         except ObjectDoesNotExist:
             result = "Exam not yet taken."
         return render(request, 'view_exam.html', {'course': course,
-            'exam': exam, 'questions': questions, 'result': result})
+            'exam': exam, 'exam_questions': exam_questions, 'result': result})
     else:
         return redirect('/courses/s')
 
@@ -137,7 +137,7 @@ def take_exam(request, course_id, exam_id):
         .exists()):
         course = Course.objects.get(id=course_id)
         exam = Exam.objects.get(id=exam_id)
-        questions = Question.objects.filter(exam=exam).order_by('?')
+        exam_questions = ExamQuestion.objects.filter(exam=exam).order_by('?')
         if exam.activated and not exam.expired:
             try:
                 score = Score.objects.get(student=request.user, exam=exam)
@@ -148,10 +148,10 @@ def take_exam(request, course_id, exam_id):
             except ObjectDoesNotExist:
                 if request.method == 'POST':
                     answered = 0
-                    for question in questions:
+                    for exam_quest in exam_questions:
                         try:
-                            selected_answer = question.choice_set.get(id=
-                                request.POST.get(str(question.id)))
+                            selected_answer = exam_quest.question.choice_set.get(id=
+                                request.POST.get(str(exam_quest.question.id)))
                             if selected_answer.correct:
                                 answered += 1
                         except ObjectDoesNotExist:
@@ -164,8 +164,21 @@ def take_exam(request, course_id, exam_id):
                     return redirect('/courses/' +  course_id + '/exams/' +
                         exam_id + '/s')
                 return render(request, 'take_exam.html', {'course': course,
-                    'exam': exam, 'questions': questions})
+                    'exam': exam, 'exam_questions': exam_questions})
         messages.add_message(request, messages.INFO, 'Exam closed.')
         return redirect('/courses/' +  course_id + '/exams/' + exam_id + '/s')
+    else:
+        return redirect('/courses/s')
+
+@user_passes_test(student_check)
+def view_result(request, course_id, exam_id):
+    if (Participation.objects.filter(user=request.user, course=course_id)
+        .exists() and Score.objects.filter(student=request.user, exam=exam_id)
+        .exists()):
+        course = Course.objects.get(id=course_id)
+        exam = Exam.objects.get(id=exam_id)
+        exam_questions = ExamQuestion.objects.filter(exam=exam)
+        return render(request, 'view_result.html', {'course': course,
+            'exam': exam, 'exam_questions': exam_questions})
     else:
         return redirect('/courses/s')

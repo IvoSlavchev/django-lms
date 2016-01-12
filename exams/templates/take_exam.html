@@ -9,13 +9,13 @@
 		<form action="{% url 'take_exam' course.id exam.id %}" method="post">
 		{% csrf_token %}	
 		<table>	
-			{% for question in questions %}
+			{% for exam_quest in exam_questions %}
 				<thead>
 					<tr>
-						<th>{{ forloop.counter }}. {{ question.question_text }}</th>
+						<th>{{ forloop.counter }}. {{ exam_quest.question.question_text }}</th>
 					</tr>
 				</thead>
-				{% for choice in question.choice_set.all %}	
+				{% for choice in exam_quest.question.choice_set.all %}	
 					<tr class="choices">
 						<td><input type="radio" name="{{ question.id }}" value="{{ choice.id }}">
 							{{ forloop.counter|to_char }}) {{ choice.choice_text }}

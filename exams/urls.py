@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^(\d+)/scores$', views.view_scores, name='view_scores'),
     url(r'^(\d+)/s$', views.view_exam, name='view_exam'),
     url(r'^(\d+)/take$', views.take_exam, name='take_exam'),
+    url(r'^(\d+)/result$', views.view_result, name='view_result'),
 ]

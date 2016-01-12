@@ -1,7 +1,5 @@
 {% extends 'base.html' %}
 
-{% load to_char %}
-
 {% block header_text %}
 	{% if messages %}
 	    {% for message in messages %}
@@ -63,48 +61,20 @@
 			<td>{{ course.name }}</td>
 		</tr>
 	</table>
-	{% if questions and 'Exam' in result and exam.activated and not exam.expired %}
+	{% if exam_questions and 'Exam' in result and exam.activated and not exam.expired %}
 		<a href="{% url 'take_exam' course.id exam.id %}">
 			<span class="glyphicon glyphicon-pencil"></span>
 			Take exam
 		</a>
 		<br>
-	{% endif %}
-	{% if questions and not 'Exam' in result %}
-		<h4 class="text-primary">Exam questions and answers:</h4>
-		<table>
-		{% for quest in questions %}
-			<thead>
-				<tr>
-					<th>{{ forloop.counter }}. {{ quest.question.question_text }}</th>
-				</tr>
-			</thead>
-			{% for choice in quest.question.choice_set.all %}	
-				<tr class="choices">
-					{% if choice.correct %}
-						<td>{{ forloop.counter|to_char }}) {{ choice.choice_text }} - <b>Correct.</b></td>
-					{% else %}
-						<td>{{ forloop.counter|to_char }}) {{ choice.choice_text }}</td>
-					{% endif %}
-				</tr>
-			{% endfor %}		
-		{% endfor %}
-		</table>
+	{% elif exam_questions and not 'Exam' in result %}
+		<a href="{% url 'view_result' course.id exam.id %}">
+			<span class="glyphicon glyphicon-education"></span>
+			View result
+		</a>
 	{% endif %}
 	<a href="{% url 'view_course' course.id %}">
 		<span class="glyphicon glyphicon-arrow-left"></span>
 		Back to course
 	</a>
-{% endblock %}
-
-{% block javascript %}
-	<script type="text/javascript">
-		$("#take-exam").click(function() {
-			var input = prompt("Enter exam password:");
-			if (input == "{{ exam.password }}") {
-				return true;
-			}
-			return history.go(-1);
-		});
-	</script>
 {% endblock %}
