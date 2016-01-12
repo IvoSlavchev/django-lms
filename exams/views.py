@@ -138,7 +138,7 @@ def take_exam(request, course_id, exam_id):
         course = Course.objects.get(id=course_id)
         exam = Exam.objects.get(id=exam_id)
         exam_questions = ExamQuestion.objects.filter(exam=exam).order_by('?')
-        if exam.activated and not exam.expired:
+        if exam.active:
             try:
                 score = Score.objects.get(student=request.user, exam=exam)
                 messages.add_message(request, messages.INFO,
@@ -165,7 +165,7 @@ def take_exam(request, course_id, exam_id):
                         exam_id + '/s')
                 return render(request, 'take_exam.html', {'course': course,
                     'exam': exam, 'exam_questions': exam_questions})
-        messages.add_message(request, messages.INFO, 'Exam closed.')
+        messages.add_message(request, messages.INFO, 'Exam inactive.')
         return redirect('/courses/' +  course_id + '/exams/' + exam_id + '/s')
     else:
         return redirect('/courses/s')

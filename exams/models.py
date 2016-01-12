@@ -25,12 +25,9 @@ class Exam(models.Model):
         through='ExamQuestion')
 
     @property
-    def activated(self):
-        return timezone.now() >= self.active_from
-
-    @property
-    def expired(self):
-        return timezone.now() > self.active_to
+    def active(self):
+        return (timezone.now() >= self.active_from and 
+            timezone.now() < self.active_to)
 
 
 class ExamQuestion(models.Model):

@@ -145,10 +145,9 @@ def student_page(request):
     for course in courses:
         exams = Exam.objects.filter(course=course)
         for exam in exams:
-            if (exam.activated and not exam.expired and 
-                not Score.objects.filter(student=request.user, exam=exam)
-                    .exists() 
-                and ExamQuestion.objects.filter(exam=exam).exists()):
+            if (exam.active and not Score.objects.filter(student=request.user,
+                exam=exam).exists() and ExamQuestion.objects.filter(exam=exam)
+                .exists()):
                     unfinished.append(exam)
     unfinished.sort(key=lambda x: x.active_to)
     return render(request, 'student_page.html', {'courses': courses,

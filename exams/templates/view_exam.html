@@ -38,7 +38,7 @@
 		</tr>
 		<tr>
 			<th>Remaining:</th>
-			{% if exam.expired %}
+			{% if not exam.active %}
 				<td>Exam closed.</td>
 			{% else %}
 				<td>{{ exam.active_to|timeuntil }}</td>
@@ -61,7 +61,7 @@
 			<td>{{ course.name }}</td>
 		</tr>
 	</table>
-	{% if exam_questions and 'Exam' in result and exam.activated and not exam.expired %}
+	{% if exam_questions and 'Exam' in result and exam.active %}
 		<a href="{% url 'take_exam' course.id exam.id %}">
 			<span class="glyphicon glyphicon-pencil"></span>
 			Take exam
@@ -72,6 +72,7 @@
 			<span class="glyphicon glyphicon-education"></span>
 			View result
 		</a>
+		<br>
 	{% endif %}
 	<a href="{% url 'view_course' course.id %}">
 		<span class="glyphicon glyphicon-arrow-left"></span>
