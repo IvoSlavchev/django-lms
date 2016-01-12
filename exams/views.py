@@ -137,7 +137,7 @@ def take_exam(request, course_id, exam_id):
         .exists()):
         course = Course.objects.get(id=course_id)
         exam = Exam.objects.get(id=exam_id)
-        questions = Question.objects.filter(exam=exam)
+        questions = Question.objects.filter(exam=exam).order_by('?')
         if exam.activated and not exam.expired:
             try:
                 score = Score.objects.get(student=request.user, exam=exam)
