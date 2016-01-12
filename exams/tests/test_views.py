@@ -1,8 +1,8 @@
 from django.core.urlresolvers import resolve
 from django.test import TestCase
 
-from exams.views import create_exam, edit_exam, list_exams
-from exams.views import view_scores, view_exam, take_exam
+from exams.views import create_exam, edit_exam, list_exams, view_scores
+from exams.views import view_exam, take_exam, view_result
 
 class ExamsViewsTest(TestCase):
 
@@ -29,3 +29,7 @@ class ExamsViewsTest(TestCase):
     def test_url_resolves_to_take_exam(self):
         found = resolve('/courses/27/exams/11/take')
         self.assertEqual(found.func, take_exam)
+
+    def test_url_resolves_to_view_result(self):
+        found = resolve('/courses/27/exams/11/result')
+        self.assertEqual(found.func, view_result)
