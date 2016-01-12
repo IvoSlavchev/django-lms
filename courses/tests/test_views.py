@@ -12,6 +12,10 @@ class CoursesViewsTest(TestCase):
         found = resolve('/courses/')
         self.assertEqual(found.func, teacher_page)
 
+    def test_anonymous_doesnt_pass_teacher_test(self):
+        with self.assertRaises(AttributeError):
+            self.client.get('/courses/10')
+
     def test_url_resolves_to_course_creation(self):
         found = resolve('/courses/create')
         self.assertEqual(found.func, create_course)
@@ -31,6 +35,10 @@ class CoursesViewsTest(TestCase):
     def test_url_resolves_to_student_page(self):
         found = resolve('/courses/s')
         self.assertEqual(found.func, student_page)
+
+    def test_anonymous_doesnt_pass_student_test(self):
+        with self.assertRaises(AttributeError):
+            self.client.get('/courses/10/s')
 
     def test_url_resolves_to_course_view(self):
         found = resolve('/courses/8/s')

@@ -2,7 +2,6 @@ from django.test import TestCase
 
 from courses.forms import CourseForm, ParticipantsForm
 
-
 class CourseFormTest(TestCase):
 
     def test_if_valid_on_all_required_fields(self):

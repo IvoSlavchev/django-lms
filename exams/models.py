@@ -26,7 +26,7 @@ class Exam(models.Model):
 
     @property
     def active(self):
-        return (timezone.now() >= self.active_from and 
+        return (timezone.now() >= self.active_from and
             timezone.now() < self.active_to)
 
 

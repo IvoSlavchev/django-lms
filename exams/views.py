@@ -170,6 +170,7 @@ def take_exam(request, course_id, exam_id):
     else:
         return redirect('/courses/s')
 
+
 @user_passes_test(student_check)
 def view_result(request, course_id, exam_id):
     if (Participation.objects.filter(user=request.user, course=course_id)
