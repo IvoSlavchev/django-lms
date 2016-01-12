@@ -1,15 +1,10 @@
-from django.core.urlresolvers import resolve, reverse
+from django.core.urlresolvers import resolve
 from django.http import HttpRequest
 from django.template.loader import render_to_string
 from django.test import TestCase
 
-from django.http import Http404
-
-from users.models import User
+from users.forms import AuthenticationForm, RegistrationForm
 from users.views import home_page, login, signup, confirm
-
-
-User = User()
 
 
 class HomePageTest(TestCase):
@@ -25,20 +20,35 @@ class HomePageTest(TestCase):
             render_to_string('home.html')
 
 
-class LoginAndSignup(TestCase):
+class SignupTest(TestCase):
 
-    def test_signup_login_and_confirm_use_correct_template(self):
+    def test_url_resolves_to_signup_page(self):
+        found = resolve('/signup')
+        self.assertEqual(found.func, signup)
+
+    def test_signup_correct_template(self):
         request = HttpRequest()
         response_signup = signup(request)
         with self.assertTemplateUsed('signup.html'):
             render_to_string('signup.html')
 
+    def test_signup_registration_form(self):
+        response = self.client.get('/signup')
+        self.assertIsInstance(response.context['form'], RegistrationForm)
+
+
+class LoginTest(TestCase):
+
+    def test_url_resolves_to_login_page(self):
+        found = resolve('/login')
+        self.assertEqual(found.func, login)
+
+    def test_login_correct_template(self):
         request = HttpRequest()
         response_login = login(request)
         with self.assertTemplateUsed('login.html'):
             render_to_string('login.html')
 
-    def test_confirm_raises_404_error(self):
-        request = HttpRequest()
-        with self.assertRaises(Http404):
-            response_confirm = confirm(request)
+    def test_login_authentication_form(self):
+        response = self.client.get('/login')
+        self.assertIsInstance(response.context['form'], AuthenticationForm)
