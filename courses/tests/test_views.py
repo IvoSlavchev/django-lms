@@ -3,7 +3,6 @@ from django.http import HttpRequest
 from django.template.loader import render_to_string
 from django.test import TestCase, RequestFactory
 
-from courses.forms import CourseForm, ParticipantsForm
 from courses.models import Course
 from courses.views import teacher_page, student_page, create_course
 from courses.views import edit_course, edit_participants, view_scores
@@ -76,10 +75,11 @@ class CoursesTest(TestCase):
         found = resolve('/courses/8/scores')
         self.assertEqual(found.func, view_scores)
 
-    def test_score_viewing_correct_arguments(self):
+    def test_score_viewing_correct_arguments_and_template(self):
         course = Course.objects.create(name='Example name')
         url = reverse('view_scores', args=[course.id])
         self.assertEqual(url, '/courses/1/scores')
+        self.assertTemplateUsed('view_scores.html')
 
     def test_url_resolves_to_student_page(self):
         found = resolve('/courses/s')

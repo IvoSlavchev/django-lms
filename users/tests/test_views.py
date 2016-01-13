@@ -16,8 +16,7 @@ class HomePageTest(TestCase):
     def test_home_page_uses_correct_template(self):
         request = HttpRequest()
         response_home = home_page(request)
-        with self.assertTemplateUsed('home.html'):
-            render_to_string('home.html')
+        self.assertTemplateUsed('home.html')
 
 
 class SignupTest(TestCase):
@@ -29,8 +28,7 @@ class SignupTest(TestCase):
     def test_signup_correct_template(self):
         request = HttpRequest()
         response_signup = signup(request)
-        with self.assertTemplateUsed('signup.html'):
-            render_to_string('signup.html')
+        self.assertTemplateUsed('signup.html')
 
     def test_signup_registration_form(self):
         response = self.client.get('/signup')
@@ -46,8 +44,7 @@ class LoginTest(TestCase):
     def test_login_correct_template(self):
         request = HttpRequest()
         response_login = login(request)
-        with self.assertTemplateUsed('login.html'):
-            render_to_string('login.html')
+        self.assertTemplateUsed('login.html')
 
     def test_login_authentication_form(self):
         response = self.client.get('/login')
