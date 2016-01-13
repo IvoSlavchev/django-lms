@@ -2,6 +2,7 @@ from django.core.urlresolvers import resolve, reverse
 from django.test import TestCase
 
 from courses.models import Course
+from questions.forms import QuestionForm
 from questions.models import Question
 from questions.views import create_question, edit_question, list_questions
 
@@ -18,6 +19,28 @@ class QuestionsViewsTest(TestCase):
         self.assertEqual(url, '/courses/1/questions/create')
         self.assertTemplateUsed('create_question.html')
 
+    def test_valid_question_form(self):
+        data = {
+            'name': 'Example name',
+            'category': 'Examples',
+            'question_text': 'Example text'
+        }
+        form = QuestionForm(data=data)
+        self.assertTrue(form.is_valid())
+
+    def test_question_creation_on_POST(self):
+        course = Course.objects.create(name='Example name')
+        data = {
+            'name': 'Example name',
+            'category': 'Examples',
+            'question_text': 'Example text'
+        }
+        form = QuestionForm(data=data)
+        question = form.save(commit=False)
+        question.course = course
+        question.save()
+        self.assertEqual(Question.objects.count(), 1)
+
     def test_url_resolves_to_question_edit(self):
         found = resolve('/courses/27/questions/18')
         self.assertEqual(found.func, edit_question)
@@ -29,6 +52,23 @@ class QuestionsViewsTest(TestCase):
         url = reverse('edit_question', args=[course.id, question.id])
         self.assertEqual(url, '/courses/1/questions/1')
         self.assertTemplateUsed('edit_question.html')
+
+    def test_question_updating(self):
+        course = Course.objects.create(name='Example name')
+        question = Question.objects.create(name='Example question',
+            category='Examples', question_text='Text', course=course)
+        data = {
+            'name': 'Example name',
+            'category': 'Examples',
+            'question_text': 'Changed text'
+        }
+        form = QuestionForm(instance=question, data=data)
+        self.assertTrue(form.is_valid())
+        question = form.save(commit=False)
+        question.course = course
+        question.save()
+        self.assertEqual(question.question_text, 'Changed text')
+
 
     def test_url_resolves_to_question_listing(self):
         found = resolve('/courses/27/questions/')
