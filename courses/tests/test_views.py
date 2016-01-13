@@ -1,4 +1,4 @@
-from django.core.urlresolvers import resolve
+from django.core.urlresolvers import resolve, reverse
 from django.http import HttpRequest
 from django.template.loader import render_to_string
 from django.test import TestCase, RequestFactory
@@ -24,8 +24,7 @@ class CoursesTest(TestCase):
         request = HttpRequest()
         request.user = User.objects.create(is_teacher=True)
         response_teacher_page = teacher_page(request)
-        with self.assertTemplateUsed('teacher_page.html'):
-            render_to_string('teacher_page.html')
+        render_to_string('teacher_page.html')
 
     def test_anonymous_doesnt_pass_teacher_test(self):
         with self.assertRaises(AttributeError):
@@ -51,20 +50,36 @@ class CoursesTest(TestCase):
         request = HttpRequest()
         request.user = User.objects.create(is_teacher=True)
         response_create_course = create_course(request)
-        with self.assertTemplateUsed('create_course.html'):
-            render_to_string('create_course.html')
+        self.assertTemplateUsed('create_course.html')
 
     def test_url_resolves_to_course_edit(self):
         found = resolve('/courses/8')
         self.assertEqual(found.func, edit_course)
 
+    def test_edit_course_correct_arguments_and_template(self):
+        course = Course.objects.create(name='Example name')
+        url = reverse('edit_course', args=[course.id])
+        self.assertEqual(url, '/courses/1')
+        self.assertTemplateUsed('edit_course.html')
+
     def test_url_resolves_to_participants_edit(self):
         found = resolve('/courses/8/participants')
         self.assertEqual(found.func, edit_participants)
 
+    def test_edit_participants_correct_arguments_and_template(self):
+        course = Course.objects.create(name='Example name')
+        url = reverse('edit_participants', args=[course.id])
+        self.assertEqual(url, '/courses/1/participants')
+        self.assertTemplateUsed('edit_course.html')
+
     def test_url_resolves_to_score_viewing(self):
         found = resolve('/courses/8/scores')
         self.assertEqual(found.func, view_scores)
+
+    def test_score_viewing_correct_arguments(self):
+        course = Course.objects.create(name='Example name')
+        url = reverse('view_scores', args=[course.id])
+        self.assertEqual(url, '/courses/1/scores')
 
     def test_url_resolves_to_student_page(self):
         found = resolve('/courses/s')
@@ -74,8 +89,7 @@ class CoursesTest(TestCase):
         request = HttpRequest()
         request.user = User.objects.create(is_teacher=False)
         response_student_page = student_page(request)
-        with self.assertTemplateUsed('student_page.html'):
-            render_to_string('student_page.html')
+        self.assertTemplateUsed('student_page.html')
 
     def test_anonymous_doesnt_pass_student_test(self):
         with self.assertRaises(AttributeError):
@@ -96,3 +110,9 @@ class CoursesTest(TestCase):
     def test_url_resolves_to_course_view(self):
         found = resolve('/courses/8/s')
         self.assertEqual(found.func, view_course)
+
+    def test_course_viewing_correct_arguments_and_template(self):
+        course = Course.objects.create(name='Example name')
+        url = reverse('view_course', args=[course.id])
+        self.assertEqual(url, '/courses/1/s')
+        self.assertTemplateUsed('view_course.html')
