@@ -5,9 +5,7 @@ class QuestionTest(FunctionalTest):
 
     def test_question_creation_and_deletion(self):
         self.login(True)
-        self.get_by_partial('newest').click()
-        self.assertEqual(self.browser.current_url,
-            'http://localhost:8000/courses/14')
+        self.browser.get("http://localhost:8000/courses/14")
         self.get_by_link_text('View questions').click()
         self.get_by_link_text('Create new question').click()
         self.assertEqual(self.browser.current_url,
@@ -32,10 +30,10 @@ class QuestionTest(FunctionalTest):
 
     def test_question_editing(self):
         self.login(True)
-        self.get_by_partial('newest').click()
-        self.assertEqual(self.browser.current_url,
-            'http://localhost:8000/courses/14')
+        self.browser.get("http://localhost:8000/courses/14")
         self.get_by_link_text('View questions').click()
+        self.assertEqual(self.browser.current_url,
+            'http://localhost:8000/courses/14/questions/')
         self.get_by_partial('Test question').click()
         self.get_by_id('id_category').clear()
         self.get_by_id('id_category').send_keys('Changed')

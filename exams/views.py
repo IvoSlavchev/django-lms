@@ -35,21 +35,26 @@ def add_questions(course, exam):
 @user_passes_test(teacher_check)
 def create_exam(request, course_id):
     course = Course.objects.get(id=course_id)
-    if request.method == 'POST':
-        form = ExamForm(data=request.POST)
-        if form.is_valid():
-            exam = form.save(commit=False)
-            exam.owner = request.user
-            exam.course = course
-            exam.save()
-            add_questions(course, exam)
-            messages.add_message(request, messages.INFO,
-                'Exam created successfully.')
-            return redirect('/courses/' + course_id + '/exams/')
+    if Question.objects.filter(course=course).exists():
+        if request.method == 'POST':
+            form = ExamForm(data=request.POST)
+            if form.is_valid():
+                exam = form.save(commit=False)
+                exam.owner = request.user
+                exam.course = course
+                exam.save()
+                add_questions(course, exam)
+                messages.add_message(request, messages.INFO,
+                    'Exam created successfully.')
+                return redirect('/courses/' + course_id + '/exams/')
+        else:
+            form = ExamForm(course=course)
+        return render(request, 'create_exam.html', {'form': form,
+            'course': course })
     else:
-        form = ExamForm(course=course)
-    return render(request, 'create_exam.html', {'form': form,
-        'course': course })
+        messages.add_message(request, messages.INFO,
+            'Course has no questions.')
+        return redirect('/courses/' + course_id)
 
 
 @user_passes_test(teacher_check)

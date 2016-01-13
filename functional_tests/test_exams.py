@@ -5,9 +5,7 @@ class ExamTest(FunctionalTest):
 
     def test_exam_creation_and_deletion(self):
         self.login(True)
-        self.get_by_partial('newest').click()
-        self.assertEqual(self.browser.current_url,
-            'http://localhost:8000/courses/14')
+        self.browser.get("http://localhost:8000/courses/14")
         self.get_by_link_text('View exams').click()
         self.get_by_link_text('Create new exam').click()
         self.assertEqual(self.browser.current_url,
@@ -19,13 +17,12 @@ class ExamTest(FunctionalTest):
         self.get_by_id('id_active_from').send_keys('01/01/2016 10:00')
         self.get_by_id('id_active_to').send_keys('10/10/2016 10:40')
         self.get_by_id('id_question_count').send_keys('1')
-        self.get_by_id('submit').click()
         self.assertEqual(self.browser.current_url,
             'http://localhost:8000/courses/14/exams/create')
 
     def test_exam_editing(self):
         self.login(True)
-        self.get_by_partial('newest').click()
+        self.browser.get("http://localhost:8000/courses/14")
         self.get_by_link_text('View exams').click()
         self.get_by_partial('newest_exam').click()
         self.get_by_id('id_description').clear()
@@ -39,7 +36,7 @@ class ExamTest(FunctionalTest):
 
     def test_exam_score_viewing(self):
         self.login(True)
-        self.get_by_partial('newest').click()
+        self.browser.get("http://localhost:8000/courses/14")
         self.get_by_link_text('View exams').click()
         self.get_by_partial('hurr').click()
         self.get_by_link_text('View scores').click()
@@ -49,9 +46,7 @@ class ExamTest(FunctionalTest):
 
     def test_exam_viewing_taking_and_results(self):
         self.login(False)
-        self.assertEqual(self.browser.current_url,
-            'http://localhost:8000/courses/s')
-        self.get_by_partial('newest').click()
+        self.browser.get("http://localhost:8000/courses/14/s")
         self.get_by_partial('newest_exam').click()
         self.browser.get('http://localhost:8000/courses/14/exams/12/take')
         self.assertEqual(self.browser.current_url,
