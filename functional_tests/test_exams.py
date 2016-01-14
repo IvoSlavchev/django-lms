@@ -1,15 +1,16 @@
 from .base import FunctionalTest
 
+import time
 
 class ExamTest(FunctionalTest):
 
     def test_exam_creation_and_deletion(self):
         self.login(True)
-        self.get_by_partial('Newest').click()
+        self.get_by_partial('Test').click()
         self.get_by_link_text('View exams').click()
         self.get_by_link_text('Create new exam').click()
         self.assertEqual(self.browser.current_url,
-            'http://localhost:8000/courses/14/exams/create')
+            'http://localhost:8081/courses/1/exams/create')
         self.get_by_id('id_name').send_keys('Example exam')
         self.get_by_id('id_description').send_keys('Example description')
         self.get_by_id('id_password').send_keys('example')
@@ -17,41 +18,49 @@ class ExamTest(FunctionalTest):
         self.get_by_id('id_active_from').send_keys('01/01/2016 10:00')
         self.get_by_id('id_active_to').send_keys('10/10/2016 10:40')
         self.get_by_id('id_question_count').send_keys('1')
+        self.get_by_id('submit').click()
         self.assertEqual(self.browser.current_url,
-            'http://localhost:8000/courses/14/exams/create')
+            'http://localhost:8081/courses/1/exams/')
+        self.get_by_partial('Example exam').click()
+        self.get_by_id('delete').click()
+        self.browser.switch_to_alert().accept()
+        self.assertEqual(self.browser.current_url,
+            'http://localhost:8081/courses/1/exams/')
 
     def test_exam_editing(self):
         self.login(True)
-        self.get_by_partial('Newest').click()
+        self.get_by_partial('Test').click()
         self.get_by_link_text('View exams').click()
-        self.get_by_partial('newest_exam').click()
+        self.get_by_partial('Test exam').click()
         self.get_by_id('id_description').clear()
         self.get_by_id('id_description').send_keys('Changed')
         self.get_by_id('id_question_count').clear()
         self.get_by_id('id_question_count').send_keys('2')
         self.get_by_id('submit').click()
         self.assertEqual(self.browser.current_url,
-            'http://localhost:8000/courses/14/exams/')
+            'http://localhost:8081/courses/1/exams/')
         self.logout()
 
     def test_exam_score_viewing(self):
         self.login(True)
-        self.get_by_partial('Newest').click()
+        self.get_by_partial('Test').click()
         self.get_by_link_text('View exams').click()
-        self.get_by_partial('hurr').click()
+        self.get_by_partial('Test exam').click()
         self.get_by_link_text('View scores').click()
         self.assertEqual(self.browser.current_url,
-            'http://localhost:8000/courses/14/exams/42/scores')
+            'http://localhost:8081/courses/1/exams/1/scores')
         self.logout()
 
     def test_exam_viewing_taking_and_results(self):
         self.login(False)
-        self.get_by_partial('Newest').click()
-        self.get_by_partial('newest_exam').click()
-        self.browser.get('http://localhost:8000/courses/14/exams/12/take')
+        self.get_by_partial('Test').click()
+        self.get_by_partial('Test exam').click()
+        self.get_by_link_text('Take exam').click()
+        self.browser.find_element_by_css_selector('[type="radio"]').click()
+        self.get_by_id('submit').click()
         self.assertEqual(self.browser.current_url,
-            'http://localhost:8000/courses/14/exams/12/s')
+            'http://localhost:8081/courses/1/exams/1/s')
         self.get_by_link_text('View result').click()
         self.assertEqual(self.browser.current_url,
-            'http://localhost:8000/courses/14/exams/12/result')
+            'http://localhost:8081/courses/1/exams/1/result')
         self.logout()

@@ -37,7 +37,7 @@ def create_exam(request, course_id):
     course = Course.objects.get(id=course_id)
     if Question.objects.filter(course=course).exists():
         if request.method == 'POST':
-            form = ExamForm(data=request.POST)
+            form = ExamForm(course=course, data=request.POST)
             if form.is_valid():
                 exam = form.save(commit=False)
                 exam.owner = request.user

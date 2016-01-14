@@ -1,0 +1,102 @@
+[
+  {
+    "model": "users.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$24000$FmaA7q7t4EDH$+NdA+8ZKJiUM20ithuJapDZTBgtFw1Bo8LdxbuYRxj0=",
+      "last_login": "2016-01-14T09:24:06.386Z",
+      "username": "teacher",
+      "email": "teacher@test.com",
+      "is_teacher": true,
+      "created": "2016-01-07T09:04:33.141Z",
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$24000$QXqlxjBoCMIc$BEitpkjFH1lbJPrarIlp+R0wqjzdEobhm79PXz4w+X8=",
+      "last_login": "2016-01-14T09:23:50.420Z",
+      "username": "student",
+      "email": "student@test.com",
+      "is_teacher": false,
+      "created": "2016-01-07T09:04:33.141Z",
+      "is_active": true
+    }
+  },
+  {
+    "model": "courses.course",
+    "pk": 1,
+    "fields": {
+      "owner": "teacher",
+      "name": "Test",
+      "description": "Example",
+      "created": "2016-01-07T09:04:15.980Z",
+      "updated": "2016-01-14T09:23:02.488Z"
+    }
+  },
+  {
+    "model": "courses.participation",
+    "pk": 1,
+    "fields": {
+      "user": 2,
+      "course": 1
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 1,
+    "fields": {
+      "owner": "teacher",
+      "name": "Test",
+      "category": "Examples",
+      "question_text": "Example?",
+      "course": 1
+    }
+  },
+  {
+    "model": "questions.choice",
+    "pk": 1,
+    "fields": {
+      "choice_text": "Test",
+      "correct": true,
+      "question": 1
+    }
+  },
+  {
+    "model": "questions.choice",
+    "pk": 2,
+    "fields": {
+      "choice_text": "Example",
+      "correct": false,
+      "question": 1
+    }
+  },
+  {
+    "model": "exams.exam",
+    "pk": 1,
+    "fields": {
+      "owner": "teacher",
+      "name": "Test exam",
+      "description": "Example",
+      "created": "2016-01-11T19:03:19.366Z",
+      "updated": "2016-01-11T22:12:09.986Z",
+      "password": "",
+      "time_limit": "00:30:00",
+      "active_from": "2015-12-31T22:30:00Z",
+      "active_to": "2016-02-02T09:00:00Z",
+      "course": 1,
+      "category": "Examples",
+      "question_count": 1
+    }
+  },
+  {
+    "model": "exams.examquestion",
+    "pk": 1,
+    "fields": {
+      "question": 1,
+      "exam": 1
+    }
+  }
+]
