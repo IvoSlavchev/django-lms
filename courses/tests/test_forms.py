@@ -24,6 +24,6 @@ class CourseFormTest(TestCase):
 class ParticipantsFormTest(TestCase):
     
     def test_if_not_valid_on_only_participants(self):
-        form_data = {'participants': '40'}
+        form_data = {'participants': '1'}
         form = ParticipantsForm(data=form_data)
         self.assertFalse(form.is_valid())

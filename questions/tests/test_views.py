@@ -10,7 +10,7 @@ from questions.views import create_question, edit_question, list_questions
 class QuestionsViewsTest(TestCase):
 
     def test_url_resolves_to_question_creation(self):
-        found = resolve('/courses/27/questions/create')
+        found = resolve('/courses/1/questions/create')
         self.assertEqual(found.func, create_question)
 
     def test_create_question_correct_arguments_and_template(self):
@@ -42,7 +42,7 @@ class QuestionsViewsTest(TestCase):
         self.assertEqual(Question.objects.count(), 1)
 
     def test_url_resolves_to_question_edit(self):
-        found = resolve('/courses/27/questions/18')
+        found = resolve('/courses/1/questions/1')
         self.assertEqual(found.func, edit_question)
 
     def test_edit_question_correct_arguments_and_template(self):
@@ -71,7 +71,7 @@ class QuestionsViewsTest(TestCase):
 
 
     def test_url_resolves_to_question_listing(self):
-        found = resolve('/courses/27/questions/')
+        found = resolve('/courses/1/questions/')
         self.assertEqual(found.func, list_questions)
 
     def test_list_questions_correct_arguments_and_template(self):

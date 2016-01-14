@@ -10,7 +10,7 @@ from exams.views import view_exam, take_exam, view_result
 class ExamsViewsTest(TestCase):
 
     def test_url_resolves_to_exam_creation(self):
-        found = resolve('/courses/8/exams/create')
+        found = resolve('/courses/1/exams/create')
         self.assertEqual(found.func, create_exam)
 
     def test_create_exam_correct_arguments_and_template(self):
@@ -33,7 +33,7 @@ class ExamsViewsTest(TestCase):
         self.assertTemplateUsed('edit_exam.html')
 
     def test_url_resolves_to_exam_listing(self):
-        found = resolve('/courses/27/exams/')
+        found = resolve('/courses/1/exams/')
         self.assertEqual(found.func, list_exams)
 
     def test_list_exams_correct_arguments_and_template(self):
@@ -43,7 +43,7 @@ class ExamsViewsTest(TestCase):
         self.assertTemplateUsed('list_exams.html')
 
     def test_url_resolves_to_score_viewing(self):
-        found = resolve('/courses/27/exams/11/scores')
+        found = resolve('/courses/1/exams/1/scores')
         self.assertEqual(found.func, view_scores)
 
     def test_view_scores_correct_arguments_and_template(self):
@@ -69,7 +69,7 @@ class ExamsViewsTest(TestCase):
         self.assertTemplateUsed('view_exam.html')
 
     def test_url_resolves_to_take_exam(self):
-        found = resolve('/courses/27/exams/11/take')
+        found = resolve('/courses/1/exams/1/take')
         self.assertEqual(found.func, take_exam)
 
     def test_take_exam_correct_arguments_and_template(self):
@@ -82,7 +82,7 @@ class ExamsViewsTest(TestCase):
         self.assertTemplateUsed('take_exam.html')
 
     def test_url_resolves_to_view_result(self):
-        found = resolve('/courses/27/exams/11/result')
+        found = resolve('/courses/1/exams/1/result')
         self.assertEqual(found.func, view_result)
    
     def test_view_exam_result_correct_arguments_and_template(self):

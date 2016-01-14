@@ -62,7 +62,7 @@ class CoursesTest(TestCase):
         self.assertTemplateUsed('edit_course.html')
 
     def test_url_resolves_to_participants_edit(self):
-        found = resolve('/courses/8/participants')
+        found = resolve('/courses/1/participants')
         self.assertEqual(found.func, edit_participants)
 
     def test_edit_participants_correct_arguments_and_template(self):
@@ -72,7 +72,7 @@ class CoursesTest(TestCase):
         self.assertTemplateUsed('edit_course.html')
 
     def test_url_resolves_to_score_viewing(self):
-        found = resolve('/courses/8/scores')
+        found = resolve('/courses/1/scores')
         self.assertEqual(found.func, view_scores)
 
     def test_score_viewing_correct_arguments_and_template(self):
@@ -108,7 +108,7 @@ class CoursesTest(TestCase):
         self.assertEqual(response.status_code, 302)
 
     def test_url_resolves_to_course_view(self):
-        found = resolve('/courses/8/s')
+        found = resolve('/courses/1/s')
         self.assertEqual(found.func, view_course)
 
     def test_course_viewing_correct_arguments_and_template(self):
