@@ -5,7 +5,7 @@ class ExamTest(FunctionalTest):
 
     def test_exam_creation_and_deletion(self):
         self.login(True)
-        self.browser.get("http://localhost:8000/courses/14")
+        self.get_by_partial('Newest').click()
         self.get_by_link_text('View exams').click()
         self.get_by_link_text('Create new exam').click()
         self.assertEqual(self.browser.current_url,
@@ -22,7 +22,7 @@ class ExamTest(FunctionalTest):
 
     def test_exam_editing(self):
         self.login(True)
-        self.browser.get("http://localhost:8000/courses/14")
+        self.get_by_partial('Newest').click()
         self.get_by_link_text('View exams').click()
         self.get_by_partial('newest_exam').click()
         self.get_by_id('id_description').clear()
@@ -36,7 +36,7 @@ class ExamTest(FunctionalTest):
 
     def test_exam_score_viewing(self):
         self.login(True)
-        self.browser.get("http://localhost:8000/courses/14")
+        self.get_by_partial('Newest').click()
         self.get_by_link_text('View exams').click()
         self.get_by_partial('hurr').click()
         self.get_by_link_text('View scores').click()
@@ -46,7 +46,7 @@ class ExamTest(FunctionalTest):
 
     def test_exam_viewing_taking_and_results(self):
         self.login(False)
-        self.browser.get("http://localhost:8000/courses/14/s")
+        self.get_by_partial('Newest').click()
         self.get_by_partial('newest_exam').click()
         self.browser.get('http://localhost:8000/courses/14/exams/12/take')
         self.assertEqual(self.browser.current_url,

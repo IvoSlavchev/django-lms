@@ -53,6 +53,9 @@ class LoginTest(TestCase):
         response = self.client.post('/login', {'username': 'test',
             'password': 'test'})
         self.assertEqual(response.status_code, 200)
+        response = self.client.post('/login', {'username': 'test@test.bg',
+            'password': 'test'})
+        self.assertEqual(response.status_code, 200)
 
     def test_url_resolves_to_login_page(self):
         found = resolve('/login')

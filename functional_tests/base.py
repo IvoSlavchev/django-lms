@@ -1,3 +1,5 @@
+import time
+
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 
 from selenium import webdriver    
@@ -23,6 +25,7 @@ class FunctionalTest(StaticLiveServerTestCase):
     def login(self, is_teacher):
         if self.browser.current_url != "http://localhost:8000/login":
             self.browser.get("http://localhost:8000/login")
+        time.sleep(0.02)
         if is_teacher:
             self.get_by_id('id_username').send_keys('teacher')
         else:

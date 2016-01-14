@@ -22,7 +22,7 @@ class CourseTest(FunctionalTest):
 
     def test_course_editing(self):
         self.login(True)
-        self.browser.get("http://localhost:8000/courses/46")
+        self.get_by_partial('Newest').click()
         self.get_by_id('id_description').clear()
         self.get_by_id('id_description').send_keys('Changed')
         self.get_by_id('submit').click()
@@ -32,25 +32,27 @@ class CourseTest(FunctionalTest):
 
     def test_participants_editing(self):
         self.login(True)
-        self.browser.get("http://localhost:8000/courses/46")
+        self.get_by_partial('Newest').click()
         self.get_by_link_text('Edit participants').click()
         self.get_by_id('id_participants_1').click()
         self.get_by_id('submit').click()
         self.assertEqual(self.browser.current_url,
-            'http://localhost:8000/courses/46')
+            'http://localhost:8000/courses/14')
         self.logout()
 
     def test_score_viewing(self):
         self.login(True)
-        self.browser.get("http://localhost:8000/courses/46")
+        self.get_by_partial('Newest').click()
         self.get_by_link_text('View scores').click()
         self.assertEqual(self.browser.current_url,
-            'http://localhost:8000/courses/46/scores')
+            'http://localhost:8000/courses/14/scores')
         self.logout()
 
     def test_course_viewing(self):
         self.login(False)
-        self.browser.get("http://localhost:8000/courses/46/s")
+        self.get_by_partial('Newest').click()
+        self.assertEqual(self.browser.current_url,
+            'http://localhost:8000/courses/14/s')
         course_owner = self.browser.find_element_by_tag_name('td')
         self.assertEqual(course_owner.text, 'teacher')
         self.logout()
