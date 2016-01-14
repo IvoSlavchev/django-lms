@@ -13,31 +13,43 @@ class CourseTest(FunctionalTest):
         self.get_by_id('submit').click()
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/courses/')
+        header = self.browser.find_element_by_tag_name('h3').text
+        self.assertEqual(header, 'Course created successfully.')
         self.get_by_partial('Example course').click()
         self.get_by_id('delete').click()
         self.browser.switch_to_alert().accept()
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/courses/')
+        header = self.browser.find_element_by_tag_name('h3').text
+        self.assertEqual(header, 'Course deleted successfully.')
         self.logout()
 
     def test_course_editing(self):
         self.login(True)
         self.get_by_partial('Test').click()
+        self.assertEqual(self.browser.current_url,
+            'http://localhost:8081/courses/1')
         self.get_by_id('id_description').clear()
         self.get_by_id('id_description').send_keys('Changed')
         self.get_by_id('submit').click()
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/courses/')
+        header = self.browser.find_element_by_tag_name('h3').text
+        self.assertEqual(header, 'Course updated successfully.')
         self.logout()
 
     def test_participants_editing(self):
         self.login(True)
         self.get_by_partial('Test').click()
         self.get_by_link_text('Edit participants').click()
+        self.assertEqual(self.browser.current_url,
+            'http://localhost:8081/courses/1/participants')
         self.get_by_id('id_participants_0').click()
         self.get_by_id('submit').click()
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/courses/1')
+        header = self.browser.find_element_by_tag_name('h3').text
+        self.assertEqual(header, 'Participants updated successfully.')
         self.logout()
 
     def test_score_viewing(self):
