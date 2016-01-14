@@ -3,7 +3,7 @@ from .base import FunctionalTest
 
 class CourseTest(FunctionalTest):
 
-    def test_course_creation_and_deletion(self):
+    def test_course_creation(self):
         self.login(True)
         self.get_by_link_text('Create new course').click()
         self.assertEqual(self.browser.current_url,
@@ -15,7 +15,13 @@ class CourseTest(FunctionalTest):
             'http://localhost:8081/courses/')
         header = self.browser.find_element_by_tag_name('h3').text
         self.assertEqual(header, 'Course created successfully.')
-        self.get_by_partial('Example course').click()
+        self.logout()
+
+    def test_course_deletion(self):
+        self.login(True)
+        self.get_by_partial('Test').click()
+        self.assertEqual(self.browser.current_url,
+            'http://localhost:8081/courses/1')
         self.get_by_id('delete').click()
         self.browser.switch_to_alert().accept()
         self.assertEqual(self.browser.current_url,

@@ -3,7 +3,7 @@ from .base import FunctionalTest
 
 class QuestionTest(FunctionalTest):
 
-    def test_question_creation_and_deletion(self):
+    def test_question_creation(self):
         self.login(True)
         self.get_by_partial('Test').click()
         self.get_by_link_text('View questions').click()
@@ -23,7 +23,15 @@ class QuestionTest(FunctionalTest):
             'http://localhost:8081/courses/1/questions/')
         header = self.browser.find_element_by_tag_name('h3').text
         self.assertEqual(header, 'Question created successfully.')
-        self.get_by_partial('Example question').click()
+        self.logout()
+
+    def test_question_deletion(self):
+        self.login(True)
+        self.get_by_partial('Test').click()
+        self.get_by_link_text('View questions').click()
+        self.get_by_partial('Test question').click()
+        self.assertEqual(self.browser.current_url,
+            'http://localhost:8081/courses/1/questions/1')
         self.get_by_id('delete').click()
         self.browser.switch_to_alert().accept()
         self.assertEqual(self.browser.current_url,
@@ -38,7 +46,7 @@ class QuestionTest(FunctionalTest):
         self.get_by_link_text('View questions').click()
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/courses/1/questions/')
-        self.get_by_partial('Test').click()
+        self.get_by_partial('Test question').click()
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/courses/1/questions/1')
         self.get_by_id('id_category').clear()
