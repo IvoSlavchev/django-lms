@@ -1,0 +1,28 @@
+[
+    {
+        "model": "users.user",
+        "pk": 1,
+        "fields": {
+            "password": "pbkdf2_sha256$24000$FmaA7q7t4EDH$+NdA+8ZKJiUM20ithuJapDZTBgtFw1Bo8LdxbuYRxj0=",
+            "last_login": "2016-01-14T09:24:06.386Z",
+            "username": "teacher",
+            "email": "teacher@test.com",
+            "is_teacher": true,
+            "created": "2016-01-07T09:04:33.141Z",
+            "is_active": true
+        }
+    },
+    {
+        "model": "users.user",
+        "pk": 2,
+        "fields": {
+            "password": "pbkdf2_sha256$24000$QXqlxjBoCMIc$BEitpkjFH1lbJPrarIlp+R0wqjzdEobhm79PXz4w+X8=",
+            "last_login": "2016-01-14T09:23:50.420Z",
+            "username": "student",
+            "email": "student@test.com",
+            "is_teacher": false,
+            "created": "2016-01-07T09:04:33.141Z",
+            "is_active": true
+        }
+    }
+]

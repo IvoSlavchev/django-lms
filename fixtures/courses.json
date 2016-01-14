@@ -1,0 +1,21 @@
+[
+    {
+        "model": "courses.course",
+        "pk": 1,
+        "fields": {
+            "owner": "teacher",
+            "name": "Test",
+            "description": "Example",
+            "created": "2016-01-07T09:04:15.980Z",
+            "updated": "2016-01-14T09:23:02.488Z"
+        }
+    },
+    {
+        "model": "courses.participation",
+        "pk": 1,
+        "fields": {
+            "user": 2,
+            "course": 1
+        }
+    }
+]

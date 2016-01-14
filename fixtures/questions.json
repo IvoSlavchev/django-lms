@@ -1,0 +1,31 @@
+[
+    {
+        "model": "questions.question",
+        "pk": 1,
+        "fields": {
+            "owner": "teacher",
+            "name": "Test",
+            "category": "Examples",
+            "question_text": "Example?",
+            "course": 1
+        }
+    },
+    {
+        "model": "questions.choice",
+        "pk": 1,
+        "fields": {
+            "choice_text": "Test",
+            "correct": true,
+            "question": 1
+        }
+    },
+    {
+        "model": "questions.choice",
+        "pk": 2,
+        "fields": {
+            "choice_text": "Example",
+            "correct": false,
+            "question": 1
+        }
+    }
+]
