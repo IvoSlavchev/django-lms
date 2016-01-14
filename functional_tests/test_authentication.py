@@ -24,6 +24,8 @@ class AuthenticationTest(FunctionalTest):
         self.get_by_link_text('Sign up').click()
         self.signup(True)
         self.assertEqual(self.browser.current_url, 'http://localhost:8081/')
+        header = self.browser.find_element_by_tag_name('h3').text
+        self.assertEqual(header, 'Check email for a confirmation link.')
         self.get_by_link_text('Sign up').click()
         self.signup(False)
 
@@ -32,8 +34,11 @@ class AuthenticationTest(FunctionalTest):
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/courses/')
         self.logout()
+        header = self.browser.find_element_by_tag_name('h3').text
+        self.assertEqual(header, 'Logged out')
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/login')
         self.login(False)
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/courses/s')
+        self.logout()

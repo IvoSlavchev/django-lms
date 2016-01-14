@@ -78,5 +78,5 @@ def confirm(request):
 
 def logout(request):
     django_logout(request)
-    messages.add_message(request, messages.INFO, 'Logged out.')
+    messages.add_message(request, messages.INFO, 'Logged out')
     return redirect('/login')
