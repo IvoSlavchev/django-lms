@@ -24,5 +24,27 @@
             "created": "2016-01-07T09:04:33.141Z",
             "is_active": true
         }
+    },
+    {
+        "model": "users.user",
+        "pk": 3,
+        "fields": {
+            "password": "pbkdf2_sha256$24000$QXqlxjBoCMIc$BEitpkjFH1lbJPrarIlp+R0wqjzdEobhm79PXz4w+X8=",
+            "last_login": "2016-01-14T09:23:50.420Z",
+            "username": "student2",
+            "email": "student2@test.com",
+            "is_teacher": false,
+            "created": "2016-01-07T09:04:33.141Z",
+            "is_active": false
+        }
+    },
+    {
+        "model": "users.userprofile",
+        "pk": 1,
+        "fields": {
+            "user": 3,
+            "activation_key": "b9ba683184e5d99e5bb682481ec27c4b6b711bbee3ff153f69ff26b9",
+            "key_expires": "2016-12-18T09:34:33.193Z"
+        }
     }
 ]

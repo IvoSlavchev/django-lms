@@ -42,3 +42,8 @@ class AuthenticationTest(FunctionalTest):
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/courses/s')
         self.logout()
+
+    def test_confirm(self):
+        self.browser.get('http://localhost:8081/confirm?q=b9ba683184e5d99e5bb682481ec27c4b6b711bbee3ff153f69ff26b9')
+        header = self.browser.find_element_by_tag_name('h3').text
+        self.assertEqual(header, 'Successfully confirmed!')
