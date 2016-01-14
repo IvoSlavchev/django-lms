@@ -21,11 +21,15 @@ class QuestionTest(FunctionalTest):
         self.get_by_id('submit').click()
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/courses/1/questions/')
+        header = self.browser.find_element_by_tag_name('h3').text
+        self.assertEqual(header, 'Question created successfully.')
         self.get_by_partial('Example question').click()
         self.get_by_id('delete').click()
         self.browser.switch_to_alert().accept()
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/courses/1/questions/')
+        header = self.browser.find_element_by_tag_name('h3').text
+        self.assertEqual(header, 'Question deleted successfully.')
         self.logout()
 
     def test_question_editing(self):
@@ -35,6 +39,8 @@ class QuestionTest(FunctionalTest):
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/courses/1/questions/')
         self.get_by_partial('Test').click()
+        self.assertEqual(self.browser.current_url,
+            'http://localhost:8081/courses/1/questions/1')
         self.get_by_id('id_category').clear()
         self.get_by_id('id_category').send_keys('Changed')
         self.get_by_id('id_question_text').clear()
@@ -42,4 +48,6 @@ class QuestionTest(FunctionalTest):
         self.get_by_id('submit').click()
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/courses/1/questions/')
+        header = self.browser.find_element_by_tag_name('h3').text
+        self.assertEqual(header, 'Question updated successfully.')
         self.logout()
