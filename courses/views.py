@@ -35,6 +35,10 @@ def delete_course(course):
     course.delete()
 
 
+def format_score(score, count):
+    percentage = str(float(score) / float(count) * 100) + '%'
+    return str(score) + '/' + str(count) + ' ' + percentage
+
 @user_passes_test(teacher_check)
 def teacher_page(request):
     courses = Course.objects.filter(owner=request.user).order_by('-updated')
@@ -119,12 +123,10 @@ def view_scores(request, course_id):
             scores[participant] = {}
             for exam in exams:
                 try:
-                    questions = ExamQuestion.objects.filter(exam=exam)
+                    count = ExamQuestion.objects.filter(exam=exam).count()
                     score = Score.objects.get(student=participant.user,
                         exam=exam).score
-                    perc = str(float(score)/float(questions.count())*100)+'%'
-                    scores[participant][exam] = (str(score) + '/' + 
-                        str(questions.count()) + ' ' + perc)
+                    scores[participant][exam] = format_score(score, count)
                 except ObjectDoesNotExist:
                     scores[participant][exam] = "Not taken"
         return render(request, 'view_scores.html', {'course': course,

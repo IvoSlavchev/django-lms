@@ -5,7 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect, render
 
 from courses.models import Course, Participation
-from courses.views import teacher_check, student_check
+from courses.views import teacher_check, student_check, format_score
 from exams.forms import ExamForm
 from exams.models import Exam, ExamQuestion, Score
 from questions.models import Question, Choice
@@ -99,15 +99,13 @@ def view_scores(request, course_id, exam_id):
     if request.user.username == exam.owner:
         course = Course.objects.get(id=course_id)
         participants = Participation.objects.filter(course=course)
-        questions = ExamQuestion.objects.filter(exam=exam)
+        count = ExamQuestion.objects.filter(exam=exam).count()
         scores = {}     
         for participant in participants:
             try:            
                 score = (Score.objects.get(student=participant.user, exam=exam)
                     .score)
-                perc = str(float(score)/float(questions.count())*100)+'%'
-                scores[participant] = (str(score) + '/' + 
-                    str(questions.count()) + ' ' + perc)
+                scores[participant] = format_score(score, count)
             except ObjectDoesNotExist:
                 scores[participant] = "Not taken"
         return render(request, 'view_score.html', {'course': course,
@@ -126,8 +124,7 @@ def view_exam(request, course_id, exam_id):
         try:
             score = (Score.objects.get(student=request.user, exam=exam)
                 .score)
-            perc = str(float(score)/float(exam_questions.count())*100)+'%'
-            result = perc + ' '+ str(score) +'/' + str(exam_questions.count())
+            result = format_score(score, exam_questions.count())
         except ObjectDoesNotExist:
             result = "Exam not yet taken."
         return render(request, 'view_exam.html', {'course': course,
