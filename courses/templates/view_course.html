@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load get_item %}
+
 {% block header_text %}Viewing course: {{ course.name }}{% endblock %}
 
 {% block dashboard %}
@@ -35,6 +37,7 @@
 					<a class="list-group-item" href="{% url 'view_exam' course.id exam.id %}">
 						<h4 class="list-group-item-heading">{{ exam.name }}</h4>
 						<p class="list-group-item-description">{{ exam.description }}</p>
+						<p class="list-group-item-description"> {{ scores|get_item:exam }}</p>
 					</a>
 				{% endfor %}
 			</td>

@@ -161,9 +161,18 @@ def view_course(request, course_id):
     if (Participation.objects.filter(user=request.user, course=course_id)
         .exists()):
         course = Course.objects.get(id=course_id)
+        scores = {}
         exams = Exam.objects.filter(course=course_id).order_by('active_to')
         participants = Participation.objects.filter(course=course_id)
+        for exam in exams:
+                try:
+                    count = ExamQuestion.objects.filter(exam=exam).count()
+                    score = Score.objects.get(student=request.user,
+                        exam=exam).score
+                    scores[exam] = format_score(score, count)
+                except ObjectDoesNotExist:
+                    scores[exam] = "Not taken"
         return render(request, 'view_course.html', {'course': course,
-            'participants': participants, 'exams': exams})
+            'participants': participants, 'exams': exams, 'scores': scores})
     else:
         return redirect('/courses/s')
