@@ -1,16 +1,13 @@
 from django.utils import timezone
 
-from django.contrib.auth.models import AbstractBaseUser, UserManager
+from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
 
 
-class User(AbstractBaseUser):
+class User(AbstractUser):
 
-    username = models.CharField(max_length=30, unique=True)
-    email = models.EmailField(max_length=30, unique=True)
     is_teacher = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
-    is_active = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'username'
 
