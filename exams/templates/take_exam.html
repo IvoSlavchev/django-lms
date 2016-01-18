@@ -17,7 +17,7 @@
 				</thead>
 				{% for choice in exam_quest.question.choice_set.all %}	
 					<tr class="choices">
-						<td><input type="radio" name="{{ question.id }}" value="{{ choice.id }}">
+						<td><input type="radio" name="{{ choice.question.id }}" value="{{ choice.id }}">
 							{{ forloop.counter|to_char }}) {{ choice.choice_text }}
 						</td>
 					</tr>
