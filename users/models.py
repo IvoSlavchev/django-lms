@@ -9,13 +9,12 @@ class User(AbstractUser):
     is_teacher = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
 
-    USERNAME_FIELD = 'username'
-
-    objects = UserManager()
-
 
 class UserProfile(models.Model):
 
     user = models.OneToOneField(User)
     activation_key = models.CharField(max_length=40)
     key_expires = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.user

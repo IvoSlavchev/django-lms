@@ -11,9 +11,15 @@ class Question(models.Model):
     question_text = models.TextField()
     course = models.ForeignKey(Course)
     
+    def __str__(self):
+        return self.name
+
 
 class Choice(models.Model):
 
     choice_text = models.CharField(max_length=30)
     correct = models.BooleanField(default=False)
     question = models.ForeignKey(Question)
+
+    def __str__(self):
+        return self.choice_text

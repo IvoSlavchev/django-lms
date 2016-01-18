@@ -29,15 +29,23 @@ class Exam(models.Model):
         return (timezone.now() >= self.active_from and
             timezone.now() < self.active_to)
 
+    def __str__(self):
+        return self.name
+
 
 class ExamQuestion(models.Model):
 
     question = models.ForeignKey(Question)
     exam = models.ForeignKey(Exam)
 
+    def __str__(self):
+        return '{} for {}'.format(self.question, self.exam)
 
 class Score(models.Model):
 
     student = models.ForeignKey(settings.AUTH_USER_MODEL)
     exam = models.ForeignKey(Exam)
     score = models.IntegerField()
+
+    def __str__(self):
+        return '{} for {}'.format(self.student, self.exam)
