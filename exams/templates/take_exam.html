@@ -31,5 +31,10 @@
 {% endblock %}
 
 {% block javascript %}
-	<script type="text/javascript" src="/static/js/takeExam.js"></script>
+	<script type="text/javascript">
+		var password = "{{ exam.password }}";
+		var raw_limit = "{{ exam.time_limit }}";
+	</script>
+	<script type="text/javascript" src="/static/js/takeExam.js">
+	</script>
 {% endblock %}

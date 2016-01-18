@@ -2,11 +2,11 @@ $(document).ready(function() {
 
 	function lockExam() {	
 		var input = prompt("Enter exam password:");
-		if (input == "{{ exam.password }}") {
+		if (input == password) {
 			setCookie('password', input);
 			return $(".hidden").removeClass("hidden");
 		}
-		history.go(-1);;
+		history.go(-1);
 	}
 
 	function setCookie(name, value) {
@@ -34,14 +34,14 @@ $(document).ready(function() {
 		$("#remaining").text("Remaining time: " + rem);
 	}
 
-	var password = getCookie('password');
-	if ("{{ exam.password }}" && password == null) {	
+	var cached_pwd = getCookie('password');
+	if (password && cached_pwd == null) {	
 		lockExam();
 	} else {
 		$(".hidden").removeClass("hidden");
 	}
 
-	var limit = "{{ exam.time_limit }}".split(":");
+	var limit = raw_limit.split(":");
 	var seconds = getCookie('time_limit') || limit[0] * 3600 + limit[1] * 60;
 	var counter = setInterval(timer, 1000);
 	rebuildTime(seconds);
