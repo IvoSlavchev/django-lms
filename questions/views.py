@@ -24,6 +24,8 @@ def update(question_form, question, choice_formset):
 def create_question(request, course_id):
     ChoiceFormSet = modelformset_factory(Choice, ChoiceForm, extra=2)
     course = Course.objects.get(id=course_id)
+    question_form = QuestionForm()
+    choice_formset = ChoiceFormSet(queryset=Choice.objects.none())
     if request.method == 'POST':
         question_form = QuestionForm(data=request.POST)
         choice_formset = ChoiceFormSet(data=request.POST)
@@ -39,9 +41,6 @@ def create_question(request, course_id):
             messages.add_message(request, messages.INFO,
                 'Question created successfully.')
             return redirect('/courses/' + course_id + '/questions/')
-    else:
-        question_form = QuestionForm()
-        choice_formset = ChoiceFormSet(queryset=Choice.objects.none())
     return render(request, 'create_question.html', {'form': question_form,
         'choice_formset': choice_formset, 'course': course })
 
@@ -53,6 +52,9 @@ def edit_question(request, course_id, question_id):
         ChoiceFormSet = modelformset_factory(Choice, ChoiceForm, extra=0)
         course = Course.objects.get(id=course_id)
         choices = Choice.objects.filter(question=question)
+        question_form = QuestionForm(instance=question)
+        choice_formset = ChoiceFormSet(queryset=Choice.objects
+            .filter(question=question))
         if request.method == 'POST' and 'update' in request.POST:
             question_form = QuestionForm(instance=question, data=request.POST)
             choice_formset = ChoiceFormSet(data=request.POST)
@@ -68,10 +70,6 @@ def edit_question(request, course_id, question_id):
             messages.add_message(request, messages.INFO,
                 'Question deleted successfully.')
             return redirect('/courses/' + course_id + '/questions/')
-        else:
-            question_form = QuestionForm(instance=question)
-            choice_formset = ChoiceFormSet(queryset=Choice.objects
-                .filter(question=question))
         return render(request, 'edit_question.html', {'form': question_form,
             'choice_formset': choice_formset,'course': course,
             'question': question, 'choices': choices })

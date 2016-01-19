@@ -36,6 +36,7 @@ def add_questions(course, exam):
 def create_exam(request, course_id):
     course = Course.objects.get(id=course_id)
     if Question.objects.filter(course=course).exists():
+        form = ExamForm(course=course)
         if request.method == 'POST':
             form = ExamForm(course=course, data=request.POST)
             if form.is_valid():
@@ -47,8 +48,6 @@ def create_exam(request, course_id):
                 messages.add_message(request, messages.INFO,
                     'Exam created successfully.')
                 return redirect('/courses/' + course_id + '/exams/')
-        else:
-            form = ExamForm(course=course)
         return render(request, 'create_exam.html', {'form': form,
             'course': course })
     else:
@@ -62,6 +61,7 @@ def edit_exam(request, course_id, exam_id):
     exam = Exam.objects.get(id=exam_id) 
     if request.user.username == exam.owner:
         course = Course.objects.get(id=course_id)
+        form = ExamForm(instance=exam)
         if request.method == 'POST' and 'update' in request.POST:
             form = ExamForm(instance=exam, data=request.POST)
             if form.is_valid():
@@ -75,8 +75,6 @@ def edit_exam(request, course_id, exam_id):
             messages.add_message(request, messages.INFO,
                 'Exam deleted successfully.')
             return redirect('/courses/' + course_id + '/exams/')
-        else:
-            form = ExamForm(instance=exam)
         return render(request, 'edit_exam.html', {'form': form,
             'course': course, 'exam': exam })
     return redirect('/courses/' + course_id + '/exams/')

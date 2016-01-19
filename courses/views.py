@@ -53,6 +53,7 @@ def teacher_page(request):
 
 @user_passes_test(teacher_check)
 def create_course(request):
+    form = CourseForm()
     if request.method == 'POST':
         form = CourseForm(data=request.POST)
         if form.is_valid():
@@ -62,8 +63,6 @@ def create_course(request):
             messages.add_message(request, messages.INFO,
                 'Course created successfully.')
             return redirect('/courses/')
-    else:
-        form = CourseForm()
     return render(request, 'create_course.html', {'form': form})
 
 
@@ -71,6 +70,7 @@ def create_course(request):
 def edit_course(request, course_id):
     course = Course.objects.get(id=course_id)
     if request.user.username == course.owner:
+        form = CourseForm(instance=course)
         if request.method == 'POST' and 'update' in request.POST:
             form = CourseForm(instance=course, data=request.POST)
             if form.is_valid():
@@ -83,8 +83,6 @@ def edit_course(request, course_id):
             messages.add_message(request, messages.INFO,
                 'Course deleted successfully.')
             return redirect('/courses/')
-        else:
-            form = CourseForm(instance=course)
         return render(request, 'edit_course.html', {'form': form,
             'course': course})
     return redirect('/courses/')
@@ -95,6 +93,7 @@ def edit_participants(request, course_id):
     course = Course.objects.get(id=course_id)
     if request.user.username == course.owner:
         participants = Participation.objects.filter(course=course_id)
+        form = ParticipantsForm(instance=course)
         if request.method == 'POST':
             form = ParticipantsForm(instance=course, data=request.POST)
             if form.is_valid():
@@ -104,8 +103,7 @@ def edit_participants(request, course_id):
                     part.save()
                 messages.add_message(request, messages.INFO,
                     'Participants updated successfully.')
-                return redirect('/courses/' + course_id)
-        form = ParticipantsForm(instance=course)
+                return redirect('/courses/' + course_id) 
         return render(request, 'edit_participants.html', {'form': form,
             'course': course, 'participants': participants})
     else:

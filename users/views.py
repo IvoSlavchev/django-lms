@@ -28,6 +28,7 @@ def home_page(request):
 
 
 def login(request):
+    form = AuthenticationForm()
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
@@ -40,12 +41,11 @@ def login(request):
                         return redirect('/courses/')
                     else:
                         return redirect('/courses/s')
-    else:
-        form = AuthenticationForm()
     return render(request, 'login.html', {'form': form,})
 
 
 def signup(request):
+    form = RegistrationForm() 
     if request.method == 'POST':
         form = RegistrationForm(data=request.POST)
         if form.is_valid():
@@ -59,9 +59,7 @@ def signup(request):
             send_email(user, profile)
             messages.add_message(request, messages.INFO,
                 'Check email for a confirmation link.')
-            return redirect('/')
-    else:
-        form = RegistrationForm()        
+            return redirect('/')          
     return render(request, 'signup.html', {'form': form,})
 
 
