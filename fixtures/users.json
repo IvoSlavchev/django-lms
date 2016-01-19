@@ -39,6 +39,21 @@
         }
     },
     {
+        "model": "users.user",
+        "pk": 4,
+        "fields": {
+            "password": "pbkdf2_sha256$24000$XfQBDEHihGDE$laJkVQD2upTuuvjP+ArxXDCCOU7YZa19dp6SaLsh8vk=",
+            "last_login": "2016-01-14T09:24:06.386Z",
+            "username": "admin",
+            "email": "admin@admin.com",
+            "is_teacher": true,
+            "created": "2016-01-07T09:04:33.141Z",
+            "is_active": true,
+            "is_superuser": true,
+            "is_staff": true
+        }
+    },
+    {
         "model": "users.userprofile",
         "pk": 1,
         "fields": {
@@ -47,4 +62,5 @@
             "key_expires": "2016-12-18T09:34:33.193Z"
         }
     }
+
 ]
