@@ -16,9 +16,9 @@ class ExamModelTest(TestCase):
 			active_to=timezone.now()+datetime.timedelta(1), question_count=2)
 		self.assertTrue(exam.active)
 
-	def test_active_outside_range(self):
+	def test_inactive_outside_range(self):
 		course = Course.objects.create(name='Example name')
 		exam = Exam.objects.create(name='Example', time_limit='00:10',
-			course=course, active_from=timezone.now()-datetime.timedelta(2),
+			course=course, active_from=timezone.now()-datetime.timedelta(1),
 			active_to=timezone.now(), question_count=2)
 		self.assertFalse(exam.active)
