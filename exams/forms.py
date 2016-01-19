@@ -1,4 +1,5 @@
 from django import forms
+from django.utils import timezone
 
 from exams.models import Exam, ExamQuestion
 from questions.models import Question
@@ -21,6 +22,17 @@ class ExamForm(forms.ModelForm):
         model = Exam
         fields = ['name', 'description', 'password', 'time_limit',
             'active_from', 'active_to', 'category', 'question_count']
+
+    def clean(self):
+        cleaned_data = super(ExamForm, self).clean()
+        if ('active_from' in self.cleaned_data and 
+            'active_to' in self.cleaned_data):
+            if (self.cleaned_data['active_from'] >= 
+                self.cleaned_data['active_to'] or 
+                self.cleaned_data['active_from'] < timezone.now()):
+                raise forms.ValidationError("Please enter a valid active \
+                    time frame")
+        return self.cleaned_data
 
     def __init__(self, instance=None, course=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
