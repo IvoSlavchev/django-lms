@@ -3,7 +3,17 @@ body {
 }
 
 #login, #logout {
-	padding-right: 2%;
+	margin-right: 1%;
+	padding-right: 1%;
+}
+
+table {
+	table-layout:fixed;
+	width: 70%;
+}
+
+td {
+	word-wrap:break-word;
 }
 
 .list-group-item-description {
@@ -11,23 +21,28 @@ body {
 	text-overflow: ellipsis;
 }
 
-form ul#id_participants li {
+#id_participants li {
 	list-style-type: none;
 }
 
-tr.choices:last-child > td {
-	padding-bottom: 20px;
+#choices-form-container li {
+	margin-left: -40px;
+	list-style-type: none;
 }
 
-button#add-choice {
-	margin-bottom: 10px;
+.choices:last-child > td {
+	padding-bottom: 10%;
 }
 
-input#search {
-	margin-top: 10px;
-	margin-bottom: 10px;
+#add-choice {
+	margin-bottom: 5%;
 }
 
-div.hidden {
+#search {
+	margin-top: 1%;
+	margin-bottom: 1%;
+}
+
+.hidden {
 	display: none;
 }
