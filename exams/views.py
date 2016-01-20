@@ -111,6 +111,17 @@ def view_scores(request, course_id, exam_id):
     else:
         return redirect('/courses/')
 
+@user_passes_test(teacher_check)
+def view_assigned(request, course_id, exam_id):
+    exam = Exam.objects.get(id=exam_id)
+    if request.user.username == exam.owner:
+        course = Course.objects.get(id=course_id)
+        exam_questions = ExamQuestion.objects.filter(exam=exam)
+        return render(request, 'view_questions.html', {'course': course,
+            'exam': exam, 'exam_questions': exam_questions, 
+            'teacher': request.user})
+    else:
+        return redirect('/courses/')
 
 @user_passes_test(student_check)
 def view_exam(request, course_id, exam_id):

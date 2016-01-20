@@ -10,10 +10,15 @@
 {% endblock %}
 
 {% block dashboard %}
+	<a href="{% url 'view_assigned' course.id exam.id %}">
+		<span class="glyphicon glyphicon-question-sign"></span>
+		View assigned questions
+	</a>
+	<br>
 	<a href="{% url 'view_scores' course.id exam.id %}">
 		<span class="glyphicon glyphicon-education"></span>
 		View scores
-	</a>	
+	</a>
 	<br>
 	<a href="{% url 'list_exams' course.id %}">
 		<span class="glyphicon glyphicon-arrow-left"></span>

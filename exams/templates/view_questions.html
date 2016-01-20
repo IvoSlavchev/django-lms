@@ -15,7 +15,7 @@
 			{% for choice in exam_quest.question.choice_set.all %}	
 				<tr class="choices">
 					{% if choice.correct %}
-						<td>{{ forloop.counter|to_char }}) {{ choice.choice_text }} - <b>Correct.</b></td>
+						<td><b>{{ forloop.counter|to_char }}) {{ choice.choice_text }}</b></td>
 					{% else %}
 						<td>{{ forloop.counter|to_char }}) {{ choice.choice_text }}</td>
 					{% endif %}
@@ -23,8 +23,15 @@
 			{% endfor %}		
 		{% endfor %}
 		</table>
-	<a href="{% url 'view_exam' course.id exam.id %}">
-		<span class="glyphicon glyphicon-arrow-left"></span>
-		Back to exam
-	</a>
+	{% if teacher %}
+		<a href="{% url 'edit_exam' course.id exam.id %}">
+			<span class="glyphicon glyphicon-arrow-left"></span>
+			Back to exam
+		</a>
+	{% else %}
+		<a href="{% url 'view_exam' course.id exam.id %}">
+			<span class="glyphicon glyphicon-arrow-left"></span>
+			Back to exam
+		</a>
+	{% endif %}
 {% endblock %}

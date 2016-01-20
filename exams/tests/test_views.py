@@ -5,7 +5,7 @@ from django.utils import timezone
 from courses.models import Course
 from exams.models import Exam
 from exams.views import create_exam, edit_exam, list_exams, view_scores
-from exams.views import view_exam, take_exam, view_questions
+from exams.views import view_assigned, view_exam, take_exam, view_questions
 
 class ExamsViewsTest(TestCase):
 
@@ -54,6 +54,19 @@ class ExamsViewsTest(TestCase):
         url = reverse('view_scores', args=[course.id, exam.id])
         self.assertEqual(url, '/courses/1/exams/1/scores')
         self.assertTemplateUsed('view_scores.html')
+
+    def test_url_resolves_to_viewing_assigned_questions(self):
+        found = resolve('/courses/1/exams/1/questions')
+        self.assertEqual(found.func, view_assigned)
+
+    def test_view_assigned_correct_arguments_and_template(self):
+        course = Course.objects.create(name='Example name')
+        exam = Exam.objects.create(name='Example', time_limit='00:10',
+            course=course, active_from=timezone.now(),
+            active_to=timezone.now(), question_count=2)
+        url = reverse('view_assigned', args=[course.id, exam.id])
+        self.assertEqual(url, '/courses/1/exams/1/questions')
+        self.assertTemplateUsed('view_questions.html')
 
     def test_url_resolves_to_exam_view(self):
         found = resolve('/courses/8/exams/10/s')
