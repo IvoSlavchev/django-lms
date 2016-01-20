@@ -172,14 +172,14 @@ def take_exam(request, course_id, exam_id):
 
 
 @user_passes_test(student_check)
-def view_result(request, course_id, exam_id):
+def view_questions(request, course_id, exam_id):
     if (Participation.objects.filter(user=request.user, course=course_id)
         .exists() and Score.objects.filter(student=request.user, exam=exam_id)
         .exists()):
         course = Course.objects.get(id=course_id)
         exam = Exam.objects.get(id=exam_id)
         exam_questions = ExamQuestion.objects.filter(exam=exam)
-        return render(request, 'view_result.html', {'course': course,
+        return render(request, 'view_questions.html', {'course': course,
             'exam': exam, 'exam_questions': exam_questions})
     else:
         return redirect('/courses/s')

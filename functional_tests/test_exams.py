@@ -67,7 +67,7 @@ class ExamTest(FunctionalTest):
             'http://localhost:8081/courses/1/exams/1/scores')
         self.logout()
 
-    def test_exam_viewing_taking_and_results(self):
+    def test_exam_viewing_taking_and_questions(self):
         self.login(False)
         self.get_by_partial('Test').click()
         self.get_by_partial('Test exam').click()
@@ -76,7 +76,7 @@ class ExamTest(FunctionalTest):
         self.get_by_id('submit').click()
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/courses/1/exams/1/s')
-        self.get_by_link_text('View result').click()
+        self.get_by_link_text('View exam questions').click()
         self.assertEqual(self.browser.current_url,
-            'http://localhost:8081/courses/1/exams/1/result')
+            'http://localhost:8081/courses/1/exams/1/questions/s')
         self.logout()
