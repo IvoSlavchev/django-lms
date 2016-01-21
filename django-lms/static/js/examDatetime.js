@@ -1,0 +1,1 @@
+$('#id_active_from, #id_active_to').datetimepicker();
