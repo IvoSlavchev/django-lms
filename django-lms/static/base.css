@@ -40,9 +40,16 @@ td {
 
 #search {
 	margin-top: 1%;
-	margin-bottom: 1%;
+	margin-bottom: 5%;
 }
 
 .hidden {
 	display: none;
+}
+
+.center {
+	width: 25%; 
+	margin-top: 1%;
+	margin-left: auto;
+	margin-right: auto;
 }

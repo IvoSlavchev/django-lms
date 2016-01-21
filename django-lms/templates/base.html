@@ -21,6 +21,7 @@
                     {% endif %}
                     <a class="btn navbar-btn navbar-right" id="logout" href="{% url 'logout' %}">Log out</a>
                     <span class="navbar-text navbar-right">Logged in as {{ user.username }}</span>
+                    <span class="navbar-text navbar-right">{% now "D, M. jS, Y" %}</span>
                 {% else %}
                     <a class="navbar-brand" href="/">Django-LMS</a>
                     <a class="btn navbar-btn navbar-right" id="login" href="{% url 'login' %}">Log in</a>
@@ -28,21 +29,19 @@
                 {% endif %}
             </nav>
             <div class="row">              
-                <h3 class="text-primary text-center">{% block header_text %}{% endblock %}</h3>       
-                {% block filter %}{% endblock %}
-                <form class="form-horizontal col-md-6 col-md-offset-5" action="{% block form_action %}{% endblock %}" 
+                <h3 class="text-primary text-center">{% block header_text %}{% endblock %}</h3> 
+                <div class="center">      
+                    {% block filter %}{% endblock %}
+                </div>
+                <form class="center" action="{% block form_action %}{% endblock %}" 
                     method="POST"> 
                     {% csrf_token %}
-                    <div class="form-group col-xs-4">
-                        {{ form.as_p }}
-                        {% block additional_forms %}{% endblock %}
-                        {% block button %}{% endblock %}
-                    </div>
-                </form>
-                <div class="col-md-4 col-md-offset-4" >                        
-                    <div class="list-group">
-                        {% block dashboard %}{% endblock %}
-                    </div>
+                    {{ form.as_p }}
+                    {% block additional_forms %}{% endblock %}
+                    {% block button %}{% endblock %}
+                </form>                  
+                <div class="list-group center">
+                    {% block dashboard %}{% endblock %}
                 </div>
             </div>
         </div>
