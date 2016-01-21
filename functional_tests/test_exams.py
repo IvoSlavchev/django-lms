@@ -22,8 +22,8 @@ class ExamTest(FunctionalTest):
         self.get_by_id('submit').click()
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/courses/1/exams/')
-        header = self.browser.find_element_by_tag_name('h3').text
-        self.assertEqual(header, 'Exam created successfully.')
+        message = self.get_by_id('messages').text
+        self.assertEqual(message, 'Exam created successfully.')
         self.logout()
 
     def test_exam_deletion(self):
@@ -37,8 +37,8 @@ class ExamTest(FunctionalTest):
         self.browser.switch_to_alert().accept()
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/courses/1/exams/')
-        header = self.browser.find_element_by_tag_name('h3').text
-        self.assertEqual(header, 'Exam deleted successfully.')
+        message = self.get_by_id('messages').text
+        self.assertEqual(message, 'Exam deleted successfully.')
         self.logout()
 
     def test_exam_editing(self):
@@ -55,8 +55,8 @@ class ExamTest(FunctionalTest):
         self.get_by_id('submit').click()
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/courses/1/exams/')
-        header = self.browser.find_element_by_tag_name('h3').text
-        self.assertEqual(header, 'Exam updated successfully.')
+        message = self.get_by_id('messages').text
+        self.assertEqual(message, 'Exam updated successfully.')
         self.logout()
 
     def test_exam_score_and_questions_viewing(self):

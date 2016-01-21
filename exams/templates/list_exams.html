@@ -1,14 +1,12 @@
 {% extends 'base.html' %}
 
-{% block header_text %}
-	{% if messages %}
-	    {% for message in messages %}
-	    	{{ message }}
-	    {% endfor %}
-	{% else %}
-		Exams for: {{ course.name }}
-	{% endif %}
+{% block messages %}
+    {% for message in messages %}
+    	{{ message }}
+    {% endfor %}
 {% endblock %}
+
+{% block header %}Exams for {{ course.name }}{% endblock %}
 
 {% block dashboard %}
 	{% for exam in exams %}

@@ -1,14 +1,12 @@
 {% extends 'base.html' %}
 
-{% block header_text %}
-	{% if messages %}
-	    {% for message in messages %}
-	    	{{ message }}
-	    {% endfor %}
-	{% else %}
-		Your courses:
-	{% endif %}
+{% block messages %}
+    {% for message in messages %}
+    	{{ message }}
+    {% endfor %}
 {% endblock %}
+
+{% block header %}Your courses{% endblock %}
 
 {% block dashboard %}
 	{% for course in courses %}
@@ -17,7 +15,7 @@
 			<p class="list-group-item-description">{{ course.description }}</p>
 		</a>
 	{% endfor %}
-	<h3 class="text-primary text-center">Uncompleted active exams:</h3>
+	<h3 class="text-primary text-center">Uncompleted active exams</h3>
 	{% for exam in exams %}
 		<a class="list-group-item" href="{% url 'view_exam' exam.course.id exam.id %}">
 			<h4 class="list-group-item-heading">{{ exam.name }}</h4>

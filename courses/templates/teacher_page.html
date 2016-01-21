@@ -1,14 +1,12 @@
 {% extends 'base.html' %}
 
-{% block header_text %}
-	{% if messages %}
-	    {% for message in messages %}
-	    	{{ message }}
-	    {% endfor %}
-	{% else %}
-		Your courses:
-	{% endif %}
+{% block messages %}
+    {% for message in messages %}
+    	{{ message }}
+    {% endfor %}
 {% endblock %}
+
+{% block header %}Your courses{% endblock %}
 
 {% block dashboard %}
 	{% for course in courses %}
@@ -22,7 +20,7 @@
 		<span class="glyphicon glyphicon-plus"></span>
 		Create new course
 	</a>
-	<h3 class="text-primary text-center">Your active exams:</h3>
+	<h3 class="text-primary text-center">Your active exams</h3>
 	{% for exam in exams %}
 		<a class="list-group-item" href="{% url 'edit_exam' exam.course.id exam.id %}">
 			<h4 class="list-group-item-heading">{{ exam.name }}</h4>

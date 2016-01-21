@@ -30,7 +30,8 @@
                 {% endif %}
             </nav>
             <div class="row">              
-                <h3 class="text-primary text-center">{% block header_text %}{% endblock %}</h3> 
+                <h4 id="messages" class="text-info text-center">{% block messages %}{% endblock %}</h4> 
+                <h3 class="text-primary text-center">{% block header %}{% endblock %}</h3> 
                 <div class="center">      
                     {% block filter %}{% endblock %}
                 </div>

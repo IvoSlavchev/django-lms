@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block header_text %}Editing participants for: {{ course.name }}{% endblock %}
+{% block header %}Editing participants for {{ course.name }}{% endblock %}
 
 {% block filter %}
 	<input type="text" id="search" placeholder="Filter participants" onkeyup="searchFilter()">

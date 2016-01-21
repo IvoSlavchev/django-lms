@@ -1,14 +1,13 @@
 {% extends 'base.html' %}
 
-{% block header_text %}
-	{% if messages %}
-	    {% for message in messages %}
-	    	{{ message }}
-	    {% endfor %}
-	{% else %}
-		Welcome!
-	{% endif %}
+{% block messages %}
+    {% for message in messages %}
+    	{{ message }}
+    {% endfor %}
 {% endblock %}
+
+{% block header %}Welcome!{% endblock %}
+	
 
 {% block dashboard %}
 	<p>Django-LMS is a learning management system, aiming to provide both ease of access and serious education.</p>

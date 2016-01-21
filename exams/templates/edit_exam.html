@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block header_text %}Editing exam: {{ exam.name }}{% endblock %}
+{% block header %}Editing exam {{ exam.name }}{% endblock %}
 
 {% block form_action %}{% url 'edit_exam' course.id exam.id %}{% endblock %}
 
