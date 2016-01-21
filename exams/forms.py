@@ -4,6 +4,7 @@ from django.utils import timezone
 from exams.models import Exam, ExamQuestion
 from questions.models import Question
 
+FORMAT = '%Y/%m/%d %H:%M'
 
 class ExamForm(forms.ModelForm):
 
@@ -13,8 +14,10 @@ class ExamForm(forms.ModelForm):
         widget=forms.PasswordInput(), required=False)
     time_limit = forms.TimeField(widget=forms.TimeInput(format='%H:%M'),
         help_text=("Hours:Minutes"))
-    active_from = forms.DateTimeField()
-    active_to = forms.DateTimeField()
+    active_from = forms.DateTimeField(widget=forms.DateTimeInput(format=FORMAT),
+        input_formats=[FORMAT])
+    active_to = forms.DateTimeField(widget=forms.DateTimeInput(format=FORMAT),
+        input_formats=[FORMAT])
     category = forms.ChoiceField()
     question_count = forms.IntegerField(label="Number of questions")
 

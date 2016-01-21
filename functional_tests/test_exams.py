@@ -14,8 +14,8 @@ class ExamTest(FunctionalTest):
         self.get_by_id('id_description').send_keys('Example description')
         self.get_by_id('id_password').send_keys('example')
         self.get_by_id('id_time_limit').send_keys('00:30')
-        self.get_by_id('id_active_from').send_keys('09/09/2016 10:00')
-        self.get_by_id('id_active_to').send_keys('10/10/2016 10:40')
+        self.get_by_id('id_active_from').send_keys('2016/09/09 10:00')
+        self.get_by_id('id_active_to').send_keys('2016/10/10 10:40')
         self.get_by_id('id_question_count').send_keys('1')
         self.get_by_id('submit').click()
         self.assertEqual(self.browser.current_url,

@@ -13,8 +13,8 @@ class ExamFormTest(TestCase):
             category='Examples', question_text='Example', course=course)
         form_data = {'name': 'Example name',
             'description': 'Example description', 'password': 'example',
-            'time_limit': '00:10', 'active_from': '09/09/2016 10:00',
-            'active_to': '10/10/2016 22:00', 'category': 'Examples', 
+            'time_limit': '00:10', 'active_from': '2016/09/09 10:00',
+            'active_to': '2016/10/10 22:00', 'category': 'Examples', 
             'question_count': '2'}
         form = ExamForm(data=form_data, course=course)
         self.assertTrue(form.is_valid())
@@ -25,8 +25,8 @@ class ExamFormTest(TestCase):
             category='Examples', question_text='Example', course=course)
         form_data = {'name': 'Example name', 'description': '',
             'password': '', 'time_limit': '00:10',
-            'active_from': '09/09/2016 10:00',
-            'active_to': '10/10/2016 22:00', 'category': 'Examples', 
+            'active_from': '2016/09/09 10:00',
+            'active_to': '2016/10/10 22:00', 'category': 'Examples', 
             'question_count': '2'}
         form = ExamForm(data=form_data, course=course)
         self.assertTrue(form.is_valid())
@@ -36,8 +36,8 @@ class ExamFormTest(TestCase):
         question = Question.objects.create(name='Example name',
             category='Examples', question_text='Example', course=course)
         form_data = {'name': '', 'description': '', 'password': 'example',
-            'time_limit': '00:10', 'active_from': '09/09/2016 10:00',
-            'active_to': '10/10/2016 22:00', 'category': 'Examples', 
+            'time_limit': '00:10', 'active_from': '2016/09/09 10:00',
+            'active_to': '2016/10/10 22:00', 'category': 'Examples', 
             'question_count': '2'}
         form = ExamForm(data=form_data, course=course)
         self.assertFalse(form.is_valid())
@@ -59,7 +59,7 @@ class ExamFormTest(TestCase):
             category='Examples', question_text='Example', course=course)
         form_data = {'name': 'Example name', 'description': '',
             'password': 'example', 'time_limit': '00:10',
-            'active_from': '09/09/2016 10:00', 'active_to': '10/10/2016 22:00',
+            'active_from': '2016/09/09 10:00', 'active_to': '2016/10/10 22:00',
             'category': '', 'question_count': ''}
         form = ExamForm(data=form_data, course=course)
         self.assertFalse(form.is_valid())
@@ -70,7 +70,7 @@ class ExamFormTest(TestCase):
             category='Examples', question_text='Example', course=course)
         form_data = {'name': 'Example name', 'description': '',
             'password': 'example', 'time_limit': '00:10',
-            'active_from': '10/10/2016 10:00', 'active_to': '09/09/2016 22:00',
+            'active_from': '2016/10/10 10:00', 'active_to': '2016/09/09 22:00',
             'category': '', 'question_count': ''}
         form = ExamForm(data=form_data, course=course)
         self.assertFalse(form.is_valid())
