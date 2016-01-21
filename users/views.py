@@ -57,8 +57,7 @@ def signup(request):
                 key_expires=key_expires)
             profile.save()
             send_email(user, profile)
-            messages.add_message(request, messages.INFO,
-                'Check email for a confirmation link.')
+            messages.info(request, 'Check email for a confirmation link.')
             return redirect('/')          
     return render(request, 'signup.html', {'form': form,})
 
@@ -76,5 +75,5 @@ def confirm(request):
 
 def logout(request):
     django_logout(request)
-    messages.add_message(request, messages.INFO, 'Logged out')
+    messages.success(request, 'Logged out')
     return redirect('/login')
