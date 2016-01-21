@@ -15,4 +15,4 @@ function searchFilter() {
     });
 }
 
-$("input:not(:checkbox, :radio), textarea").addClass('form-control');
+$("input:not(:checkbox, :radio), textarea, #id_category").addClass('form-control');
