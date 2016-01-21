@@ -16,3 +16,6 @@ function searchFilter() {
 }
 
 $("input:not(:checkbox, :radio), textarea, #id_category").addClass('form-control');
+$(".helptext").addClass('help-block');
+$('#id_active_from, #id_active_to').datetimepicker();
+$("#messages").delay(10000).fadeOut(1000);

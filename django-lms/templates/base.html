@@ -30,7 +30,7 @@
                 {% endif %}
             </nav>
             <div class="row">              
-                <h4 id="messages" class="text-info text-center">{% block messages %}{% endblock %}</h4> 
+                <h4 id="messages" class="text-success text-center">{% block messages %}{% endblock %}</h4> 
                 <h3 class="text-primary text-center">{% block header %}{% endblock %}</h3> 
                 <div class="center">      
                     {% block filter %}{% endblock %}
@@ -48,8 +48,8 @@
             </div>
         </div>
         <script type="text/javascript" src="/static/js/jquery.js"></script>
-        <script type="text/javascript" src="/static/js/base.js"></script>
         <script type="text/javascript" src="/static/datetimepicker/jquery.datetimepicker.full.min.js"></script>
+        <script type="text/javascript" src="/static/js/base.js"></script>
         {% block javascript %}{% endblock %}
     </body>
 </html>
