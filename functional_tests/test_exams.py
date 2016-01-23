@@ -18,7 +18,7 @@ class ExamTest(FunctionalTest):
         self.get_by_id('id_active_from').send_keys('2016/09/09 10:00')
         self.get_by_id('id_active_to').send_keys('2016/10/10 10:40')
         self.get_by_id('id_question_count').send_keys('1')
-        self.get_by_id('id_active_from').click()
+        self.get_by_id('id_time_limit').click()
         self.get_by_id('submit').click()
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/courses/1/exams/')

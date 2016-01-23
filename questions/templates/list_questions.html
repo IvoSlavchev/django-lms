@@ -1,12 +1,6 @@
 {% extends 'base.html' %}
 
-{% block messages %}
-    {% for message in messages %}
-        <h4 class="alert alert-{{ message.level_tag }} text-center">
-            <strong>{{ message.message }}</strong>
-        </h4>
-    {% endfor %}
-{% endblock %}
+{% block messages %}{% include 'messages.html' %}{% endblock %}
 
 {% block header %}Questions for {{ course.name }}{% endblock %}
 
