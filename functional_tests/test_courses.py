@@ -13,8 +13,8 @@ class CourseTest(FunctionalTest):
         self.get_by_id('submit').click()
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/courses/')
-        message = self.get_by_id('messages').text
-        self.assertEqual(message, 'Course created successfully.')
+        message = self.get_by_class('alert').text
+        self.assertEqual(message, 'Course created successfully!')
         self.logout()
 
     def test_course_deletion(self):
@@ -26,8 +26,8 @@ class CourseTest(FunctionalTest):
         self.browser.switch_to_alert().accept()
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/courses/')
-        message = self.get_by_id('messages').text
-        self.assertEqual(message, 'Course deleted successfully.')
+        message = self.get_by_class('alert').text
+        self.assertEqual(message, 'Course deleted successfully!')
         self.logout()
 
     def test_course_editing(self):
@@ -40,8 +40,8 @@ class CourseTest(FunctionalTest):
         self.get_by_id('submit').click()
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/courses/')
-        message = self.get_by_id('messages').text
-        self.assertEqual(message, 'Course updated successfully.')
+        message = self.get_by_class('alert').text
+        self.assertEqual(message, 'Course updated successfully!')
         self.logout()
 
     def test_participants_editing(self):
@@ -54,8 +54,8 @@ class CourseTest(FunctionalTest):
         self.get_by_id('submit').click()
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/courses/1')
-        message = self.get_by_id('messages').text
-        self.assertEqual(message, 'Participants updated successfully.')
+        message = self.get_by_class('alert').text
+        self.assertEqual(message, 'Participants updated successfully!')
         self.logout()
 
     def test_score_viewing(self):

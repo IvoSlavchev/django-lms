@@ -45,12 +45,12 @@ def create_exam(request, course_id):
                 exam.course = course
                 exam.save()
                 add_questions(course, exam)
-                messages.success(request, 'Exam created successfully.')
+                messages.success(request, 'Exam created successfully!')
                 return redirect('/courses/' + course_id + '/exams/')
         return render(request, 'create_exam.html', {'form': form,
             'course': course })
     else:
-        messages.error(request, 'Course has no questions.')
+        messages.error(request, 'Course has no questions!')
         return redirect('/courses/' + course_id)
 
 
@@ -65,11 +65,11 @@ def edit_exam(request, course_id, exam_id):
             if form.is_valid():
                 update(form, exam)
                 add_questions(course, exam)
-                messages.success(request, 'Exam updated successfully.')
+                messages.success(request, 'Exam updated successfully!')
                 return redirect('/courses/' + course_id + '/exams/')
         if request.method == 'POST' and 'delete' in request.POST:
             exam.delete()
-            messages.success(request, 'Exam deleted successfully.')
+            messages.success(request, 'Exam deleted successfully!')
             return redirect('/courses/' + course_id + '/exams/')
         return render(request, 'edit_exam.html', {'form': form,
             'course': course, 'exam': exam })
@@ -148,7 +148,7 @@ def take_exam(request, course_id, exam_id):
         if exam.active:
             try:
                 score = Score.objects.get(student=request.user, exam=exam)
-                messages.error(request, 'Exam already taken')
+                messages.error(request, 'Exam already taken!')
                 return redirect('/courses/' +  course_id + '/exams/' +
                     exam_id + '/s')
             except ObjectDoesNotExist:
@@ -165,12 +165,12 @@ def take_exam(request, course_id, exam_id):
                     score = Score.objects.create(student=request.user,
                         exam=exam, score=answered)
                     messages.info(request, 'Exam finished with ' +
-                        str(answered) + ' correct answers')
+                        str(answered) + ' correct answers!')
                     return redirect('/courses/' +  course_id + '/exams/' +
                         exam_id + '/s')
                 return render(request, 'take_exam.html', {'course': course,
                     'exam': exam, 'exam_questions': exam_questions})
-        messages.error(request, 'Exam inactive.')
+        messages.error(request, 'Exam inactive!')
         return redirect('/courses/' +  course_id + '/exams/' + exam_id + '/s')
     else:
         return redirect('/courses/s')

@@ -2,9 +2,9 @@
 
 {% block messages %}
 	{% if success %}
-		Successfully confirmed!
+		<h4 class="alert alert-success text-center">Successfully confirmed!</h4>
 	{% else %}
-	    Link expired!
+	    <h4 class="alert alert-error text-center">Link expired!</h4>
 	{% endif %}
 {% endblock %}
 

@@ -21,8 +21,8 @@ class QuestionTest(FunctionalTest):
         self.get_by_id('submit').click()
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/courses/1/questions/')
-        message = self.get_by_id('messages').text
-        self.assertEqual(message, 'Question created successfully.')
+        message = self.get_by_class('alert').text
+        self.assertEqual(message, 'Question created successfully!')
         self.logout()
 
     def test_question_deletion(self):
@@ -36,8 +36,8 @@ class QuestionTest(FunctionalTest):
         self.browser.switch_to_alert().accept()
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/courses/1/questions/')
-        message = self.get_by_id('messages').text
-        self.assertEqual(message, 'Question deleted successfully.')
+        message = self.get_by_class('alert').text
+        self.assertEqual(message, 'Question deleted successfully!')
         self.logout()
 
     def test_question_editing(self):
@@ -56,6 +56,6 @@ class QuestionTest(FunctionalTest):
         self.get_by_id('submit').click()
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/courses/1/questions/')
-        message = self.get_by_id('messages').text
-        self.assertEqual(message, 'Question updated successfully.')
+        message = self.get_by_class('alert').text
+        self.assertEqual(message, 'Question updated successfully!')
         self.logout()

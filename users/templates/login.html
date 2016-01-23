@@ -2,12 +2,13 @@
 
 {% block messages %}
     {% for message in messages %}
-    	{{ message }}
+        <h4 class="alert alert-{{ message.level_tag }} text-center">
+            <strong>{{ message.message }}</strong>
+        </h4>
     {% endfor %}
 {% endblock %}
 
 {% block header %}Log in{% endblock %}
-
 
 {% block form_action %}{% url 'login' %}{% endblock %}
 

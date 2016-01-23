@@ -60,7 +60,7 @@ def create_course(request):
             course = form.save(commit=False)
             course.owner = request.user
             course.save()
-            messages.success(request, 'Course created successfully.')
+            messages.success(request, 'Course created successfully!')
             return redirect('/courses/')
     return render(request, 'create_course.html', {'form': form})
 
@@ -74,11 +74,11 @@ def edit_course(request, course_id):
             form = CourseForm(instance=course, data=request.POST)
             if form.is_valid():
                 update_course(form, course)
-                messages.success(request, 'Course updated successfully.')
+                messages.success(request, 'Course updated successfully!')
                 return redirect('/courses/')
         if request.method == 'POST' and 'delete' in request.POST:
             delete_course(course)
-            messages.success(request, 'Course deleted successfully.')
+            messages.success(request, 'Course deleted successfully!')
             return redirect('/courses/')
         return render(request, 'edit_course.html', {'form': form,
             'course': course})
@@ -98,7 +98,7 @@ def edit_participants(request, course_id):
                 for participant in form.cleaned_data['participants']:
                     part = Participation(user=participant, course=course)
                     part.save()
-                messages.success(request, 'Participants updated successfully.')
+                messages.success(request, 'Participants updated successfully!')
                 return redirect('/courses/' + course_id) 
         return render(request, 'edit_participants.html', {'form': form,
             'course': course, 'participants': participants})

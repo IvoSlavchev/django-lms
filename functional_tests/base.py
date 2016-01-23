@@ -17,6 +17,9 @@ class FunctionalTest(StaticLiveServerTestCase):
     def get_by_id(self, id):
         return self.browser.find_element_by_id(id)
 
+    def get_by_class(self, cls):
+        return self.browser.find_element_by_class_name(cls)
+
     def get_by_link_text(self, text):
         return self.browser.find_element_by_link_text(text)
 

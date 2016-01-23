@@ -2,15 +2,16 @@
 
 {% block messages %}
     {% for message in messages %}
-    	{{ message }}
+        <h4 class="alert alert-{{ message.level_tag }} text-center">
+            <strong>{{ message.message }}</strong>
+        </h4>
     {% endfor %}
 {% endblock %}
 
 {% block header %}Welcome!{% endblock %}
-	
 
 {% block dashboard %}
-	<p>Django-LMS is a learning management system, aiming to provide both ease of access and serious education.</p>
-	<p>In order to use the system please sign up or log in.</p>
-	<p>We support both Teacher and Student type accounts.</p>
+    <p>Django-LMS is a learning management system, aiming to provide both ease of access and serious education.</p>
+    <p>In order to use the system please sign up or log in.</p>
+    <p>We support both Teacher and Student type accounts.</p>
 {% endblock %}

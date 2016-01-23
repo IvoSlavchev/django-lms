@@ -38,7 +38,7 @@ def create_question(request, course_id):
                 choice = choice_form.save(commit=False)
                 choice.question = question
                 choice.save()
-            messages.success(request, 'Question created successfully.')
+            messages.success(request, 'Question created successfully!')
             return redirect('/courses/' + course_id + '/questions/')
     return render(request, 'create_question.html', {'form': question_form,
         'choice_formset': choice_formset, 'course': course })
@@ -60,12 +60,12 @@ def edit_question(request, course_id, question_id):
             if question_form.is_valid() and choice_formset.is_valid():
                 Choice.objects.filter(question=question).delete()
                 update(question_form, question, choice_formset)
-                messages.success(request, 'Question updated successfully.')
+                messages.success(request, 'Question updated successfully!')
                 return redirect('/courses/' + course_id + '/questions/')
         if request.method == 'POST' and 'delete' in request.POST:
             question.delete()
             Choice.objects.filter(question=question).delete()
-            messages.success(request, 'Question deleted successfully.')
+            messages.success(request, 'Question deleted successfully!')
             return redirect('/courses/' + course_id + '/questions/')
         return render(request, 'edit_question.html', {'form': question_form,
             'choice_formset': choice_formset,'course': course,

@@ -3,7 +3,9 @@
 {% block header %}Editing participants for {{ course.name }}{% endblock %}
 
 {% block filter %}
-	<input type="text" id="search" placeholder="Filter participants" onkeyup="searchFilter()">
+	<div class="center">
+		<input type="text" id="search" placeholder="Filter participants" onkeyup="searchFilter()">
+	</div>
 {% endblock %}
 
 {% block form_action %}{% url 'edit_participants' course.id %}{% endblock %}
