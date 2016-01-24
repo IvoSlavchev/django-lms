@@ -43,7 +43,12 @@ class AuthenticationTest(FunctionalTest):
             'http://localhost:8081/courses/s')
         self.logout()
 
-    def test_confirm(self):
-        self.browser.get('http://localhost:8081/confirm?q=b9ba683184e5d99e5bb682481ec27c4b6b711bbee3ff153f69ff26b9')
+    def test_valid_confirmation(self):
+        self.browser.get('http://localhost:8081/confirm?q=valid')
         message = self.get_by_class('alert').text
         self.assertEqual(message, 'Successfully confirmed!')
+
+    def test_exipred_confirmation_key(self):
+        self.browser.get('http://localhost:8081/confirm?q=expired')
+        message = self.get_by_class('alert').text
+        self.assertEqual(message, 'Link expired!')

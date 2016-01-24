@@ -57,10 +57,18 @@
         "model": "users.userprofile",
         "pk": 1,
         "fields": {
-            "user": 3,
-            "activation_key": "b9ba683184e5d99e5bb682481ec27c4b6b711bbee3ff153f69ff26b9",
+            "user": 1,
+            "activation_key": "valid",
             "key_expires": "2016-12-18T09:34:33.193Z"
         }
+    },
+    {
+        "model": "users.userprofile",
+        "pk": 2,
+        "fields": {
+            "user": 2,
+            "activation_key": "expired",
+            "key_expires": "2016-01-01T09:34:33.193Z"
+        }
     }
-
 ]
