@@ -17,4 +17,4 @@ class UserProfile(models.Model):
     key_expires = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return self.user
+        return self.user.username

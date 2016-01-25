@@ -50,9 +50,7 @@ $(document).ready(function() {
 		seconds -= 1;
 		if (seconds == 0) {
 			clearInterval(counter);
-			clearCookie('time_limit');
-			clearCookie('password');
-	    	$("form").submit();
+	    	$("#submit").click();
 	 	}
 	 	rebuildTime(seconds);
 	 	setCookie('time_limit', seconds);
@@ -60,9 +58,7 @@ $(document).ready(function() {
 
 	$("a").click(function(e) {
 		if (confirm("Exam in progress. Choosing to continue will submit your current answers.")) {		
-			clearCookie('time_limit');
-			clearCookie('password');
-	    	$("form").submit();
+			$("#submit").click();
 		}
 		return false;
 	});
