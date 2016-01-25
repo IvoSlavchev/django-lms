@@ -3,24 +3,9 @@ $(document).ready(function() {
 	function lockExam() {	
 		var input = prompt("Enter exam password:");
 		if (input == password) {
-			setCookie('password', input);
 			return $(".hidden").removeClass("hidden");
 		}
 		history.go(-1);
-	}
-
-	function setCookie(name, value) {
-		document.cookie = name + '=' + value;
-	}
-
-	function getCookie(name) {
-		var re = new RegExp(name + "=([^;]+)");
-	    var value = re.exec(document.cookie);
-	    return (value != null) ? unescape(value[1]) : null;
-	}
-
-	function clearCookie(name) {
-		document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 	}
 
 	function rebuildTime(time) {
@@ -34,15 +19,14 @@ $(document).ready(function() {
 		$("#remaining").text("Remaining time: " + rem);
 	}
 
-	var cached_pwd = getCookie('password');
-	if (password && cached_pwd == null) {	
+	if (password) {	
 		lockExam();
 	} else {
 		$(".hidden").removeClass("hidden");
 	}
 
 	var limit = raw_limit.split(":");
-	var seconds = getCookie('time_limit') || limit[0] * 3600 + limit[1] * 60;
+	var seconds = limit[0] * 3600 + limit[1] * 60;
 	var counter = setInterval(timer, 1000);
 	rebuildTime(seconds);
 
@@ -53,8 +37,23 @@ $(document).ready(function() {
 	    	$("#submit").click();
 	 	}
 	 	rebuildTime(seconds);
-	 	setCookie('time_limit', seconds);
 	}
+
+	window.onbeforeunload = function() {
+		return "Exam in progress. Choosing to continue will submit your current answers.";
+	}
+
+	window.onunload = function() {
+        $.ajax({
+        	async: false,
+            type: $("form").attr('method'),
+            url: $("form").attr('action'),
+            data: $("form").serialize(),
+            success: function() {
+            	history.go(-1);
+            }
+        });
+    }
 
 	$("a").click(function(e) {
 		if (confirm("Exam in progress. Choosing to continue will submit your current answers.")) {		
@@ -64,7 +63,7 @@ $(document).ready(function() {
 	});
 
 	$("#submit").click(function() {
-		clearCookie('time_limit');
-		clearCookie('password');
+		window.onbeforeunload = null;
+		window.onunload = null;
 	});
 });

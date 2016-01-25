@@ -7,6 +7,10 @@
 {% block dashboard %}
 	<table class="table table-hover">
 		<tr>
+			<th>Your result:</th>
+			<td>{{ result }}</td>
+		</tr>
+		<tr>
 			<th>Exam creator:</th>
 			<td>{{ exam.owner }}</td>
 		</tr>
@@ -37,10 +41,6 @@
 			{% else %}
 				<td>{{ exam.active_to|timeuntil }}</td>
 			{% endif %}
-		</tr>
-		<tr>
-			<th>Your result:</th>
-			<td>{{ result }}</td>
 		</tr>
 		<tr>
 			<th>Exam created:</th>

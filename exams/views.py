@@ -144,7 +144,7 @@ def take_exam(request, course_id, exam_id):
         .exists()):
         course = Course.objects.get(id=course_id)
         exam = Exam.objects.get(id=exam_id)
-        exam_questions = ExamQuestion.objects.filter(exam=exam).order_by('?')
+        exam_questions = ExamQuestion.objects.filter(exam=exam)
         if exam.active:
             try:
                 score = Score.objects.get(student=request.user, exam=exam)
@@ -164,7 +164,7 @@ def take_exam(request, course_id, exam_id):
                             continue;
                     score = Score.objects.create(student=request.user,
                         exam=exam, score=answered)
-                    messages.info(request, 'Exam finished with ' +
+                    messages.success(request, 'Exam finished with ' +
                         str(answered) + ' correct answers!')
                     return redirect('/courses/' +  course_id + '/exams/' +
                         exam_id + '/s')
