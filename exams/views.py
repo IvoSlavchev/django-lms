@@ -7,7 +7,7 @@ from django.shortcuts import redirect, render
 from courses.models import Course, Participation
 from courses.views import teacher_check, student_check, format_score
 from exams.forms import ExamForm
-from exams.models import Exam, ExamQuestion, Score
+from exams.models import Exam, ExamQuestion, Score, StudentAnswer
 from questions.models import Question, Choice
 
 
@@ -146,19 +146,20 @@ def take_exam(request, course_id, exam_id):
         exam = Exam.objects.get(id=exam_id)
         exam_questions = ExamQuestion.objects.filter(exam=exam)
         if exam.active:
-            try:
-                score = Score.objects.get(student=request.user, exam=exam)
+            if Score.objects.filter(student=request.user, exam=exam).exists():
                 messages.error(request, 'Exam already taken!')
                 return redirect('/courses/' +  course_id + '/exams/' +
                     exam_id + '/s')
-            except ObjectDoesNotExist:
+            else:
                 if request.method == 'POST':
                     answered = 0
                     for exam_quest in exam_questions:
                         try:
-                            selected_answer = exam_quest.question.choice_set.get(id=
-                                request.POST.get(str(exam_quest.question.id)))
-                            if selected_answer.correct:
+                            selected_answer = StudentAnswer.objects.create(
+                                student=request.user, exam_question=exam_quest,
+                                answer=request.POST.get(str(exam_quest.question.id)))
+                            if (selected_answer.exam_question.question.choice_set.get(id=
+                                selected_answer.answer).correct):
                                 answered += 1
                         except ObjectDoesNotExist:
                             continue;

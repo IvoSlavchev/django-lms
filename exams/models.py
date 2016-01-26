@@ -41,6 +41,7 @@ class ExamQuestion(models.Model):
     def __str__(self):
         return '{} for {}'.format(self.question, self.exam)
 
+
 class Score(models.Model):
 
     student = models.ForeignKey(settings.AUTH_USER_MODEL)
@@ -49,3 +50,13 @@ class Score(models.Model):
 
     def __str__(self):
         return '{} for {}'.format(self.student, self.exam)
+
+
+class StudentAnswer(models.Model):
+
+    student = models.ForeignKey(settings.AUTH_USER_MODEL)
+    exam_question = models.ForeignKey(ExamQuestion)
+    answer = models.IntegerField()
+
+    def __str__(self):
+        return '{} for {}'.format(self.student, self.exam_question.question)
