@@ -112,7 +112,7 @@ def view_scores(request, course_id):
     if request.user.username == course.owner:
         participants = Participation.objects.filter(course=course_id)
         exams = Exam.objects.filter(course=course_id)
-        scores  = {}
+        scores = {}
         for participant in participants:
             scores[participant] = {}
             for exam in exams:

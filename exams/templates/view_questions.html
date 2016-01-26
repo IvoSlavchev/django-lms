@@ -2,6 +2,8 @@
 
 {% load to_char %}
 
+{% load get_item %}
+
 {% block header %}Viewing questions for {{ exam.name }}{% endblock %}
 
 {% block dashboard %}
@@ -14,8 +16,12 @@
 			</thead>
 			{% for choice in exam_quest.question.choice_set.all %}	
 				<tr class="choices">
-					{% if choice.correct %}
-						<td><b>{{ forloop.counter|to_char }}) {{ choice.choice_text }}</b></td>
+					{% if answers|get_item:exam_quest == choice.id and choice.correct %}
+						<td>{{ forloop.counter|to_char }}) {{ choice.choice_text }} - Success</td>
+					{% elif choice.correct %}
+						<td>{{ forloop.counter|to_char }}) {{ choice.choice_text }} - Correct answer</td>
+					{% elif answers|get_item:exam_quest == choice.id  %}
+						<td>{{ forloop.counter|to_char }}) {{ choice.choice_text }} - Your answer</td>
 					{% else %}
 						<td>{{ forloop.counter|to_char }}) {{ choice.choice_text }}</td>
 					{% endif %}
@@ -25,13 +31,10 @@
 		</table>
 	{% if teacher %}
 		<a href="{% url 'edit_exam' course.id exam.id %}">
-			<span class="glyphicon glyphicon-arrow-left"></span>
-			Back to exam
-		</a>
 	{% else %}
 		<a href="{% url 'view_exam' course.id exam.id %}">
-			<span class="glyphicon glyphicon-arrow-left"></span>
-			Back to exam
-		</a>
-	{% endif %}
+		{% endif %}
+		<span class="glyphicon glyphicon-arrow-left"></span>
+		Back to exam
+	</a>
 {% endblock %}
