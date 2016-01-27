@@ -8,7 +8,7 @@
 			<tr>
 				<th>{{ student.user }}</th>
 				<td>
-					{% if score == "Not taken"%}
+					{% if score == "Not taken" %}
 						{{ score }}
 					{% else %}
 						<a href="{% url 'view_participant_result' course.id exam.id student.user.id %}">{{ score }}</a>

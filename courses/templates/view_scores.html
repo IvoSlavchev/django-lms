@@ -13,8 +13,14 @@
 		{% for student, value in scores.items %}
 			<tr>
 				<th>{{ student.user }}</th>
-				{% for score in value.values %}
-					<td>{{ score }}</td>
+				{% for exam, score in value.items %}
+					<td>
+						{% if score == "Not taken" %}
+							{{ score }}
+						{% else %}
+							<a href="{% url 'view_participant_result' course.id exam.id student.user.id %}">{{ score }}</a>
+						{% endif %}
+					</td>
 				{% endfor %}
 			</tr>
 		{% endfor %}
