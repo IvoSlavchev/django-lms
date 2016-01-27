@@ -62,7 +62,7 @@
 		</a>
 		<br>
 	{% elif exam_questions and not 'Exam' in result %}
-		<a href="{% url 'view_questions' course.id exam.id %}">
+		<a href="{% url 'view_result' course.id exam.id %}">
 			<span class="glyphicon glyphicon-education"></span>
 			View result
 		</a>

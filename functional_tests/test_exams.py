@@ -86,7 +86,7 @@ class ExamTest(FunctionalTest):
             'http://localhost:8081/courses/1/exams/1/s')
         self.get_by_link_text('View result').click()
         self.assertEqual(self.browser.current_url,
-            'http://localhost:8081/courses/1/exams/1/questions/s')
+            'http://localhost:8081/courses/1/exams/1/result/s')
         cls = (self.browser.find_element_by_tag_name('td')
             .get_attribute('class'))
         self.assertEqual(cls, 'success')

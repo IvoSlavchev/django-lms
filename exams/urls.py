@@ -8,10 +8,11 @@ urlpatterns = [
     url(r'^create$', views.create_exam, name='create_exam'),
     url(r'^(?P<exam_id>\d+)$', views.edit_exam, name='edit_exam'),
     url(r'^(?P<exam_id>\d+)/scores$', views.view_scores, name='view_scores'),
+    url(r'^(?P<exam_id>\d+)/result/(?P<student_id>\d+)$', views.view_participant_result, name='view_participant_result'),
     url(r'^(?P<exam_id>\d+)/questions$', views.view_assigned,
     	name='view_assigned'),
     url(r'^(?P<exam_id>\d+)/s$', views.view_exam, name='view_exam'),
     url(r'^(?P<exam_id>\d+)/take$', views.take_exam, name='take_exam'),
-    url(r'^(?P<exam_id>\d+)/questions/s$', views.view_questions,
-    	name='view_questions'),
+    url(r'^(?P<exam_id>\d+)/result/s$', views.view_result,
+    	name='view_result'),
 ]
