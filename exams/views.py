@@ -152,7 +152,7 @@ def take_exam(request, course_id, exam_id):
                     exam_id + '/s')
             else:
                 if request.method == 'POST':
-                    answered = 0
+                    correct = 0
                     for exam_quest in exam_questions:
                         try:
                             selected_answer = StudentAnswer.objects.create(
@@ -160,13 +160,13 @@ def take_exam(request, course_id, exam_id):
                                 answer=request.POST.get(str(exam_quest.question.id)))
                             if (selected_answer.exam_question.question.choice_set.get(id=
                                 selected_answer.answer).correct):
-                                answered += 1
+                                correct += 1
                         except ObjectDoesNotExist:
                             continue;
                     score = Score.objects.create(student=request.user,
-                        exam=exam, score=answered)
+                        exam=exam, score=correct)
                     messages.success(request, 'Exam finished with ' +
-                        str(answered) + ' correct answers!')
+                        str(correct) + ' correct answers!')
                     return redirect('/courses/' +  course_id + '/exams/' +
                         exam_id + '/s')
                 return render(request, 'take_exam.html', {'course': course,

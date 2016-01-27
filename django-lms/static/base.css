@@ -10,10 +10,15 @@ body {
 table {
 	table-layout:fixed;
 	width: 70%;
+	border-collapse: collapse;
 }
 
 td {
 	word-wrap:break-word;
+}
+
+table tbody {
+  	border-bottom: 20px solid #F8F8FF;
 }
 
 .list-group-item-description {
@@ -28,10 +33,6 @@ td {
 #choices-form-container li {
 	margin-left: -40px;
 	list-style-type: none;
-}
-
-.choices:last-child > td {
-	padding-bottom: 10%;
 }
 
 #add-choice {
