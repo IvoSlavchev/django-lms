@@ -16,6 +16,9 @@ function searchFilter() {
 }
 
 $("input:not(:checkbox, :radio), textarea, #id_category").addClass('form-control');
+$(document).on('click', '#add-choice', function() {
+    $("input:not(:checkbox, :radio)").addClass('form-control');
+});
 $(".helptext").addClass('help-block');
 $('#id_active_from, #id_active_to').datetimepicker();
 $('.alert-error').removeClass('alert-error').addClass('alert-danger');
