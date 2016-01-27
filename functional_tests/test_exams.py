@@ -73,16 +73,21 @@ class ExamTest(FunctionalTest):
             'http://localhost:8081/courses/1/exams/1/questions')
         self.logout()
 
-    def test_exam_taking_and_questions_viewing(self):
+    def test_exam_taking_and_result_viewing(self):
         self.login(False)
         self.get_by_partial('Test').click()
         self.get_by_partial('Test exam').click()
         self.get_by_link_text('Take exam').click()
+        self.assertEqual(self.browser.current_url,
+            'http://localhost:8081/courses/1/exams/1/take')
         self.browser.find_element_by_css_selector('[type="radio"]').click()
         self.get_by_id('submit').click()
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/courses/1/exams/1/s')
-        self.get_by_link_text('View exam questions').click()
+        self.get_by_link_text('View result').click()
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/courses/1/exams/1/questions/s')
+        cls = (self.browser.find_element_by_tag_name('td')
+            .get_attribute('class'))
+        self.assertEqual(cls, 'success')
         self.logout()

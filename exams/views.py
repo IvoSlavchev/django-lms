@@ -185,11 +185,14 @@ def view_questions(request, course_id, exam_id):
         course = Course.objects.get(id=course_id)
         exam = Exam.objects.get(id=exam_id)
         exam_questions = ExamQuestion.objects.filter(exam=exam)
+        score = Score.objects.get(student=request.user, exam=exam).score
+        result = format_score(score, exam_questions.count())
         answers = {}
         for exam_question in exam_questions:
             answers[exam_question] = StudentAnswer.objects.get(student=
                 request.user, exam_question=exam_question).answer
         return render(request, 'view_questions.html', {'course': course,
-            'exam': exam, 'exam_questions': exam_questions, 'answers': answers})
+            'exam': exam, 'exam_questions': exam_questions, 'result': result, 
+            'answers': answers})
     else:
         return redirect('/courses/s')
