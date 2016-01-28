@@ -58,12 +58,12 @@ class CourseTest(FunctionalTest):
         self.assertEqual(message, 'Participants updated successfully!')
         self.logout()
 
-    def test_score_viewing(self):
+    def test_results_viewing(self):
         self.login(True)
         self.get_by_partial('Test').click()
-        self.get_by_link_text('View scores').click()
+        self.get_by_link_text('View results').click()
         self.assertEqual(self.browser.current_url,
-            'http://localhost:8081/courses/1/scores')
+            'http://localhost:8081/courses/1/results')
         self.logout()
 
     def test_course_viewing(self):

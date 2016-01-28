@@ -107,7 +107,7 @@ def edit_participants(request, course_id):
 
 
 @user_passes_test(teacher_check)
-def view_scores(request, course_id):
+def view_results(request, course_id):
     course = Course.objects.get(id=course_id)
     if request.user.username == course.owner:
         participants = Participation.objects.filter(course=course_id)
@@ -123,7 +123,7 @@ def view_scores(request, course_id):
                     scores[participant][exam] = format_score(score, count)
                 except ObjectDoesNotExist:
                     scores[participant][exam] = "Not taken"
-        return render(request, 'view_scores.html', {'course': course,
+        return render(request, 'view_course_results.html', {'course': course,
             'exams': exams, 'scores': scores})
     else:
         return redirect('/courses/')

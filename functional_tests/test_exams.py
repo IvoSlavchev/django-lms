@@ -59,14 +59,14 @@ class ExamTest(FunctionalTest):
         self.assertEqual(message, 'Exam updated successfully!')
         self.logout()
 
-    def test_exam_score_and_questions_viewing(self):
+    def test_exam_questions_and_results_viewing(self):
         self.login(True)
         self.get_by_partial('Test').click()
         self.get_by_link_text('View exams').click()
         self.get_by_partial('Test exam').click()
-        self.get_by_link_text('View scores').click()
+        self.get_by_link_text('View results').click()
         self.assertEqual(self.browser.current_url,
-            'http://localhost:8081/courses/1/exams/1/scores')
+            'http://localhost:8081/courses/1/exams/1/results')
         self.get_by_link_text('Back to exam').click()
         self.get_by_link_text('View assigned questions').click()
         self.assertEqual(self.browser.current_url,

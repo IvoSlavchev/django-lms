@@ -5,7 +5,7 @@ from django.test import TestCase, RequestFactory
 
 from courses.models import Course
 from courses.views import teacher_page, student_page, create_course
-from courses.views import edit_course, edit_participants, view_scores
+from courses.views import edit_course, edit_participants, view_results
 from courses.views import view_course
 from users.models import User
 
@@ -71,15 +71,15 @@ class CoursesTest(TestCase):
         self.assertEqual(url, '/courses/1/participants')
         self.assertTemplateUsed('edit_course.html')
 
-    def test_url_resolves_to_score_viewing(self):
-        found = resolve('/courses/1/scores')
-        self.assertEqual(found.func, view_scores)
+    def test_url_resolves_to_results_viewing(self):
+        found = resolve('/courses/1/results')
+        self.assertEqual(found.func, view_results)
 
-    def test_score_viewing_correct_arguments_and_template(self):
+    def test_results_viewing_correct_arguments_and_template(self):
         course = Course.objects.create(name='Example name')
-        url = reverse('view_scores', args=[course.id])
-        self.assertEqual(url, '/courses/1/scores')
-        self.assertTemplateUsed('view_scores.html')
+        url = reverse('view_results', args=[course.id])
+        self.assertEqual(url, '/courses/1/results')
+        self.assertTemplateUsed('view_course_Results.html')
 
     def test_url_resolves_to_student_page(self):
         found = resolve('/courses/s')

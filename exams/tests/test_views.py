@@ -4,7 +4,7 @@ from django.utils import timezone
 
 from courses.models import Course
 from exams.models import Exam
-from exams.views import create_exam, edit_exam, list_exams, view_scores
+from exams.views import create_exam, edit_exam, list_exams, view_results
 from exams.views import view_participant_result, view_assigned, view_exam
 from exams.views import take_exam, view_result
 
@@ -43,18 +43,18 @@ class ExamsViewsTest(TestCase):
         self.assertEqual(url, '/courses/1/exams/')
         self.assertTemplateUsed('list_exams.html')
 
-    def test_url_resolves_to_score_viewing(self):
-        found = resolve('/courses/1/exams/1/scores')
-        self.assertEqual(found.func, view_scores)
+    def test_url_resolves_to_results_viewing(self):
+        found = resolve('/courses/1/exams/1/results')
+        self.assertEqual(found.func, view_results)
 
-    def test_view_scores_correct_arguments_and_template(self):
+    def test_view_results_correct_arguments_and_template(self):
         course = Course.objects.create(name='Example name')
         exam = Exam.objects.create(name='Example', time_limit='00:10',
             course=course, active_from=timezone.now(),
             active_to=timezone.now(), question_count=2)
-        url = reverse('view_scores', args=[course.id, exam.id])
-        self.assertEqual(url, '/courses/1/exams/1/scores')
-        self.assertTemplateUsed('view_scores.html')
+        url = reverse('view_results', args=[course.id, exam.id])
+        self.assertEqual(url, '/courses/1/exams/1/results')
+        self.assertTemplateUsed('view_results.html')
 
     def test_url_resolves_to_viewing_participant_result(self):
         found = resolve('/courses/1/exams/1/result/1')

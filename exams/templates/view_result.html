@@ -41,7 +41,7 @@
 	{% endfor %}
 	</table>
 	{% if teacher %}
-		<a href="{% url 'view_scores' course.id exam.id %}">
+		<a href="{% url 'view_results' course.id exam.id %}">
 			<span class="glyphicon glyphicon-arrow-left"></span>
 			Back to scores
 		</a>

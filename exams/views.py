@@ -89,7 +89,7 @@ def list_exams(request, course_id):
 
 
 @user_passes_test(teacher_check)
-def view_scores(request, course_id, exam_id):
+def view_results(request, course_id, exam_id):
     exam = Exam.objects.get(id=exam_id)
     if request.user.username == exam.owner:
         course = Course.objects.get(id=course_id)
@@ -103,7 +103,7 @@ def view_scores(request, course_id, exam_id):
                 scores[participant] = format_score(score, count)
             except ObjectDoesNotExist:
                 scores[participant] = "Not taken"
-        return render(request, 'view_score.html', {'course': course,
+        return render(request, 'view_results.html', {'course': course,
             'exam': exam, 'scores': scores})
     else:
         return redirect('/courses/')
