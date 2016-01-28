@@ -8,7 +8,7 @@ from django.shortcuts import redirect, render
 
 from courses.forms import CourseForm, ParticipantsForm
 from courses.models import Course, Participation
-from exams.models import Exam, ExamQuestion, Score
+from exams.models import Exam, ExamQuestion, Score, StudentAnswer
 from questions.models import Question, Choice
 
 
@@ -26,18 +26,25 @@ def update_course(form, course):
 
 def delete_course(course):
     Participation.objects.filter(course=course).delete()
-    Exam.objects.filter(course=course).delete()
     questions = Question.objects.filter(course=course)
+    exams = Exam.objects.filter(course=course)
     for question in questions:
-        ExamQuestion.objects.filter(question=question).delete()
+        exam_questions = ExamQuestion.objects.filter(question=question)
+        for exam_question in exam_questions:
+            StudentAnswer.objects.filter(exam_question=exam_question).delete()
         Choice.objects.filter(question=question).delete()
+        exam_questions.delete()
+    for exam in exams:
+        Score.objects.filter(exam=exam)
     questions.delete()
+    exams.delete()
     course.delete()
 
 
 def format_score(score, count):
     percentage = str(float(score) / float(count) * 100) + '%'
     return str(score) + '/' + str(count) + ' ' + percentage
+
 
 @user_passes_test(teacher_check)
 def teacher_page(request):

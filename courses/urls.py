@@ -9,7 +9,8 @@ urlpatterns = [
     url(r'^(?P<course_id>\d+)$', views.edit_course, name='edit_course'),
     url(r'^(?P<course_id>\d+)/participants$', views.edit_participants,
         name='edit_participants'),
-    url(r'^(?P<course_id>\d+)/results$', views.view_results, name='view_results'),
+    url(r'^(?P<course_id>\d+)/results$', views.view_results, 
+    	name='view_results'),
     url(r'^s', views.student_page, name='student_page'),
     url(r'^(?P<course_id>\d+)/s$', views.view_course, name='view_course'),
 ]

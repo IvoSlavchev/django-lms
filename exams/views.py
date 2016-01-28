@@ -23,6 +23,13 @@ def update(form, exam):
     exam.question_count = form.cleaned_data['question_count']
     exam.save()
     
+def delete(exam):
+    Score.objects.filter(exam=exam).delete()
+    exam_questions = ExamQuestion.objects.filter(exam=exam)
+    for exam_question in exam_questions:
+        StudentAnswer.objects.filter(exam_question=exam_question).delete()
+    exam_questions.delete()
+    exam.delete()
 
 def add_questions(course, exam):
     ExamQuestion.objects.filter(exam=exam).delete()
@@ -69,7 +76,7 @@ def edit_exam(request, course_id, exam_id):
                 messages.success(request, 'Exam updated successfully!')
                 return redirect('/courses/' + course_id + '/exams/')
         if request.method == 'POST' and 'delete' in request.POST:
-            exam.delete()
+            delete(exam)
             messages.success(request, 'Exam deleted successfully!')
             return redirect('/courses/' + course_id + '/exams/')
         return render(request, 'edit_exam.html', {'form': form,
@@ -108,6 +115,7 @@ def view_results(request, course_id, exam_id):
     else:
         return redirect('/courses/')
 
+
 @user_passes_test(teacher_check)
 def view_participant_result(request, course_id, exam_id, student_id):
     exam = Exam.objects.get(id=exam_id)
@@ -128,6 +136,7 @@ def view_participant_result(request, course_id, exam_id, student_id):
     else:
         return redirect('/courses/')
 
+
 @user_passes_test(teacher_check)
 def view_assigned(request, course_id, exam_id):
     exam = Exam.objects.get(id=exam_id)
@@ -138,6 +147,7 @@ def view_assigned(request, course_id, exam_id):
             'exam': exam, 'exam_questions': exam_questions})
     else:
         return redirect('/courses/')
+
 
 @user_passes_test(student_check)
 def view_exam(request, course_id, exam_id):

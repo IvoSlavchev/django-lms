@@ -7,6 +7,7 @@ from exams.models import Exam
 from exams.views import create_exam, edit_exam, list_exams, view_results
 from exams.views import view_participant_result, view_assigned, view_exam
 from exams.views import take_exam, view_result
+from users.models import User
 
 class ExamsViewsTest(TestCase):
 
@@ -59,6 +60,17 @@ class ExamsViewsTest(TestCase):
     def test_url_resolves_to_viewing_participant_result(self):
         found = resolve('/courses/1/exams/1/result/1')
         self.assertEqual(found.func, view_participant_result)
+
+    def test_participant_result_correct_arguments_and_template(self):
+        course = Course.objects.create(name='Example name')
+        exam = Exam.objects.create(name='Example', time_limit='00:10',
+            course=course, active_from=timezone.now(),
+            active_to=timezone.now(), question_count=2)
+        user = User.objects.create(username='Example student')
+        url = reverse('view_participant_result',
+            args=[course.id, exam.id, user.id])
+        self.assertEqual(url, '/courses/1/exams/1/result/1')
+        self.assertTemplateUsed('view_participant_result.html')
 
     def test_url_resolves_to_viewing_assigned_questions(self):
         found = resolve('/courses/1/exams/1/questions')
