@@ -1,7 +1,5 @@
 from .base import FunctionalTest
 
-import time
-
 class ExamTest(FunctionalTest):
 
     def test_exam_creation(self):
@@ -59,7 +57,17 @@ class ExamTest(FunctionalTest):
         self.assertEqual(message, 'Exam updated successfully!')
         self.logout()
 
-    def test_exam_questions_and_results_viewing(self):
+    def test_exam_questions_viewing(self):
+        self.login(True)
+        self.get_by_partial('Test').click()
+        self.get_by_link_text('View exams').click()
+        self.get_by_partial('Test exam').click()
+        self.get_by_link_text('View assigned questions').click()
+        self.assertEqual(self.browser.current_url,
+            'http://localhost:8081/courses/1/exams/1/questions')
+        self.logout()
+
+    def test_exam_results_viewing(self):
         self.login(True)
         self.get_by_partial('Test').click()
         self.get_by_link_text('View exams').click()
@@ -67,10 +75,11 @@ class ExamTest(FunctionalTest):
         self.get_by_link_text('View results').click()
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/courses/1/exams/1/results')
-        self.get_by_link_text('Back to exam').click()
-        self.get_by_link_text('View assigned questions').click()
+        self.get_by_link_text('1/1 100.0%').click()
         self.assertEqual(self.browser.current_url,
-            'http://localhost:8081/courses/1/exams/1/questions')
+            'http://localhost:8081/courses/1/exams/1/result/3')
+        result = self.get_by_tag_name('h4').text
+        self.assertEqual(result, 'Result: 1/1 100.0%')
         self.logout()
 
     def test_exam_taking_and_result_viewing(self):
@@ -87,7 +96,6 @@ class ExamTest(FunctionalTest):
         self.get_by_link_text('View result').click()
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/courses/1/exams/1/result/s')
-        cls = (self.browser.find_element_by_tag_name('td')
-            .get_attribute('class'))
+        cls = self.get_by_tag_name('td').get_attribute('class')
         self.assertEqual(cls, 'success')
         self.logout()

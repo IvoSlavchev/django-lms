@@ -118,7 +118,7 @@ def view_results(request, course_id):
             for exam in exams:
                 try:
                     count = ExamQuestion.objects.filter(exam=exam).count()
-                    score = Score.objects.get(student=participant.user,
+                    score = Score.objects.get(user=participant.user,
                         exam=exam).score
                     scores[participant][exam] = format_score(score, count)
                 except ObjectDoesNotExist:
@@ -141,7 +141,7 @@ def student_page(request):
     for course in courses:
         exams = Exam.objects.filter(course=course)
         for exam in exams:
-            if (exam.active and not Score.objects.filter(student=request.user,
+            if (exam.active and not Score.objects.filter(user=request.user,
                 exam=exam).exists() and ExamQuestion.objects.filter(exam=exam)
                 .exists()):
                     unfinished.append(exam)
@@ -161,7 +161,7 @@ def view_course(request, course_id):
         for exam in exams:
                 try:
                     count = ExamQuestion.objects.filter(exam=exam).count()
-                    score = Score.objects.get(student=request.user,
+                    score = Score.objects.get(user=request.user,
                         exam=exam).score
                     scores[exam] = format_score(score, count)
                 except ObjectDoesNotExist:

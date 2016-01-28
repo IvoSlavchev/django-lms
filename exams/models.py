@@ -44,19 +44,19 @@ class ExamQuestion(models.Model):
 
 class Score(models.Model):
 
-    student = models.ForeignKey(settings.AUTH_USER_MODEL)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     exam = models.ForeignKey(Exam)
     score = models.IntegerField()
 
     def __str__(self):
-        return '{} for {}'.format(self.student, self.exam)
+        return '{} for {}'.format(self.user, self.exam)
 
 
 class StudentAnswer(models.Model):
 
-    student = models.ForeignKey(settings.AUTH_USER_MODEL)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     exam_question = models.ForeignKey(ExamQuestion)
     answer = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return '{} for {} for {}'.format(self.student, self.exam_question.question, self.exam_question.exam)
+        return '{} for {} for {}'.format(self.user, self.exam_question.question, self.exam_question.exam)

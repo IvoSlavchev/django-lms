@@ -16,7 +16,7 @@ class AuthenticationTest(FunctionalTest):
 
     def test_home_page(self):
         self.browser.get("http://localhost:8081")
-        header = self.browser.find_element_by_tag_name('h3').text
+        header = self.get_by_tag_name('h3').text
         self.assertEqual(header, 'Welcome!')
 
     def test_signup(self):

@@ -5,13 +5,14 @@
 {% block header %}Your courses{% endblock %}
 
 {% block dashboard %}
-	{% for course in courses %}
-		<a class="list-group-item" href="{% url 'edit_course' course.id %}">
-			<h4 class="list-group-item-heading">{{ course.name }}</h4>
-			<p class="list-group-item-description">{{ course.description }}</p>
-		</a>
-	{% endfor %}
-	<br>
+	{% if courses %}
+		{% for course in courses %}
+			<a class="list-group-item" href="{% url 'edit_course' course.id %}">
+				<h4 class="list-group-item-heading">{{ course.name }}</h4>
+				<p class="list-group-item-description">{{ course.description }}</p>
+			</a>
+		{% endfor %}
+	{% endif %}
 	<a href="{% url 'create_course' %}">
 		<span class="glyphicon glyphicon-plus"></span>
 		Create new course

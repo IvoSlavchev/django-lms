@@ -98,7 +98,7 @@ def view_results(request, course_id, exam_id):
         scores = {}     
         for participant in participants:
             try:            
-                score = (Score.objects.get(student=participant.user, exam=exam)
+                score = (Score.objects.get(user=participant.user, exam=exam)
                     .score)
                 scores[participant] = format_score(score, count)
             except ObjectDoesNotExist:
@@ -116,11 +116,11 @@ def view_participant_result(request, course_id, exam_id, student_id):
         student = User.objects.get(id=student_id)
         exam = Exam.objects.get(id=exam_id)
         exam_questions = ExamQuestion.objects.filter(exam=exam)
-        score = Score.objects.get(student=student, exam=exam).score
+        score = Score.objects.get(user=student, exam=exam).score
         result = format_score(score, exam_questions.count())
         answers = {}
         for exam_question in exam_questions:
-            answers[exam_question] = StudentAnswer.objects.get(student=
+            answers[exam_question] = StudentAnswer.objects.get(user=
                 student, exam_question=exam_question).answer
         return render(request, 'view_result.html', {'course': course,
             'exam': exam, 'exam_questions': exam_questions, 'result': result,
@@ -147,7 +147,7 @@ def view_exam(request, course_id, exam_id):
         exam = Exam.objects.get(id=exam_id)
         exam_questions = ExamQuestion.objects.filter(exam=exam)
         try:
-            score = (Score.objects.get(student=request.user, exam=exam)
+            score = (Score.objects.get(user=request.user, exam=exam)
                 .score)
             result = format_score(score, exam_questions.count())
         except ObjectDoesNotExist:
@@ -166,7 +166,7 @@ def take_exam(request, course_id, exam_id):
         exam = Exam.objects.get(id=exam_id)
         exam_questions = ExamQuestion.objects.filter(exam=exam)
         if exam.active:
-            if Score.objects.filter(student=request.user, exam=exam).exists():
+            if Score.objects.filter(user=request.user, exam=exam).exists():
                 messages.error(request, 'Exam already taken!')
                 return redirect('/courses/' +  course_id + '/exams/' +
                     exam_id + '/s')
@@ -176,14 +176,14 @@ def take_exam(request, course_id, exam_id):
                     for exam_quest in exam_questions:
                         try:
                             selected_answer = StudentAnswer.objects.create(
-                                student=request.user, exam_question=exam_quest,
+                                user=request.user, exam_question=exam_quest,
                                 answer=request.POST.get(str(exam_quest.question.id)))
                             if (selected_answer.exam_question.question.choice_set.get(id=
                                 selected_answer.answer).correct):
                                 correct += 1
                         except ObjectDoesNotExist:
                             continue;
-                    score = Score.objects.create(student=request.user,
+                    score = Score.objects.create(user=request.user,
                         exam=exam, score=correct)
                     messages.success(request, 'Exam finished with ' +
                         str(correct) + ' correct answers!')
@@ -200,16 +200,16 @@ def take_exam(request, course_id, exam_id):
 @user_passes_test(student_check)
 def view_result(request, course_id, exam_id):
     if (Participation.objects.filter(user=request.user, course=course_id)
-        .exists() and Score.objects.filter(student=request.user, exam=exam_id)
+        .exists() and Score.objects.filter(user=request.user, exam=exam_id)
         .exists()):
         course = Course.objects.get(id=course_id)
         exam = Exam.objects.get(id=exam_id)
         exam_questions = ExamQuestion.objects.filter(exam=exam)
-        score = Score.objects.get(student=request.user, exam=exam).score
+        score = Score.objects.get(user=request.user, exam=exam).score
         result = format_score(score, exam_questions.count())
         answers = {}
         for exam_question in exam_questions:
-            answers[exam_question] = StudentAnswer.objects.get(student=
+            answers[exam_question] = StudentAnswer.objects.get(user=
                 request.user, exam_question=exam_question).answer
         return render(request, 'view_result.html', {'course': course,
             'exam': exam, 'exam_questions': exam_questions, 'result': result, 

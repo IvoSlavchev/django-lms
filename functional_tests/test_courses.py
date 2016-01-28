@@ -64,6 +64,11 @@ class CourseTest(FunctionalTest):
         self.get_by_link_text('View results').click()
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/courses/1/results')
+        self.get_by_link_text('1/1 100.0%').click()
+        self.assertEqual(self.browser.current_url,
+            'http://localhost:8081/courses/1/exams/1/result/3')
+        result = self.get_by_tag_name('h4').text
+        self.assertEqual(result, 'Result: 1/1 100.0%')
         self.logout()
 
     def test_course_viewing(self):
@@ -71,6 +76,6 @@ class CourseTest(FunctionalTest):
         self.get_by_partial('Test').click()
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/courses/1/s')
-        course_owner = self.browser.find_element_by_tag_name('td')
+        course_owner = self.get_by_tag_name('td')
         self.assertEqual(course_owner.text, 'teacher')
         self.logout()

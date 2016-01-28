@@ -14,11 +14,14 @@ class FunctionalTest(StaticLiveServerTestCase):
     def tearDown(self):
         self.browser.quit()
 
-    def get_by_id(self, id):
-        return self.browser.find_element_by_id(id)
+    def get_by_id(self, ID):
+        return self.browser.find_element_by_id(ID)
 
     def get_by_class(self, cls):
         return self.browser.find_element_by_class_name(cls)
+
+    def get_by_tag_name(self, tag):
+        return self.browser.find_element_by_tag_name(tag)
 
     def get_by_link_text(self, text):
         return self.browser.find_element_by_link_text(text)

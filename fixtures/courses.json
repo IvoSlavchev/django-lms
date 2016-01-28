@@ -17,5 +17,13 @@
             "user": 2,
             "course": 1
         }
+    },
+    {
+        "model": "courses.participation",
+        "pk": 2,
+        "fields": {
+            "user": 3,
+            "course": 1
+        }
     }
 ]

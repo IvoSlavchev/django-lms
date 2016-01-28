@@ -24,5 +24,23 @@
             "question": 1,
             "exam": 1
         }
+    },
+    {
+      "model": "exams.score",
+      "pk": 1,
+      "fields": {
+        "user": 3,
+        "exam": 1,
+        "score": 1
+      }
+    },
+    {
+      "model": "exams.studentanswer",
+      "pk": 1,
+      "fields": {
+        "user": 3,
+        "exam_question": 1,
+        "answer": 1
+      }
     }
 ]

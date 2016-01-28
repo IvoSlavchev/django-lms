@@ -5,14 +5,18 @@
 {% block header %}Your courses{% endblock %}
 
 {% block dashboard %}
-	{% for course in courses %}
-		<a class="list-group-item" href="{% url 'view_course' course.id %}">
-			<h4 class="list-group-item-heading">{{ course.name }}</h4>
-			<p class="list-group-item-description">{{ course.description }}</p>
-		</a>
-	{% endfor %}
+	{% if courses %}
+		{% for course in courses %}
+			<a class="list-group-item" href="{% url 'view_course' course.id %}">
+				<h4 class="list-group-item-heading">{{ course.name }}</h4>
+				<p class="list-group-item-description">{{ course.description }}</p>
+			</a>
+		{% endfor %}
+	{% else %}
+		<h4 class="text-primary text-center">You aren't participating in any courses!</h4>
+	{% endif %}
 	{% if exams %}
-		<h4 class="text-primary text-center">Uncompleted active exams</h4>
+		<h4 class="text-primary text-center">Active exams</h4>
 		{% for exam in exams %}
 			<a class="list-group-item" href="{% url 'view_exam' exam.course.id exam.id %}">
 				<h4 class="list-group-item-heading">{{ exam.name }}</h4>
