@@ -22,7 +22,7 @@
 		{% for exam in exams %}
 			<a class="list-group-item" href="{% url 'edit_exam' exam.course.id exam.id %}">
 				<h4 class="list-group-item-heading">{{ exam.name }}</h4>
-				<p class="list-group-item-description">{{ exam.active_to|timeuntil }}</p>
+				<p class="list-group-item-description">Active for {{ exam.active_to|timeuntil }}</p>
 			</a>
 		{% endfor %}
 	{% endif %}

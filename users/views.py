@@ -24,38 +24,48 @@ def send_email(user, profile):
 
 
 def home(request):
-    form = AuthenticationForm()
-    if request.method == 'POST':
-        form = AuthenticationForm(data=request.POST)
-        if form.is_valid():
-            user = authenticate(username=request.POST['username'],
-                password=request.POST['password'])
-            if user is not None:
-                if user.is_active:
-                    django_login(request, user)
-                    if user.is_teacher:
-                        return redirect('/courses/')
-                    else:
-                        return redirect('/courses/s')
-    return render(request, 'home.html', {'form': form,})
+    if not request.user.is_authenticated():
+        form = AuthenticationForm()
+        if request.method == 'POST':
+            form = AuthenticationForm(data=request.POST)
+            if form.is_valid():
+                user = authenticate(username=request.POST['username'],
+                    password=request.POST['password'])
+                if user is not None:
+                    if user.is_active:
+                        django_login(request, user)
+                        if user.is_teacher:
+                            return redirect('/courses/')
+                        else:
+                            return redirect('/courses/s')
+        return render(request, 'home.html', {'form': form})
+    else:
+        if request.user.is_teacher:
+            return redirect('/courses/')
+        return redirect('/courses/s')
 
 
 def signup(request):
-    form = RegistrationForm() 
-    if request.method == 'POST':
-        form = RegistrationForm(data=request.POST)
-        if form.is_valid():
-            user = form.save()
-            activation_key = (hashlib.sha224(user.username.encode('utf-8'))
-                .hexdigest())
-            key_expires = timezone.now() + datetime.timedelta(1)
-            profile = UserProfile(user=user, activation_key=activation_key,
-                key_expires=key_expires)
-            profile.save()
-            send_email(user, profile)
-            messages.info(request, 'Check email for a confirmation link!')
-            return redirect('/')          
-    return render(request, 'signup.html', {'form': form,})
+    if not request.user.is_authenticated():
+        form = RegistrationForm() 
+        if request.method == 'POST':
+            form = RegistrationForm(data=request.POST)
+            if form.is_valid():
+                user = form.save()
+                activation_key = (hashlib.sha224(user.username.encode('utf-8'))
+                    .hexdigest())
+                key_expires = timezone.now() + datetime.timedelta(1)
+                profile = UserProfile(user=user, activation_key=activation_key,
+                    key_expires=key_expires)
+                profile.save()
+                send_email(user, profile)
+                messages.info(request, 'Check email for a confirmation link!')
+                return redirect('/')          
+        return render(request, 'signup.html', {'form': form})
+    else:
+        if request.user.is_teacher:
+            return redirect('/courses/')
+        return redirect('/courses/s')
 
 
 def confirm(request):

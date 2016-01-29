@@ -107,7 +107,7 @@ STATICFILES_DIRS = (
 
 AUTH_USER_MODEL = 'users.User'
 
-LOGIN_URL = '/login'
+LOGIN_URL = '/'
 
 AUTHENTICATION_BACKENDS = (
     'users.backends.EmailBackend',

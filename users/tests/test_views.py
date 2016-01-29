@@ -16,6 +16,7 @@ class HomePageTest(TestCase):
 
     def test_home_uses_correct_template(self):
         request = HttpRequest()
+        request.user = User.objects.create(is_teacher=True)
         response_home = home(request)
         self.assertTemplateUsed('home.html')
 
@@ -51,6 +52,7 @@ class SignupTest(TestCase):
 
     def test_signup_correct_template(self):
         request = HttpRequest()
+        request.user = User.objects.create(is_teacher=True)
         response_signup = signup(request)
         self.assertTemplateUsed('signup.html')
 

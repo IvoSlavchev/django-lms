@@ -21,6 +21,10 @@ td {
   	border-bottom: 20px solid #F8F8FF;
 }
 
+.list-group-item {
+	background-color: white;
+}
+
 .list-group-item-description {
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -57,4 +61,8 @@ td {
 
 form[action="/"] {
 	width: 30%;
+}
+
+.navbar-default {
+	background-color: white;
 }
