@@ -3,6 +3,10 @@ from .base import FunctionalTest
 
 class CourseTest(FunctionalTest):
 
+    def tearDown(self):
+        self.logout()
+        self.browser.quit()
+
     def test_course_creation(self):
         self.login(True)
         self.get_by_link_text('Create new course').click()
@@ -15,7 +19,6 @@ class CourseTest(FunctionalTest):
             'http://localhost:8081/courses/')
         message = self.get_by_class('alert').text
         self.assertEqual(message, 'Course created successfully!')
-        self.logout()
 
     def test_course_deletion(self):
         self.login(True)
@@ -28,7 +31,6 @@ class CourseTest(FunctionalTest):
             'http://localhost:8081/courses/')
         message = self.get_by_class('alert').text
         self.assertEqual(message, 'Course deleted successfully!')
-        self.logout()
 
     def test_course_editing(self):
         self.login(True)
@@ -42,7 +44,6 @@ class CourseTest(FunctionalTest):
             'http://localhost:8081/courses/')
         message = self.get_by_class('alert').text
         self.assertEqual(message, 'Course updated successfully!')
-        self.logout()
 
     def test_participants_editing(self):
         self.login(True)
@@ -56,7 +57,6 @@ class CourseTest(FunctionalTest):
             'http://localhost:8081/courses/1')
         message = self.get_by_class('alert').text
         self.assertEqual(message, 'Participants updated successfully!')
-        self.logout()
 
     def test_results_viewing(self):
         self.login(True)
@@ -69,7 +69,6 @@ class CourseTest(FunctionalTest):
             'http://localhost:8081/courses/1/exams/1/result/3')
         result = self.get_by_tag_name('h4').text
         self.assertEqual(result, 'Result: 1/1 100.0%')
-        self.logout()
 
     def test_course_viewing(self):
         self.login(False)
@@ -78,4 +77,3 @@ class CourseTest(FunctionalTest):
             'http://localhost:8081/courses/1/s')
         course_owner = self.get_by_tag_name('td')
         self.assertEqual(course_owner.text, 'teacher')
-        self.logout()

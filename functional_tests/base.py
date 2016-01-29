@@ -10,7 +10,7 @@ class FunctionalTest(StaticLiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
-        self.browser.get("http://localhost:8081")
+        self.browser.get('http://localhost:8081')
 
     def tearDown(self):
         self.browser.quit()

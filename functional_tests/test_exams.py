@@ -2,6 +2,10 @@ from .base import FunctionalTest
 
 class ExamTest(FunctionalTest):
 
+    def tearDown(self):
+        self.logout()
+        self.browser.quit()
+
     def test_exam_creation(self):
         self.login(True)
         self.get_by_partial('Test').click()
@@ -22,7 +26,6 @@ class ExamTest(FunctionalTest):
             'http://localhost:8081/courses/1/exams/')
         message = self.get_by_class('alert').text
         self.assertEqual(message, 'Exam created successfully!')
-        self.logout()
 
     def test_exam_deletion(self):
         self.login(True)
@@ -37,7 +40,6 @@ class ExamTest(FunctionalTest):
             'http://localhost:8081/courses/1/exams/')
         message = self.get_by_class('alert').text
         self.assertEqual(message, 'Exam deleted successfully!')
-        self.logout()
 
     def test_exam_editing(self):
         self.login(True)
@@ -55,7 +57,6 @@ class ExamTest(FunctionalTest):
             'http://localhost:8081/courses/1/exams/')
         message = self.get_by_class('alert').text
         self.assertEqual(message, 'Exam updated successfully!')
-        self.logout()
 
     def test_exam_questions_viewing(self):
         self.login(True)
@@ -65,7 +66,6 @@ class ExamTest(FunctionalTest):
         self.get_by_link_text('View assigned questions').click()
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/courses/1/exams/1/questions')
-        self.logout()
 
     def test_exam_results_viewing(self):
         self.login(True)
@@ -80,7 +80,6 @@ class ExamTest(FunctionalTest):
             'http://localhost:8081/courses/1/exams/1/result/3')
         result = self.get_by_tag_name('h4').text
         self.assertEqual(result, 'Result: 1/1 100.0%')
-        self.logout()
 
     def test_exam_taking_and_result_viewing(self):
         self.login(False)
@@ -98,4 +97,3 @@ class ExamTest(FunctionalTest):
             'http://localhost:8081/courses/1/exams/1/result/s')
         cls = self.get_by_tag_name('td').get_attribute('class')
         self.assertEqual(cls, 'success')
-        self.logout()

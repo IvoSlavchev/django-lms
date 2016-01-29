@@ -1,10 +1,20 @@
+from selenium import webdriver
+
 from .base import FunctionalTest
 
 
 class QuestionTest(FunctionalTest):
 
-    def test_question_creation(self):
+    def setUp(self):
+        self.browser = webdriver.Firefox()
+        self.browser.get('http://localhost:8081')
         self.login(True)
+
+    def tearDown(self):
+        self.logout()
+        self.browser.quit()
+
+    def test_question_creation(self):
         self.get_by_partial('Test').click()
         self.get_by_link_text('View questions').click()
         self.get_by_link_text('Create new question').click()
@@ -23,10 +33,8 @@ class QuestionTest(FunctionalTest):
             'http://localhost:8081/courses/1/questions/')
         message = self.get_by_class('alert').text
         self.assertEqual(message, 'Question created successfully!')
-        self.logout()
 
     def test_question_deletion(self):
-        self.login(True)
         self.get_by_partial('Test').click()
         self.get_by_link_text('View questions').click()
         self.get_by_partial('Test question').click()
@@ -38,10 +46,8 @@ class QuestionTest(FunctionalTest):
             'http://localhost:8081/courses/1/questions/')
         message = self.get_by_class('alert').text
         self.assertEqual(message, 'Question deleted successfully!')
-        self.logout()
 
     def test_question_editing(self):
-        self.login(True)
         self.get_by_partial('Test').click()
         self.get_by_link_text('View questions').click()
         self.assertEqual(self.browser.current_url,
@@ -58,4 +64,3 @@ class QuestionTest(FunctionalTest):
             'http://localhost:8081/courses/1/questions/')
         message = self.get_by_class('alert').text
         self.assertEqual(message, 'Question updated successfully!')
-        self.logout()
