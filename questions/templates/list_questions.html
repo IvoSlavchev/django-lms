@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 
+{% block navigation %}
+	<ul class="breadcrumb"> 
+		<li><a href="{% url 'edit_course' course.id %}">{{ course.name }}</a></li>
+		<li class="active">Questions</li>
+	</ul>
+{% endblock %}
+
 {% block messages %}{% include 'messages.html' %}{% endblock %}
 
 {% block header %}Questions for {{ course.name }}{% endblock %}
@@ -15,9 +22,4 @@
 		<span class="glyphicon glyphicon-plus"></span>
 		Create new question
 	</a>	
-	<br>	
-	<a href="{% url 'edit_course' course.id %}">
-		<span class="glyphicon glyphicon-arrow-left"></span>
-		Back to course
-	</a>
 {% endblock %}	

@@ -2,6 +2,12 @@
 
 {% load get_item %}
 
+{% block navigation %}
+	<ul class="breadcrumb"> 
+		<li class="active">{{ course.name }}</li>
+	</ul>
+{% endblock %}
+
 {% block header %}Viewing course {{ course.name }}{% endblock %}
 
 {% block dashboard %}
@@ -41,8 +47,4 @@
 			</a>
 		{% endfor %}
 	</table>
-	<a href="{% url 'student_page' %}">
-		<span class="glyphicon glyphicon-arrow-left"></span>
-		Back to courses
-	</a>
 {% endblock %}

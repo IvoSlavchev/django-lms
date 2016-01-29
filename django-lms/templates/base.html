@@ -14,7 +14,7 @@
 	</head>
     <body>
         <div class="container">
-            <nav class="navbar navbar-default" role="navigation">              
+            <nav class="navbar navbar-default" role="navigation">             
                 {% if user.is_active %} 
                     {% if user.is_teacher %} 
                         <a class="navbar-brand" href="{% url 'teacher_page' %}">Django-LMS</a>
@@ -27,6 +27,7 @@
                     <a class="navbar-brand" href="/">Django-LMS</a>
                 {% endif %}
                 <span class="navbar-text navbar-right" id="date">{% now "D, M. jS, Y" %}</span>
+                {% block navigation %}{% endblock %}
             </nav>
             {% block messages %}{% endblock %}
             <div class="row">                 

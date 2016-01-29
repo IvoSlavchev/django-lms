@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 
+{% block navigation %}
+	<ul class="breadcrumb"> 
+		<li><a href="{% url 'edit_course' course.id %}">{{ course.name }}</a></li>
+		<li class="active">Participants</li>
+	</ul>
+{% endblock %}
+
 {% block header %}Editing participants for {{ course.name }}{% endblock %}
 
 {% block filter %}
@@ -12,11 +19,4 @@
 
 {% block button %}
 	<button class="btn btn-primary" id="submit" type="submit" name="update">Update</button>	
-{% endblock %}
-
-{% block dashboard %}
-	<a href="{% url 'edit_course' course.id %}">
-		<span class="glyphicon glyphicon-arrow-left"></span>
-		Back to course
-	</a>
 {% endblock %}

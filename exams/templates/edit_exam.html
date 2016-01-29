@@ -1,5 +1,13 @@
 {% extends 'base.html' %}
 
+{% block navigation %}
+	<ul class="breadcrumb"> 
+		<li><a href="{% url 'edit_course' course.id %}">{{ course.name }}</a></li>
+		<li><a href="{% url 'list_exams' course.id %}">Exams</a></li>
+		<li class="active">{{ exam.name }}</li>
+	</ul>
+{% endblock %}
+
 {% block header %}Editing exam {{ exam.name }}{% endblock %}
 
 {% block form_action %}{% url 'edit_exam' course.id exam.id %}{% endblock %}
@@ -19,9 +27,4 @@
 		<span class="glyphicon glyphicon-education"></span>
 		View results
 	</a>
-	<br>
-	<a href="{% url 'list_exams' course.id %}">
-		<span class="glyphicon glyphicon-arrow-left"></span>
-		Back to exams
-	</a>	
 {% endblock %}

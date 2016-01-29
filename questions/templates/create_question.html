@@ -1,5 +1,13 @@
 {% extends 'base.html' %}
 
+{% block navigation %}
+	<ul class="breadcrumb"> 
+		<li><a href="{% url 'edit_course' course.id %}">{{ course.name }}</a></li>
+		<li><a href="{% url 'list_questions' course.id %}">Questions</a></li>
+		<li class="active">New question</li>
+	</ul>
+{% endblock %}
+
 {% block header %}New question{% endblock %}
 
 {% block form_action %}{% url 'create_question' course.id %}{% endblock %}
@@ -19,13 +27,6 @@
 	<button class="btn btn-info" id="add-choice">Add choice</button>
 	<br>
 	<button class="btn btn-primary" id="submit" type="submit" name="create">Create</button>
-{% endblock %}
-
-{% block dashboard %}
-	<a href="{% url 'list_questions' course.id %}">
-		<span class="glyphicon glyphicon-arrow-left"></span>
-		Back to questions
-	</a>
 {% endblock %}
 
 {% block javascript %}

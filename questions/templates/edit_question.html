@@ -1,5 +1,13 @@
 {% extends 'base.html' %}
 
+{% block navigation %}
+	<ul class="breadcrumb"> 
+		<li><a href="{% url 'edit_course' course.id %}">{{ course.name }}</a></li>
+		<li><a href="{% url 'list_questions' course.id %}">Questions</a></li>
+		<li class="active">{{ question.name }}</li>
+	</ul>
+{% endblock %}
+
 {% block header %}Editing question {{ question.name }}{% endblock %}
 
 {% block form_action %}{% url 'edit_question' course.id question.id %}{% endblock %}
@@ -22,19 +30,12 @@
 	<button class="btn btn-danger" id="delete" name="delete" onclick="return confirmDelete()">Delete</button>
 {% endblock %}
 
-{% block dashboard %}
-	<a href="{% url 'list_questions' course.id %}">
-		<span class="glyphicon glyphicon-arrow-left"></span>
-		Back to questions
-	</a>	
-{% endblock %}
-
 {% block javascript %}
 	<script type="text/html" id="choice-template">
 		<div id="choice-__prefix__">
 		    {{ choice_formset.empty_form }}
 		</div>
-	</script>
+	</script>	
 	<script type="text/javascript" src="/static/js/radioGroup.js"></script>
 	<script type="text/javascript" src="/static/js/newChoice.js"></script>
 {% endblock %}

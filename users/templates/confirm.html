@@ -1,16 +1,15 @@
 {% extends 'base.html' %}
 
+{% block navigation %}
+	<ul class="breadcrumb"> 
+		<li class="active">Confirm</li>
+	</ul>
+{% endblock %}
+
 {% block messages %}
 	{% if success %}
 		<h4 class="alert alert-success text-center">Successfully confirmed!</h4>
 	{% else %}
 	    <h4 class="alert alert-error text-center">Link expired!</h4>
 	{% endif %}
-{% endblock %}
-
-{% block dashboard %}
-	<a href="{% url 'home' %}">
-		<span class="glyphicon glyphicon-arrow-left"></span>
-		Back
-	</a>
 {% endblock %}

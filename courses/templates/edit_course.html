@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
 
+{% block navigation %}
+	<ul class="breadcrumb"> 
+		<li class="active">{{ course.name }}</li>
+	</ul>
+{% endblock %}
+
 {% block messages %}{% include 'messages.html' %}{% endblock %}
 
 {% block header %}Editing course {{ course.name }}{% endblock %}
@@ -25,11 +31,6 @@
 	<a href="{% url 'view_results' course.id %}">
 		<span class="glyphicon glyphicon-education"></span>
 		View results
-	</a>
-	<br>	
-	<a href="{% url 'teacher_page' %}">
-		<span class="glyphicon glyphicon-arrow-left"></span>
-		Back to courses
 	</a>
 {% endblock %}	
 

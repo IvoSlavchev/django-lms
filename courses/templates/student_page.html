@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
 
+{% block navigation %}
+	<ul class="breadcrumb"> 
+		<li class="active">Courses</li>
+	</ul>
+{% endblock %}
+
 {% block messages %}{% include 'messages.html' %}{% endblock %}
 
 {% block header %}Your courses{% endblock %}

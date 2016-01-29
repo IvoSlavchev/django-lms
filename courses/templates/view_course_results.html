@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 
-{% block header %}Viewing scores for {{ course.name }}{% endblock %}
+{% block navigation %}
+	<ul class="breadcrumb"> 
+		<li><a href="{% url 'edit_course' course.id %}">{{ course.name }}</a></li>
+		<li class="active">Results</li>
+	</ul>
+{% endblock %}
+
+{% block header %}Viewing results for {{ course.name }}{% endblock %}
 
 {% block dashboard %}
 	<table class="table table-hover">
@@ -25,8 +32,4 @@
 			</tr>
 		{% endfor %}
 	</table>
-	<a href="{% url 'edit_course' course.id %}">
-		<span class="glyphicon glyphicon-arrow-left"></span>
-		Back to course
-	</a>
 {% endblock %}

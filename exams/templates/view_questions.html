@@ -2,6 +2,15 @@
 
 {% load to_char %}
 
+{% block navigation %}
+	<ul class="breadcrumb"> 
+		<li><a href="{% url 'edit_course' course.id %}">{{ course.name }}</a></li>
+		<li><a href="{% url 'list_exams' course.id %}">Exams</a></li>
+		<li><a href="{% url 'edit_exam' course.id exam.id %}">{{ exam.name }}</a></li>
+		<li class="active">Questions</li>
+	</ul>
+{% endblock %}
+
 {% block header %}Viewing questions for {{ exam.name }}{% endblock %}
 
 {% block dashboard %}
@@ -25,8 +34,4 @@
 			</tbody>	
 		{% endfor %}
 	</table>
-	<a href="{% url 'edit_exam' course.id exam.id %}">
-		<span class="glyphicon glyphicon-arrow-left"></span>
-		Back to exam
-	</a>
 {% endblock %}

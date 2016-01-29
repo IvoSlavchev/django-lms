@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 
+{% block navigation %}
+	<ul class="breadcrumb"> 
+		<li><a href="{% url 'view_course' course.id %}">{{ course.name }}</a></li>
+		<li class="active">{{ exam.name }}</li>
+	</ul>
+{% endblock %}
+
 {% block messages %}{% include 'messages.html' %}{% endblock %}
 
 {% block header %}Viewing exam {{ exam.name }}{% endblock %}
@@ -55,21 +62,15 @@
 			<td>{{ course.name }}</td>
 		</tr>
 	</table>
-	{% if exam_questions and 'Exam' in result and exam.active %}
+	{% if 'Exam' in result and exam.active %}
 		<a href="{% url 'take_exam' course.id exam.id %}">
 			<span class="glyphicon glyphicon-pencil"></span>
 			Take exam
 		</a>
-		<br>
-	{% elif exam_questions and not 'Exam' in result %}
+	{% else %}
 		<a href="{% url 'view_result' course.id exam.id %}">
 			<span class="glyphicon glyphicon-education"></span>
 			View result
 		</a>
-		<br>
 	{% endif %}
-	<a href="{% url 'view_course' course.id %}">
-		<span class="glyphicon glyphicon-arrow-left"></span>
-		Back to course
-	</a>
 {% endblock %}
