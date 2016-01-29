@@ -2,7 +2,7 @@ body {
 	background-color: #F8F8FF;
 }
 
-#login, #logout {
+#date, #logout {
 	margin-right: 1%;
 	padding-right: 1%;
 }
@@ -49,8 +49,12 @@ td {
 }
 
 .center {
-	width: 25%; 
+	width: 50%; 
 	margin-top: 1%;
 	margin-left: auto;
 	margin-right: auto;
+}
+
+form[action="/login"], form[action="/signup"] {
+	width: 30%;
 }

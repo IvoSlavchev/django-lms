@@ -9,7 +9,7 @@ class StyleTest(FunctionalTest):
         self.assertEqual(cls, 'navbar-brand')
 
         cls = self.get_by_link_text('Log in').get_attribute('class')
-        self.assertEqual(cls, 'btn navbar-btn navbar-right')
+        self.assertEqual(cls, 'btn btn-primary')
 
         cls = self.get_by_tag_name('h3').get_attribute('class')
         self.assertEqual(cls, 'text-primary text-center')
