@@ -132,7 +132,7 @@ def view_participant_result(request, course_id, exam_id, student_id):
                 student, exam_question=exam_question).answer
         return render(request, 'view_result.html', {'course': course,
             'exam': exam, 'exam_questions': exam_questions, 'result': result,
-            'answers': answers, 'teacher': request.user, 'student': student})
+            'answers': answers, 'student': student})
     else:
         return redirect('/courses/')
 

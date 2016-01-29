@@ -4,7 +4,7 @@
 {% load get_item %}
 
 {% block header %}
-	{% if teacher %}
+	{% if user.is_teacher %}
 		Viewing results for {{ student }} for {{ exam.name }}
 	{% else %}
 		Viewing results for {{ exam.name }}
@@ -14,33 +14,33 @@
 {% block dashboard %}
 	<h4 class="text-success text-center">Result: {{ result }}</h4>
 	<table class="table spaced">
-	{% for exam_quest in exam_questions %}
-		<thead>
-			<tr>
-				<th>{{ forloop.counter }}. {{ exam_quest.question.question_text }}</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% if answers|get_item:exam_quest == None %}
-				<td class="danger">Question not answered!</td>
-			{% endif %}
-			{% for choice in exam_quest.question.choice_set.all %}	
-				<tr class="choices">
-					{% if answers|get_item:exam_quest == choice.id and choice.correct %}
-						<td class="success">{{ forloop.counter|to_char }}) {{ choice.choice_text }}</td>
-					{% elif choice.correct %}
-						<td class="success">{{ forloop.counter|to_char }}) {{ choice.choice_text }}</td>
-					{% elif answers|get_item:exam_quest == choice.id  %}
-						<td class="danger">{{ forloop.counter|to_char }}) {{ choice.choice_text }}</td>
-					{% else %}
-						<td>{{ forloop.counter|to_char }}) {{ choice.choice_text }}</td>
-					{% endif %}
+		{% for exam_quest in exam_questions %}
+			<thead>
+				<tr>
+					<th>{{ forloop.counter }}. {{ exam_quest.question.question_text }}</th>
 				</tr>
-			{% endfor %}
-		</tbody>	
-	{% endfor %}
+			</thead>
+			<tbody>
+				{% if answers|get_item:exam_quest == None %}
+					<td class="danger">Question not answered!</td>
+				{% endif %}
+				{% for choice in exam_quest.question.choice_set.all %}	
+					<tr class="choices">
+						{% if answers|get_item:exam_quest == choice.id and choice.correct %}
+							<td class="success">{{ forloop.counter|to_char }}) {{ choice.choice_text }}</td>
+						{% elif choice.correct %}
+							<td class="success">{{ forloop.counter|to_char }}) {{ choice.choice_text }}</td>
+						{% elif answers|get_item:exam_quest == choice.id  %}
+							<td class="danger">{{ forloop.counter|to_char }}) {{ choice.choice_text }}</td>
+						{% else %}
+							<td>{{ forloop.counter|to_char }}) {{ choice.choice_text }}</td>
+						{% endif %}
+					</tr>
+				{% endfor %}
+			</tbody>	
+		{% endfor %}
 	</table>
-	{% if teacher %}
+	{% if user.is_teacher %}
 		<a href="{% url 'view_results' course.id exam.id %}">
 			<span class="glyphicon glyphicon-arrow-left"></span>
 			Back to scores
