@@ -23,11 +23,7 @@ def send_email(user, profile):
     send_mail(email_subject, email_body, settings.EMAIL_HOST, [user.email])
 
 
-def home_page(request):
-    return render(request, 'home.html')
-
-
-def login(request):
+def home(request):
     form = AuthenticationForm()
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
@@ -41,7 +37,7 @@ def login(request):
                         return redirect('/courses/')
                     else:
                         return redirect('/courses/s')
-    return render(request, 'login.html', {'form': form,})
+    return render(request, 'home.html', {'form': form,})
 
 
 def signup(request):
@@ -76,4 +72,4 @@ def confirm(request):
 def logout(request):
     django_logout(request)
     messages.success(request, 'Logged out!')
-    return redirect('/login')
+    return redirect('/')

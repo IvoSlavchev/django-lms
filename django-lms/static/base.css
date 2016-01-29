@@ -55,6 +55,6 @@ td {
 	margin-right: auto;
 }
 
-form[action="/login"], form[action="/signup"] {
+form[action="/login"] {
 	width: 30%;
 }

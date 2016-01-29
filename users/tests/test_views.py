@@ -5,19 +5,34 @@ from django.test import TestCase
 
 from users.models import User
 from users.forms import AuthenticationForm, RegistrationForm
-from users.views import home_page, login, signup, confirm
+from users.views import home, signup, confirm
 
 
 class HomePageTest(TestCase):
 
-    def test_root_url_resolves_to_home_page_view(self):
+    def test_root_url_resolves_to_home_view(self):
         found = resolve('/')
-        self.assertEqual(found.func, home_page)
+        self.assertEqual(found.func, home)
 
-    def test_home_page_uses_correct_template(self):
+    def test_home_uses_correct_template(self):
         request = HttpRequest()
-        response_home = home_page(request)
+        response_home = home(request)
         self.assertTemplateUsed('home.html')
+
+    def test_home_response(self):
+        response = self.client.get('/')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Log in')
+        response = self.client.post('/', {'username': 'test',
+            'password': 'test'})
+        self.assertEqual(response.status_code, 200)
+        response = self.client.post('/', {'username': 'test@test.bg',
+            'password': 'test'})
+        self.assertEqual(response.status_code, 200)
+
+    def test_home_authentication_form(self):
+        response = self.client.get('/')
+        self.assertIsInstance(response.context['form'], AuthenticationForm)
 
 
 class SignupTest(TestCase):
@@ -42,33 +57,6 @@ class SignupTest(TestCase):
     def test_signup_registration_form(self):
         response = self.client.get('/signup')
         self.assertIsInstance(response.context['form'], RegistrationForm)
-
-
-class LoginTest(TestCase):
-
-    def test_login_response(self):
-        response = self.client.get('/login')
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Log in')
-        response = self.client.post('/login', {'username': 'test',
-            'password': 'test'})
-        self.assertEqual(response.status_code, 200)
-        response = self.client.post('/login', {'username': 'test@test.bg',
-            'password': 'test'})
-        self.assertEqual(response.status_code, 200)
-
-    def test_url_resolves_to_login_page(self):
-        found = resolve('/login')
-        self.assertEqual(found.func, login)
-
-    def test_login_correct_template(self):
-        request = HttpRequest()
-        response_login = login(request)
-        self.assertTemplateUsed('login.html')
-
-    def test_login_authentication_form(self):
-        response = self.client.get('/login')
-        self.assertIsInstance(response.context['form'], AuthenticationForm)
 
 
 class ConfirmTest(TestCase):

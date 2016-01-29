@@ -14,20 +14,20 @@ class AuthenticationTest(FunctionalTest):
         self.get_by_id('id_password2').send_keys('example')
         self.get_by_id('submit').click()
 
-    def test_home_page(self):
-        self.browser.get("http://localhost:8081")
+    def test_home(self):
         header = self.get_by_tag_name('h3').text
         self.assertEqual(header, 'Welcome!')
 
     def test_signup(self):
-        self.browser.get("http://localhost:8081")
-        self.get_by_link_text('Sign up').click()
+        self.get_by_id('signup').click()
+        self.assertEqual(self.browser.current_url, 'http://localhost:8081/signup')
         self.signup(True)
         self.assertEqual(self.browser.current_url, 'http://localhost:8081/')
         message = self.get_by_class('alert').text
         self.assertEqual(message, 'Check email for a confirmation link!')
-        self.get_by_link_text('Sign up').click()
+        self.get_by_id('signup').click()
         self.signup(False)
+        self.assertEqual(self.browser.current_url, 'http://localhost:8081/')
 
     def test_login_and_logout(self):
         self.login(True)
@@ -37,7 +37,7 @@ class AuthenticationTest(FunctionalTest):
         message = self.get_by_class('alert').text
         self.assertEqual(message, 'Logged out!')
         self.assertEqual(self.browser.current_url,
-            'http://localhost:8081/login')
+            'http://localhost:8081/')
         self.login(False)
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/courses/s')
