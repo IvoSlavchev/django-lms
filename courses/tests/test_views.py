@@ -4,8 +4,8 @@ from django.template.loader import render_to_string
 from django.test import TestCase, RequestFactory
 
 from courses.models import Course
-from courses.views import teacher_page, student_page, create_course
-from courses.views import edit_course, edit_participants, view_results
+from courses.views import teacher_courses, student_courses, create_course
+from courses.views import edit_course, edit_participants, view_course_results
 from courses.views import view_course
 from users.models import User
 
@@ -15,15 +15,15 @@ class CoursesTest(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
 
-    def test_url_resolves_to_teacher_page(self):
+    def test_url_resolves_to_teacher_courses(self):
         found = resolve('/courses/')
-        self.assertEqual(found.func, teacher_page)
+        self.assertEqual(found.func, teacher_courses)
 
-    def test_teacher_page_correct_template(self):
+    def test_teacher_courses_correct_template(self):
         request = HttpRequest()
         request.user = User.objects.create(is_teacher=True)
-        response_teacher_page = teacher_page(request)
-        render_to_string('teacher_page.html')
+        response_teacher_courses = teacher_courses(request)
+        render_to_string('teacher_courses.html')
 
     def test_anonymous_doesnt_pass_teacher_test(self):
         with self.assertRaises(AttributeError):
@@ -32,13 +32,13 @@ class CoursesTest(TestCase):
     def test_teacher_passes_test(self): 
         request = self.factory.get('/courses/')
         request.user = User.objects.create(is_teacher=True)
-        response = teacher_page(request)
+        response = teacher_courses(request)
         self.assertEqual(response.status_code, 200)
 
     def test_student_doesnt_pass_teacher_test(self): 
         request = self.factory.get('/courses/')
         request.user = User.objects.create(is_teacher=False)
-        response = teacher_page(request)
+        response = teacher_courses(request)
         self.assertEqual(response.status_code, 302)
 
     def test_url_resolves_to_course_creation(self):
@@ -71,25 +71,25 @@ class CoursesTest(TestCase):
         self.assertEqual(url, '/courses/1/participants')
         self.assertTemplateUsed('edit_course.html')
 
-    def test_url_resolves_to_results_viewing(self):
+    def test_url_resolves_to_course_results_viewing(self):
         found = resolve('/courses/1/results')
-        self.assertEqual(found.func, view_results)
+        self.assertEqual(found.func, view_course_results)
 
     def test_results_viewing_correct_arguments_and_template(self):
         course = Course.objects.create(name='Example name')
-        url = reverse('view_results', args=[course.id])
+        url = reverse('view_course_results', args=[course.id])
         self.assertEqual(url, '/courses/1/results')
-        self.assertTemplateUsed('view_course_Results.html')
+        self.assertTemplateUsed('view_course_results.html')
 
-    def test_url_resolves_to_student_page(self):
+    def test_url_resolves_to_student_courses(self):
         found = resolve('/courses/s')
-        self.assertEqual(found.func, student_page)
+        self.assertEqual(found.func, student_courses)
 
-    def test_student_page_correct_template(self):
+    def test_student_courses_correct_template(self):
         request = HttpRequest()
         request.user = User.objects.create(is_teacher=False)
-        response_student_page = student_page(request)
-        self.assertTemplateUsed('student_page.html')
+        response_student_courses = student_courses(request)
+        self.assertTemplateUsed('student_courses.html')
 
     def test_anonymous_doesnt_pass_student_test(self):
         with self.assertRaises(AttributeError):
@@ -98,13 +98,13 @@ class CoursesTest(TestCase):
     def test_student_passes_test(self): 
         request = self.factory.get('/courses/s')
         request.user = User.objects.create(is_teacher=False)
-        response = student_page(request)
+        response = student_courses(request)
         self.assertEqual(response.status_code, 200)
 
     def test_teacher_doesnt_pass_student_test(self): 
         request = self.factory.get('/courses/s')
         request.user = User.objects.create(is_teacher=True)
-        response = student_page(request)
+        response = student_courses(request)
         self.assertEqual(response.status_code, 302)
 
     def test_url_resolves_to_course_view(self):

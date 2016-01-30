@@ -3,12 +3,11 @@
 {% load to_char %}
 
 {% block navigation %}
-	<ul class="breadcrumb"> 
-		<li><a href="{% url 'edit_course' course.id %}">{{ course.name }}</a></li>
-		<li><a href="{% url 'list_exams' course.id %}">Exams</a></li>
-		<li><a href="{% url 'edit_exam' course.id exam.id %}">{{ exam.name }}</a></li>
-		<li class="active">Questions</li>
-	</ul>
+	<li><a href="{% url 'teacher_courses' %}">Courses</a></li>
+	<li><a href="{% url 'edit_course' course.id %}">{{ course.name }}</a></li>
+	<li><a href="{% url 'list_exams' course.id %}">Exams</a></li>
+	<li><a href="{% url 'edit_exam' course.id exam.id %}">{{ exam.name }}</a></li>
+	<li class="active">Questions</li>
 {% endblock %}
 
 {% block header %}Viewing questions for {{ exam.name }}{% endblock %}

@@ -4,19 +4,19 @@
 {% load get_item %}
 
 {% block navigation %}
-	<ul class="breadcrumb">
-		{% if user.is_teacher %}
-			<li><a href="{% url 'edit_course' course.id %}">{{ course.name }}</a></li>
-			<li><a href="{% url 'list_exams' course.id %}">Exams</a></li>
-			<li><a href="{% url 'edit_exam' course.id exam.id %}">{{ exam.name }}</a></li>
-			<li><a href="{% url 'view_results' course.id exam.id %}">Results</a></li>
-			<li class="active">Results for {{ student }}</li>
-		{% else %}
-			<li><a href="{% url 'view_course' course.id %}">{{ course.name }}</a></li>
-			<li><a href="{% url 'view_exam' course.id exam.id %}">{{ exam.name }}</a></li>
-			<li class="active">Results</li>
-		{% endif %}
-	</ul>
+	{% if user.is_teacher %}
+		<li><a href="{% url 'teacher_courses' %}">Courses</a></li>
+		<li><a href="{% url 'edit_course' course.id %}">{{ course.name }}</a></li>
+		<li><a href="{% url 'list_exams' course.id %}">Exams</a></li>
+		<li><a href="{% url 'edit_exam' course.id exam.id %}">{{ exam.name }}</a></li>
+		<li><a href="{% url 'view_exam_results' course.id exam.id %}">Results</a></li>
+		<li class="active">Results for {{ student }}</li>
+	{% else %}
+		<li><a href="{% url 'student_courses' %}">Courses</a></li>
+		<li><a href="{% url 'view_course' course.id %}">{{ course.name }}</a></li>
+		<li><a href="{% url 'view_exam' course.id exam.id %}">{{ exam.name }}</a></li>
+		<li class="active">Results</li>
+	{% endif %}
 {% endblock %}
 
 {% block header %}

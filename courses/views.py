@@ -47,14 +47,14 @@ def format_score(score, count):
 
 
 @user_passes_test(teacher_check)
-def teacher_page(request):
+def teacher_courses(request):
     courses = Course.objects.filter(owner=request.user).order_by('-updated')
     exams_unflattened = list()
     for course in courses:
         exams_unflattened.append(Exam.objects.filter(course=course))
     exams = list(chain.from_iterable(exams_unflattened))
     exams.sort(key=lambda x: x.active_to)
-    return render(request, 'teacher_page.html', {'courses': courses,
+    return render(request, 'teacher_courses.html', {'courses': courses,
         'exams': exams})
 
 
@@ -114,7 +114,7 @@ def edit_participants(request, course_id):
 
 
 @user_passes_test(teacher_check)
-def view_results(request, course_id):
+def view_course_results(request, course_id):
     course = Course.objects.get(id=course_id)
     if request.user.username == course.owner:
         participants = Participation.objects.filter(course=course_id)
@@ -137,7 +137,7 @@ def view_results(request, course_id):
 
 
 @user_passes_test(student_check)
-def student_page(request):
+def student_courses(request):
     participants = Participation.objects.filter(user=request.user)
     courses = list()
     unfinished = list()
@@ -153,7 +153,7 @@ def student_page(request):
                 .exists()):
                     unfinished.append(exam)
     unfinished.sort(key=lambda x: x.active_to)
-    return render(request, 'student_page.html', {'courses': courses,
+    return render(request, 'student_courses.html', {'courses': courses,
         'exams': unfinished})
 
 

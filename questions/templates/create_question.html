@@ -1,11 +1,10 @@
 {% extends 'base.html' %}
 
 {% block navigation %}
-	<ul class="breadcrumb"> 
-		<li><a href="{% url 'edit_course' course.id %}">{{ course.name }}</a></li>
-		<li><a href="{% url 'list_questions' course.id %}">Questions</a></li>
-		<li class="active">New question</li>
-	</ul>
+	<li><a href="{% url 'teacher_courses' %}">Courses</a></li>
+	<li><a href="{% url 'edit_course' course.id %}">{{ course.name }}</a></li>
+	<li><a href="{% url 'list_questions' course.id %}">Questions</a></li>
+	<li class="active">New question</li>
 {% endblock %}
 
 {% block header %}New question{% endblock %}

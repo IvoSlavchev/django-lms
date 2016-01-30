@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
 
 {% block navigation %}
-	<ul class="breadcrumb"> 
-		<li class="active">New course</li>
-	</ul>
+	<li><a href="{% url 'teacher_courses' %}">Courses</a></li>
+	<li class="active">New course</li>
 {% endblock %}
 
 {% block header %}New course{% endblock %}

@@ -1,10 +1,9 @@
 {% extends 'base.html' %}
 
 {% block navigation %}
-	<ul class="breadcrumb"> 
-		<li><a href="{% url 'view_course' course.id %}">{{ course.name }}</a></li>
-		<li class="active">{{ exam.name }}</li>
-	</ul>
+	<li><a href="{% url 'student_courses' %}">Courses</a></li>
+	<li><a href="{% url 'view_course' course.id %}">{{ course.name }}</a></li>
+	<li class="active">{{ exam.name }}</li>
 {% endblock %}
 
 {% block messages %}{% include 'messages.html' %}{% endblock %}

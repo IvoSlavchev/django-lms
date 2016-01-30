@@ -3,9 +3,8 @@
 {% load get_item %}
 
 {% block navigation %}
-	<ul class="breadcrumb"> 
-		<li class="active">{{ course.name }}</li>
-	</ul>
+	<li><a href="{% url 'student_courses' %}">Courses</a></li>
+	<li class="active">{{ course.name }}</li>
 {% endblock %}
 
 {% block header %}Viewing course {{ course.name }}{% endblock %}

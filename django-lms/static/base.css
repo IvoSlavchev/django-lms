@@ -67,9 +67,17 @@ form[action="/"] {
 	background-color: white;
 }
 
+.navbar-brand {
+	font-size: 16px;
+}
+
+.navbar-text {
+	font-size: 16px;
+}
+
 .breadcrumb {
 	background-color: transparent;
 	margin-top: 0.5%;
 	margin-bottom: -1%;
-	font-size: 14px;
+	font-size: 16px;
 }
