@@ -19,3 +19,13 @@
 {% block button %}
 	<button class="btn btn-primary" id="submit" type="submit" name="update">Update</button>	
 {% endblock %}
+
+{% block javascript %}
+	<script type="text/javascript">
+		var emails = [];
+		{% for participant in participants %}
+			emails.push(" email: {{ participant.user.email }}");
+		{% endfor %}
+	</script>
+	<script type="text/javascript" src="/static/js/addEmails.js"></script>
+{% endblock %}
