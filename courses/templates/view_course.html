@@ -16,6 +16,10 @@
 			<td>{{ course.owner }}</td>
 		</tr>
 		<tr>
+			<th>Creator email:</th>
+			<td>{{ course.owner.email }}</td>
+		</tr>
+		<tr>
 			<th>Course description:</th>
 			<td>{{ course.description }}</td>
 		</tr>
@@ -26,14 +30,6 @@
 		<tr>
 			<th>Course last updated:</th>
 			<td>{{ course.updated|date }}</td>
-		</tr>
-		<tr>
-			<th>Course participants:</th>
-			<td>
-				{% for participant in participants %}
-					<p>{{ participant.user }}</p>
-				{% endfor %}
-			</td>
 		</tr>
 	</table>
 	<h4 class="text-primary text-center">Exams</h4>

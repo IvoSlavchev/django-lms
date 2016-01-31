@@ -75,7 +75,7 @@ def create_course(request):
 @user_passes_test(teacher_check)
 def edit_course(request, course_id):
     course = Course.objects.get(id=course_id)
-    if request.user.username == course.owner:
+    if request.user == course.owner:
         form = CourseForm(instance=course)
         if request.method == 'POST' and 'update' in request.POST:
             form = CourseForm(instance=course, data=request.POST)
@@ -95,7 +95,7 @@ def edit_course(request, course_id):
 @user_passes_test(teacher_check)
 def edit_participants(request, course_id):
     course = Course.objects.get(id=course_id)
-    if request.user.username == course.owner:
+    if request.user == course.owner:
         participants = Participation.objects.filter(course=course_id)
         form = ParticipantsForm(instance=course)
         if request.method == 'POST':
@@ -116,7 +116,7 @@ def edit_participants(request, course_id):
 @user_passes_test(teacher_check)
 def view_course_results(request, course_id):
     course = Course.objects.get(id=course_id)
-    if request.user.username == course.owner:
+    if request.user == course.owner:
         participants = Participation.objects.filter(course=course_id)
         exams = Exam.objects.filter(course=course_id)
         scores = {}

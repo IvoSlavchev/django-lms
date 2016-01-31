@@ -64,9 +64,9 @@ def create_exam(request, course_id):
 
 @user_passes_test(teacher_check)
 def edit_exam(request, course_id, exam_id):
+    course = Course.objects.get(id=course_id)
     exam = Exam.objects.get(id=exam_id) 
-    if request.user.username == exam.owner:
-        course = Course.objects.get(id=course_id)
+    if request.user == course.owner:   
         form = ExamForm(instance=exam)
         if request.method == 'POST' and 'update' in request.POST:
             form = ExamForm(instance=exam, data=request.POST)
@@ -87,7 +87,7 @@ def edit_exam(request, course_id, exam_id):
 @user_passes_test(teacher_check)
 def list_exams(request, course_id):
     course = Course.objects.get(id=course_id)
-    if request.user.username == course.owner:
+    if request.user == course.owner:
         exams = Exam.objects.filter(course=course_id).order_by('active_to')
         return render(request, 'list_exams.html', {'course': course,
             'exams': exams})
@@ -97,9 +97,9 @@ def list_exams(request, course_id):
 
 @user_passes_test(teacher_check)
 def view_exam_results(request, course_id, exam_id):
+    course = Course.objects.get(id=course_id)
     exam = Exam.objects.get(id=exam_id)
-    if request.user.username == exam.owner:
-        course = Course.objects.get(id=course_id)
+    if request.user == course.owner:
         participants = Participation.objects.filter(course=course)
         count = ExamQuestion.objects.filter(exam=exam).count()
         scores = {}     
@@ -118,9 +118,9 @@ def view_exam_results(request, course_id, exam_id):
 
 @user_passes_test(teacher_check)
 def view_participant_result(request, course_id, exam_id, student_id):
+    course = Course.objects.get(id=course_id)
     exam = Exam.objects.get(id=exam_id)
-    if request.user.username == exam.owner:
-        course = Course.objects.get(id=course_id)
+    if request.user == course.owner:
         student = User.objects.get(id=student_id)
         exam = Exam.objects.get(id=exam_id)
         exam_questions = ExamQuestion.objects.filter(exam=exam)
@@ -139,9 +139,9 @@ def view_participant_result(request, course_id, exam_id, student_id):
 
 @user_passes_test(teacher_check)
 def view_assigned(request, course_id, exam_id):
+    course = Course.objects.get(id=course_id)
     exam = Exam.objects.get(id=exam_id)
-    if request.user.username == exam.owner:
-        course = Course.objects.get(id=course_id)
+    if request.user == course.owner:
         exam_questions = ExamQuestion.objects.filter(exam=exam)
         return render(request, 'view_questions.html', {'course': course,
             'exam': exam, 'exam_questions': exam_questions})

@@ -3,12 +3,14 @@ from django.test import TestCase
 from courses.models import Course
 from exams.forms import ExamForm
 from questions.models import Question
+from users.models import User
 
 
 class ExamFormTest(TestCase):
 
     def test_if_valid_on_all_fields(self):
-        course = Course.objects.create(name='Example name')
+        user = User.objects.create(username='Example teacher')
+        course = Course.objects.create(name='Example name', owner=user)
         question = Question.objects.create(name='Example name',
             category='Examples', question_text='Example', course=course)
         form_data = {'name': 'Example name',
@@ -20,7 +22,8 @@ class ExamFormTest(TestCase):
         self.assertTrue(form.is_valid())
 
     def test_if_valid_on_empty_description_and_password(self):
-        course = Course.objects.create(name='Example name')
+        user = User.objects.create(username='Example teacher')
+        course = Course.objects.create(name='Example name', owner=user)
         question = Question.objects.create(name='Example name',
             category='Examples', question_text='Example', course=course)
         form_data = {'name': 'Example name', 'description': '',
@@ -32,7 +35,8 @@ class ExamFormTest(TestCase):
         self.assertTrue(form.is_valid())
 
     def test_if_not_valid_on_empty_name(self):
-        course = Course.objects.create(name='Example name')
+        user = User.objects.create(username='Example teacher')
+        course = Course.objects.create(name='Example name', owner=user)
         question = Question.objects.create(name='Example name',
             category='Examples', question_text='Example', course=course)
         form_data = {'name': '', 'description': '', 'password': 'example',
@@ -43,7 +47,8 @@ class ExamFormTest(TestCase):
         self.assertFalse(form.is_valid())
 
     def test_if_not_valid_on_empty_limit_and_dates(self):
-        course = Course.objects.create(name='Example name')
+        user = User.objects.create(username='Example teacher')
+        course = Course.objects.create(name='Example name', owner=user)
         question = Question.objects.create(name='Example name',
             category='Examples', question_text='Example', course=course)
         form_data = {'name': 'Example name', 'description': '',
@@ -54,7 +59,8 @@ class ExamFormTest(TestCase):
         self.assertFalse(form.is_valid())
 
     def test_if_not_valid_on_empty_category_and_questions(self):
-        course = Course.objects.create(name='Example name')
+        user = User.objects.create(username='Example teacher')
+        course = Course.objects.create(name='Example name', owner=user)
         question = Question.objects.create(name='Example name',
             category='Examples', question_text='Example', course=course)
         form_data = {'name': 'Example name', 'description': '',
@@ -65,7 +71,8 @@ class ExamFormTest(TestCase):
         self.assertFalse(form.is_valid())
 
     def test_if_not_valid_on_reversed_dates(self):
-        course = Course.objects.create(name='Example name')
+        user = User.objects.create(username='Example teacher')
+        course = Course.objects.create(name='Example name', owner=user)
         question = Question.objects.create(name='Example name',
             category='Examples', question_text='Example', course=course)
         form_data = {'name': 'Example name', 'description': '',

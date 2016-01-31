@@ -16,7 +16,8 @@ class ExamsViewsTest(TestCase):
         self.assertEqual(found.func, create_exam)
 
     def test_create_exam_correct_arguments_and_template(self):
-        course = Course.objects.create(name='Example name')
+        user = User.objects.create(username='Example teacher')
+        course = Course.objects.create(name='Example name', owner=user)
         url = reverse('create_exam', args=[course.id])
         self.assertEqual(url, '/courses/1/exams/create')
         self.assertTemplateUsed('create_exam.html')
@@ -26,7 +27,8 @@ class ExamsViewsTest(TestCase):
         self.assertEqual(found.func, edit_exam)
 
     def test_edit_exam_correct_arguments_and_template(self):
-        course = Course.objects.create(name='Example name')
+        user = User.objects.create(username='Example teacher')
+        course = Course.objects.create(name='Example name', owner=user)
         exam = Exam.objects.create(name='Example', time_limit='00:10',
             course=course, active_from=timezone.now(),
             active_to=timezone.now(), question_count=2)
@@ -39,7 +41,8 @@ class ExamsViewsTest(TestCase):
         self.assertEqual(found.func, list_exams)
 
     def test_list_exams_correct_arguments_and_template(self):
-        course = Course.objects.create(name='Example name')
+        user = User.objects.create(username='Example teacher')
+        course = Course.objects.create(name='Example name', owner=user)
         url = reverse('list_exams', args=[course.id])
         self.assertEqual(url, '/courses/1/exams/')
         self.assertTemplateUsed('list_exams.html')
@@ -49,7 +52,8 @@ class ExamsViewsTest(TestCase):
         self.assertEqual(found.func, view_exam_results)
 
     def test_view_exam_results_correct_arguments_and_template(self):
-        course = Course.objects.create(name='Example name')
+        user = User.objects.create(username='Example teacher')
+        course = Course.objects.create(name='Example name', owner=user)
         exam = Exam.objects.create(name='Example', time_limit='00:10',
             course=course, active_from=timezone.now(),
             active_to=timezone.now(), question_count=2)
@@ -62,11 +66,12 @@ class ExamsViewsTest(TestCase):
         self.assertEqual(found.func, view_participant_result)
 
     def test_participant_result_correct_arguments_and_template(self):
-        course = Course.objects.create(name='Example name')
+        user = User.objects.create(username='Example teacher')
+        course = Course.objects.create(name='Example name', owner=user)
         exam = Exam.objects.create(name='Example', time_limit='00:10',
             course=course, active_from=timezone.now(),
             active_to=timezone.now(), question_count=2)
-        user = User.objects.create(username='Example student')
+        user_student = User.objects.create(username='Example student')
         url = reverse('view_participant_result',
             args=[course.id, exam.id, user.id])
         self.assertEqual(url, '/courses/1/exams/1/result/1')
@@ -77,7 +82,8 @@ class ExamsViewsTest(TestCase):
         self.assertEqual(found.func, view_assigned)
 
     def test_view_assigned_correct_arguments_and_template(self):
-        course = Course.objects.create(name='Example name')
+        user = User.objects.create(username='Example teacher')
+        course = Course.objects.create(name='Example name', owner=user)
         exam = Exam.objects.create(name='Example', time_limit='00:10',
             course=course, active_from=timezone.now(),
             active_to=timezone.now(), question_count=2)
@@ -90,7 +96,8 @@ class ExamsViewsTest(TestCase):
         self.assertEqual(found.func, view_exam)
 
     def test_view_exam_correct_arguments_and_template(self):
-        course = Course.objects.create(name='Example name')
+        user = User.objects.create(username='Example teacher')
+        course = Course.objects.create(name='Example name', owner=user)
         exam = Exam.objects.create(name='Example', time_limit='00:10',
             course=course, active_from=timezone.now(),
             active_to=timezone.now(), question_count=2)
@@ -103,7 +110,8 @@ class ExamsViewsTest(TestCase):
         self.assertEqual(found.func, take_exam)
 
     def test_take_exam_correct_arguments_and_template(self):
-        course = Course.objects.create(name='Example name')
+        user = User.objects.create(username='Example teacher')
+        course = Course.objects.create(name='Example name', owner=user)
         exam = Exam.objects.create(name='Example', time_limit='00:10',
             course=course, active_from=timezone.now(),
             active_to=timezone.now(), question_count=2)
@@ -116,7 +124,8 @@ class ExamsViewsTest(TestCase):
         self.assertEqual(found.func, view_result)
    
     def test_view_exam_result_correct_arguments_and_template(self):
-        course = Course.objects.create(name='Example name')
+        user = User.objects.create(username='Example teacher')
+        course = Course.objects.create(name='Example name', owner=user)
         exam = Exam.objects.create(name='Example', time_limit='00:10',
             course=course, active_from=timezone.now(),
             active_to=timezone.now(), question_count=2)

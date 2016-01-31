@@ -3,7 +3,6 @@
         "model": "questions.question",
         "pk": 1,
         "fields": {
-            "owner": "teacher",
             "name": "Test question",
             "category": "Examples",
             "question_text": "Example?",

@@ -56,7 +56,8 @@ class CoursesTest(TestCase):
         self.assertEqual(found.func, edit_course)
 
     def test_edit_course_correct_arguments_and_template(self):
-        course = Course.objects.create(name='Example name')
+        user = User.objects.create(username='Example teacher')
+        course = Course.objects.create(name='Example name', owner=user)
         url = reverse('edit_course', args=[course.id])
         self.assertEqual(url, '/courses/1')
         self.assertTemplateUsed('edit_course.html')
@@ -66,7 +67,8 @@ class CoursesTest(TestCase):
         self.assertEqual(found.func, edit_participants)
 
     def test_edit_participants_correct_arguments_and_template(self):
-        course = Course.objects.create(name='Example name')
+        user = User.objects.create(username='Example teacher')
+        course = Course.objects.create(name='Example name', owner=user)
         url = reverse('edit_participants', args=[course.id])
         self.assertEqual(url, '/courses/1/participants')
         self.assertTemplateUsed('edit_course.html')
@@ -76,7 +78,8 @@ class CoursesTest(TestCase):
         self.assertEqual(found.func, view_course_results)
 
     def test_results_viewing_correct_arguments_and_template(self):
-        course = Course.objects.create(name='Example name')
+        user = User.objects.create(username='Example teacher')
+        course = Course.objects.create(name='Example name', owner=user)
         url = reverse('view_course_results', args=[course.id])
         self.assertEqual(url, '/courses/1/results')
         self.assertTemplateUsed('view_course_results.html')
@@ -87,6 +90,8 @@ class CoursesTest(TestCase):
 
     def test_student_courses_correct_template(self):
         request = HttpRequest()
+        user = User.objects.create(username='Example teacher')
+        course = Course.objects.create(name='Example name', owner=user)
         request.user = User.objects.create(is_teacher=False)
         response_student_courses = student_courses(request)
         self.assertTemplateUsed('student_courses.html')
@@ -112,7 +117,8 @@ class CoursesTest(TestCase):
         self.assertEqual(found.func, view_course)
 
     def test_course_viewing_correct_arguments_and_template(self):
-        course = Course.objects.create(name='Example name')
+        user = User.objects.create(username='Example teacher')
+        course = Course.objects.create(name='Example name', owner=user)
         url = reverse('view_course', args=[course.id])
         self.assertEqual(url, '/courses/1/s')
         self.assertTemplateUsed('view_course.html')

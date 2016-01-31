@@ -9,7 +9,6 @@ from questions.models import Question
 
 class Exam(models.Model):
     
-    owner = models.CharField(max_length=30)
     name = models.CharField(max_length=30)
     description = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True)

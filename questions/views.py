@@ -46,10 +46,10 @@ def create_question(request, course_id):
 
 @user_passes_test(teacher_check)
 def edit_question(request, course_id, question_id):
+    course = Course.objects.get(id=course_id)
     question = Question.objects.get(id=question_id)
-    if request.user.username == question.owner:
+    if request.user == course.owner:
         ChoiceFormSet = modelformset_factory(Choice, ChoiceForm, extra=0)
-        course = Course.objects.get(id=course_id)
         choices = Choice.objects.filter(question=question)
         question_form = QuestionForm(instance=question)
         choice_formset = ChoiceFormSet(queryset=Choice.objects
@@ -76,7 +76,7 @@ def edit_question(request, course_id, question_id):
 @user_passes_test(teacher_check)
 def list_questions(request, course_id):
     course = Course.objects.get(id=course_id)
-    if request.user.username == course.owner:
+    if request.user == course.owner:
         questions = Question.objects.filter(course=course_id)
         return render(request, 'list_questions.html', {'course': course,
             'questions': questions})

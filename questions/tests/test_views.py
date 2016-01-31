@@ -5,6 +5,7 @@ from courses.models import Course
 from questions.forms import QuestionForm
 from questions.models import Question
 from questions.views import create_question, edit_question, list_questions
+from users.models import User
 
 
 class QuestionsViewsTest(TestCase):
@@ -14,7 +15,8 @@ class QuestionsViewsTest(TestCase):
         self.assertEqual(found.func, create_question)
 
     def test_create_question_correct_arguments_and_template(self):
-        course = Course.objects.create(name='Example name')
+        user = User.objects.create(username='Example teacher')
+        course = Course.objects.create(name='Example name', owner=user)
         url = reverse('create_question', args=[course.id])
         self.assertEqual(url, '/courses/1/questions/create')
         self.assertTemplateUsed('create_question.html')
@@ -29,7 +31,8 @@ class QuestionsViewsTest(TestCase):
         self.assertTrue(form.is_valid())
 
     def test_question_creation_on_POST(self):
-        course = Course.objects.create(name='Example name')
+        user = User.objects.create(username='Example teacher')
+        course = Course.objects.create(name='Example name', owner=user)
         data = {
             'name': 'Example name',
             'category': 'Examples',
@@ -46,7 +49,8 @@ class QuestionsViewsTest(TestCase):
         self.assertEqual(found.func, edit_question)
 
     def test_edit_question_correct_arguments_and_template(self):
-        course = Course.objects.create(name='Example name')
+        user = User.objects.create(username='Example teacher')
+        course = Course.objects.create(name='Example name', owner=user)
         question = Question.objects.create(name='Example question',
         	category='Examples', course=course, question_text='Example')
         url = reverse('edit_question', args=[course.id, question.id])
@@ -54,7 +58,8 @@ class QuestionsViewsTest(TestCase):
         self.assertTemplateUsed('edit_question.html')
 
     def test_question_updating(self):
-        course = Course.objects.create(name='Example name')
+        user = User.objects.create(username='Example teacher')
+        course = Course.objects.create(name='Example name', owner=user)
         question = Question.objects.create(name='Example question',
             category='Examples', question_text='Text', course=course)
         data = {
@@ -75,7 +80,8 @@ class QuestionsViewsTest(TestCase):
         self.assertEqual(found.func, list_questions)
 
     def test_list_questions_correct_arguments_and_template(self):
-        course = Course.objects.create(name='Example name')
+        user = User.objects.create(username='Example teacher')
+        course = Course.objects.create(name='Example name', owner=user)
         url = reverse('list_questions', args=[course.id])
         self.assertEqual(url, '/courses/1/questions/')
         self.assertTemplateUsed('list_questions.html')

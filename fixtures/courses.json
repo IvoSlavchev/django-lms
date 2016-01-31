@@ -3,7 +3,7 @@
         "model": "courses.course",
         "pk": 1,
         "fields": {
-            "owner": "teacher",
+            "owner": 1,
             "name": "Test",
             "description": "Example",
             "created": "2016-01-07T09:04:15.980Z",

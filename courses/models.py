@@ -5,7 +5,7 @@ from django.db import models
 
 class Course(models.Model):
 
-    owner = models.CharField(max_length=30)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='owner')
     name = models.CharField(max_length=30)
     description = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True)
