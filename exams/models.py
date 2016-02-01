@@ -58,4 +58,5 @@ class StudentAnswer(models.Model):
     answer = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return '{} for {} for {}'.format(self.user, self.exam_question.question, self.exam_question.exam)
+        return '{} for {} for {}'.format(self.user,
+            self.exam_question.question, self.exam_question.exam)

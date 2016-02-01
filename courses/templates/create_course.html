@@ -1,12 +1,14 @@
 {% extends 'base.html' %}
 
 {% block navigation %}
-	<li><a href="{% url 'teacher_courses' %}">Courses</a></li>
-	<li class="active">New course</li>
+  <li><a href="{% url 'teacher_courses' %}">Courses</a></li>
+  <li class="active">New course</li>
 {% endblock %}
 
 {% block header %}New course{% endblock %}
 
 {% block form_action %}{% url 'create_course' %}{% endblock %}
 
-{% block button %}<button class="btn btn-primary" id="submit" type="submit">Create</button>{% endblock %}
+{% block button %}
+  <button class="btn btn-primary" id="submit" type="submit">Create</button>
+{% endblock %}

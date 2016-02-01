@@ -1,34 +1,36 @@
 {% extends 'base.html' %}
 
 {% block navigation %}
-	<li><a href="{% url 'teacher_courses' %}">Courses</a></li>
-	<li><a href="{% url 'edit_course' course.id %}">{{ course.name }}</a></li>
-	<li class="active">Results</li>
+  <li><a href="{% url 'teacher_courses' %}">Courses</a></li>
+  <li><a href="{% url 'edit_course' course.id %}">{{ course.name }}</a></li>
+  <li class="active">Results</li>
 {% endblock %}
 
 {% block header %}Viewing results for {{ course.name }}{% endblock %}
 
 {% block dashboard %}
-	<table class="table table-hover">
-		<tr>
-			<th></th>
-			{% for exam in exams %}
-				<th>{{ exam.name }}</th>
-			{% endfor %}
-		</tr>
-		{% for student, value in scores.items %}
-			<tr>
-				<th>{{ student.user }}</th>
-				{% for exam, score in value.items %}
-					<td>
-						{% if score == "Not taken" %}
-							{{ score }}
-						{% else %}
-							<a href="{% url 'view_participant_result' course.id exam.id student.user.id %}">{{ score }}</a>
-						{% endif %}
-					</td>
-				{% endfor %}
-			</tr>
-		{% endfor %}
-	</table>
+  <table class="table table-hover">
+    <tr>
+      <th></th>
+      {% for exam in exams %}
+        <th>{{ exam.name }}</th>
+      {% endfor %}
+    </tr>
+    {% for student, value in scores.items %}
+      <tr>
+        <th>{{ student.user }}</th>
+        {% for exam, score in value.items %}
+          <td>
+            {% if score == "Not taken" %}
+              {{ score }}
+            {% else %}
+              <a href="{% url 'view_participant_result' course.id exam.id student.user.id %}">
+                {{ score }}
+              </a>
+            {% endif %}
+          </td>
+        {% endfor %}
+      </tr>
+    {% endfor %}
+  </table>
 {% endblock %}

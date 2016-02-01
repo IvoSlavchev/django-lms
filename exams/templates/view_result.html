@@ -4,56 +4,66 @@
 {% load get_item %}
 
 {% block navigation %}
-	{% if user.is_teacher %}
-		<li><a href="{% url 'teacher_courses' %}">Courses</a></li>
-		<li><a href="{% url 'edit_course' course.id %}">{{ course.name }}</a></li>
-		<li><a href="{% url 'list_exams' course.id %}">Exams</a></li>
-		<li><a href="{% url 'edit_exam' course.id exam.id %}">{{ exam.name }}</a></li>
-		<li><a href="{% url 'view_exam_results' course.id exam.id %}">Results</a></li>
-		<li class="active">Results for {{ student }}</li>
-	{% else %}
-		<li><a href="{% url 'student_courses' %}">Courses</a></li>
-		<li><a href="{% url 'view_course' course.id %}">{{ course.name }}</a></li>
-		<li><a href="{% url 'view_exam' course.id exam.id %}">{{ exam.name }}</a></li>
-		<li class="active">Results</li>
-	{% endif %}
+  {% if user.is_teacher %}
+    <li><a href="{% url 'teacher_courses' %}">Courses</a></li>
+    <li><a href="{% url 'edit_course' course.id %}">{{ course.name }}</a></li>
+    <li><a href="{% url 'list_exams' course.id %}">Exams</a></li>
+    <li><a href="{% url 'edit_exam' course.id exam.id %}">{{ exam.name }}</a></li>
+    <li><a href="{% url 'view_exam_results' course.id exam.id %}">Results</a></li>
+    <li class="active">Results for {{ student }}</li>
+  {% else %}
+    <li><a href="{% url 'student_courses' %}">Courses</a></li>
+    <li><a href="{% url 'view_course' course.id %}">{{ course.name }}</a></li>
+    <li><a href="{% url 'view_exam' course.id exam.id %}">{{ exam.name }}</a></li>
+    <li class="active">Results</li>
+  {% endif %}
 {% endblock %}
 
 {% block header %}
-	{% if user.is_teacher %}
-		Viewing results for {{ student }} for {{ exam.name }}
-	{% else %}
-		Viewing results for {{ exam.name }}
-	{% endif %}
+  {% if user.is_teacher %}
+    Viewing results for {{ student }} for {{ exam.name }}
+  {% else %}
+    Viewing results for {{ exam.name }}
+  {% endif %}
 {% endblock %}
 
 {% block dashboard %}
-	<h4 class="text-success text-center">Result: {{ result }}</h4>
-	<table class="table spaced">
-		{% for exam_quest in exam_questions %}
-			<thead>
-				<tr>
-					<th>{{ forloop.counter }}. {{ exam_quest.question.question_text }}</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% if answers|get_item:exam_quest == None %}
-					<td class="danger">Question not answered!</td>
-				{% endif %}
-				{% for choice in exam_quest.question.choice_set.all %}	
-					<tr class="choices">
-						{% if answers|get_item:exam_quest == choice.id and choice.correct %}
-							<td class="success">{{ forloop.counter|to_char }}) {{ choice.choice_text }}</td>
-						{% elif choice.correct %}
-							<td class="success">{{ forloop.counter|to_char }}) {{ choice.choice_text }}</td>
-						{% elif answers|get_item:exam_quest == choice.id  %}
-							<td class="danger">{{ forloop.counter|to_char }}) {{ choice.choice_text }}</td>
-						{% else %}
-							<td>{{ forloop.counter|to_char }}) {{ choice.choice_text }}</td>
-						{% endif %}
-					</tr>
-				{% endfor %}
-			</tbody>	
-		{% endfor %}
-	</table>
+  <h4 class="text-success text-center">Result: {{ result }}</h4>
+  <table class="table spaced">
+    {% for exam_quest in exam_questions %}
+      <thead>
+        <tr>
+          <th>
+            {{ forloop.counter }}. {{ exam_quest.question.question_text }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if answers|get_item:exam_quest == None %}
+          <td class="danger">Question not answered!</td>
+        {% endif %}
+        {% for choice in exam_quest.question.choice_set.all %}  
+          <tr class="choices">
+            {% if answers|get_item:exam_quest == choice.id and choice.correct %}
+              <td class="success">
+                {{ forloop.counter|to_char }}) {{ choice.choice_text }}
+              </td>
+            {% elif choice.correct %}
+              <td class="success">
+                {{ forloop.counter|to_char }}) {{ choice.choice_text }}
+              </td>
+            {% elif answers|get_item:exam_quest == choice.id  %}
+              <td class="danger">
+                {{ forloop.counter|to_char }}) {{ choice.choice_text }}
+              </td>
+            {% else %}
+              <td>
+                {{ forloop.counter|to_char }}) {{ choice.choice_text }}
+              </td>
+            {% endif %}
+          </tr>
+        {% endfor %}
+      </tbody>  
+    {% endfor %}
+  </table>
 {% endblock %}

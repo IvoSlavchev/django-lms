@@ -6,7 +6,8 @@ from selenium import webdriver
 
 
 class FunctionalTest(StaticLiveServerTestCase):
-    fixtures = ['fixtures/users.json', 'fixtures/courses.json', 'fixtures/questions.json', 'fixtures/exams.json']
+    fixtures = ['fixtures/users.json', 'fixtures/courses.json',
+        'fixtures/questions.json', 'fixtures/exams.json']
 
     def setUp(self):
         self.browser = webdriver.Firefox()

@@ -2,49 +2,61 @@
 
 <!DOCTYPE html>
 <html>
-    <head>
-	    <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Django-LMS</title>
-        <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <link href="/static/datetimepicker/jquery.datetimepicker.css" rel="stylesheet">
-        <link href="/static/base.css" rel="stylesheet">
-        <link rel="shortcut icon" type="image/ico" href="/static/favicon.ico">
-	</head>
-    <body>
-        <div class="container">
-            <nav class="navbar navbar-default" role="navigation">             
-                {% if user.is_active %} 
-                    <a class="btn navbar-btn navbar-right" id="logout" href="{% url 'logout' %}">Log out</a>
-                    <span class="navbar-text navbar-right">Logged in as {{ user.username }}</span>
-                {% else %}
-                    <a class="navbar-brand" href="/">Django-LMS</a>
-                {% endif %}
-                <span class="navbar-text navbar-right" id="date">{% now "D, M. jS, Y" %}</span>
-                <ul class="breadcrumb">
-                    {% block navigation %}{% endblock %}
-                </ul>
-            </nav>
-            {% block messages %}{% endblock %}
-            <div class="row">                 
-                <h3 class="text-primary text-center">{% block header %}{% endblock %}</h3>  
-                {% block filter %}{% endblock %}
-                <form class="center" action="{% block form_action %}{% endblock %}" 
-                    method="POST"> 
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    {% block additional_forms %}{% endblock %}
-                    {% block button %}{% endblock %}
-                </form>                  
-                <div class="list-group center">
-                    {% block dashboard %}{% endblock %}
-                </div>
-            </div>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Django-LMS</title>
+    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/datetimepicker/jquery.datetimepicker.css"
+      rel="stylesheet">
+    <link href="/static/base.css" rel="stylesheet">
+    <link rel="shortcut icon" type="image/ico" href="/static/favicon.ico">
+  </head>
+  <body>
+    <div class="container">
+      <nav class="navbar navbar-default" role="navigation">
+        {% if user.is_active %} 
+          <a class="btn navbar-btn navbar-right" id="logout"
+            href="{% url 'logout' %}">
+            Log out
+          </a>
+          <span class="navbar-text navbar-right">
+            Logged in as {{ user.username }}
+          </span>
+        {% else %}
+          <a class="navbar-brand" href="/">Django-LMS</a>
+        {% endif %}
+        <span class="navbar-text navbar-right" id="date">
+          {% now "D, M. jS, Y" %}
+        </span>
+        <ul class="breadcrumb">
+          {% block navigation %}{% endblock %}
+        </ul>
+      </nav>
+      {% block messages %}{% endblock %}
+      <div class="row">                 
+        <h3 class="text-primary text-center">
+          {% block header %}{% endblock %}
+        </h3>  
+        {% block filter %}{% endblock %}
+        <form class="center" action="{% block form_action %}{% endblock %}"
+          method="POST"> 
+          {% csrf_token %}
+          {{ form.as_p }}
+          {% block additional_forms %}{% endblock %}
+          {% block button %}{% endblock %}
+        </form>                  
+        <div class="list-group center">
+          {% block dashboard %}{% endblock %}
         </div>
-        <script type="text/javascript" src="/static/js/jquery.js"></script>
-        <script type="text/javascript" src="/static/datetimepicker/jquery.datetimepicker.full.min.js"></script>
-        <script type="text/javascript" src="/static/js/base.js"></script>
-        {% block javascript %}{% endblock %}
-    </body>
+      </div>
+    </div>
+    <script type="text/javascript" src="/static/js/jquery.js"></script>
+    <script type="text/javascript"
+      src="/static/datetimepicker/jquery.datetimepicker.full.min.js">
+    </script>
+    <script type="text/javascript" src="/static/js/base.js"></script>
+    {% block javascript %}{% endblock %}
+  </body>
 </html>

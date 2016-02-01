@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
 {% block messages %}
-	{% if success %}
-		<h4 class="alert alert-success text-center">Successfully confirmed!</h4>
-	{% else %}
-	    <h4 class="alert alert-error text-center">Link expired!</h4>
-	{% endif %}
+  {% if success %}
+    <h4 class="alert alert-success text-center">Successfully confirmed!</h4>
+  {% else %}
+      <h4 class="alert alert-error text-center">Link expired!</h4>
+  {% endif %}
 {% endblock %}

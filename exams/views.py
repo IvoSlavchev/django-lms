@@ -185,11 +185,11 @@ def take_exam(request, course_id, exam_id):
                     correct = 0
                     for exam_quest in exam_questions:
                         try:
-                            selected_answer = StudentAnswer.objects.create(
+                            st_answer = StudentAnswer.objects.create(
                                 user=request.user, exam_question=exam_quest,
                                 answer=request.POST.get(str(exam_quest.question.id)))
-                            if (selected_answer.exam_question.question.choice_set.get(id=
-                                selected_answer.answer).correct):
+                            if (st_answer.exam_question.question.choice_set.get(id=
+                                st_answer.answer).correct):
                                 correct += 1
                         except ObjectDoesNotExist:
                             continue;
@@ -222,7 +222,7 @@ def view_result(request, course_id, exam_id):
             answers[exam_question] = StudentAnswer.objects.get(user=
                 request.user, exam_question=exam_question).answer
         return render(request, 'view_result.html', {'course': course,
-            'exam': exam, 'exam_questions': exam_questions, 'result': result, 
+            'exam': exam, 'exam_questions': exam_questions, 'result': result,
             'answers': answers})
     else:
         return redirect('/courses/s')

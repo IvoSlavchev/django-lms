@@ -3,12 +3,16 @@
 {% block header %}Sign up{% endblock %}
 
 {% block filter %}
-	<div class="center">
-	    <p>Teacher accounts can create courses, questions and exams, as well as review each participant's results.</p>
-	    <p>Students can take exams and review their results to see where to focus in order to improve.</p>
-	</div>
+  <div class="center">
+      <p>Teacher accounts can create courses, questions and exams, as well as 
+        review each participant's results.</p>
+      <p>Students can take exams and review their results to see where to 
+        focus in order to improve.</p>
+  </div>
 {% endblock %}
 
 {% block form_action %}{% url 'signup' %}{% endblock %}
 
-{% block button %}<button class="btn btn-primary" id="submit" type="submit">Sign up</button>{% endblock %}
+{% block button %}
+  <button class="btn btn-primary" id="submit" type="submit">Sign up</button>
+{% endblock %}

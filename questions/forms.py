@@ -25,7 +25,8 @@ class QuestionForm(forms.ModelForm):
 class ChoiceForm(forms.ModelForm):
 
     choice_text = forms.CharField(max_length=30)
-    correct = forms.BooleanField(label='', required=False, widget=forms.RadioSelect(choices=[(True, 'Correct')]))
+    correct = forms.BooleanField(label='', required=False,
+        widget=forms.RadioSelect(choices=[(True, 'Correct')]))
 
     class Meta:
         model = Choice

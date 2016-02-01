@@ -1,3 +1,3 @@
 $(document).on("click", function(){
-	$(":radio").attr('name', 'correct');
+    $(":radio").attr('name', 'correct');
 });

@@ -3,43 +3,44 @@
 {% load get_item %}
 
 {% block navigation %}
-	<li><a href="{% url 'student_courses' %}">Courses</a></li>
-	<li class="active">{{ course.name }}</li>
+  <li><a href="{% url 'student_courses' %}">Courses</a></li>
+  <li class="active">{{ course.name }}</li>
 {% endblock %}
 
 {% block header %}Viewing course {{ course.name }}{% endblock %}
 
 {% block dashboard %}
-	<table class="table table-hover">
-		<tr>
-			<th>Course creator:</th>
-			<td>{{ course.owner }}</td>
-		</tr>
-		<tr>
-			<th>Creator email:</th>
-			<td>{{ course.owner.email }}</td>
-		</tr>
-		<tr>
-			<th>Course description:</th>
-			<td>{{ course.description }}</td>
-		</tr>
-		<tr>
-			<th>Course created:</th>
-			<td>{{ course.created|date }}</td>
-		</tr>
-		<tr>
-			<th>Course last updated:</th>
-			<td>{{ course.updated|date }}</td>
-		</tr>
-	</table>
-	<h4 class="text-primary text-center">Exams</h4>
-	<table class="table table-hover">
-		{% for exam in exams %}
-			<a class="list-group-item" href="{% url 'view_exam' course.id exam.id %}">
-				<h4 class="list-group-item-heading">{{ exam.name }}</h4>
-				<p class="list-group-item-description">{{ exam.description }}</p>
-				<p class="list-group-item-description"> {{ scores|get_item:exam }}</p>
-			</a>
-		{% endfor %}
-	</table>
+  <table class="table table-hover">
+    <tr>
+      <th>Course creator:</th>
+      <td>{{ course.owner }}</td>
+    </tr>
+    <tr>
+      <th>Creator email:</th>
+      <td>{{ course.owner.email }}</td>
+    </tr>
+    <tr>
+      <th>Course description:</th>
+      <td>{{ course.description }}</td>
+    </tr>
+    <tr>
+      <th>Course created:</th>
+      <td>{{ course.created|date }}</td>
+    </tr>
+    <tr>
+      <th>Course last updated:</th>
+      <td>{{ course.updated|date }}</td>
+    </tr>
+  </table>
+  <h4 class="text-primary text-center">Exams</h4>
+  <table class="table table-hover">
+    {% for exam in exams %}
+      <a class="list-group-item"
+        href="{% url 'view_exam' course.id exam.id %}">
+        <h4 class="list-group-item-heading">{{ exam.name }}</h4>
+        <p class="list-group-item-description">{{ exam.description }}</p>
+        <p class="list-group-item-description"> {{ scores|get_item:exam }}</p>
+      </a>
+    {% endfor %}
+  </table>
 {% endblock %}

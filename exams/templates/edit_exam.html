@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
 {% block navigation %}
-	<li><a href="{% url 'teacher_courses' %}">Courses</a></li>
-	<li><a href="{% url 'edit_course' course.id %}">{{ course.name }}</a></li>
-	<li><a href="{% url 'list_exams' course.id %}">Exams</a></li>
-	<li class="active">{{ exam.name }}</li>
+  <li><a href="{% url 'teacher_courses' %}">Courses</a></li>
+  <li><a href="{% url 'edit_course' course.id %}">{{ course.name }}</a></li>
+  <li><a href="{% url 'list_exams' course.id %}">Exams</a></li>
+  <li class="active">{{ exam.name }}</li>
 {% endblock %}
 
 {% block header %}Editing exam {{ exam.name }}{% endblock %}
@@ -12,18 +12,23 @@
 {% block form_action %}{% url 'edit_exam' course.id exam.id %}{% endblock %}
 
 {% block button %}
-	<button class="btn btn-primary" id="submit" type="submit" name="update">Update</button>
-	<button class="btn btn-danger" id="delete" name="delete" onclick="return confirmDelete()">Delete</button>
+  <button class="btn btn-primary" id="submit" type="submit" name="update">
+    Update
+  </button>
+  <button class="btn btn-danger" id="delete" name="delete"
+    onclick="return confirmDelete()">
+    Delete
+  </button>
 {% endblock %}
 
 {% block dashboard %}
-	<a href="{% url 'view_assigned' course.id exam.id %}">
-		<span class="glyphicon glyphicon-question-sign"></span>
-		View assigned questions
-	</a>
-	<br>
-	<a href="{% url 'view_exam_results' course.id exam.id %}">
-		<span class="glyphicon glyphicon-education"></span>
-		View results
-	</a>
+  <a href="{% url 'view_assigned' course.id exam.id %}">
+    <span class="glyphicon glyphicon-question-sign"></span>
+    View assigned questions
+  </a>
+  <br>
+  <a href="{% url 'view_exam_results' course.id exam.id %}">
+    <span class="glyphicon glyphicon-education"></span>
+    View results
+  </a>
 {% endblock %}

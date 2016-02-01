@@ -1,3 +1,4 @@
 $("ul label").each(function(i) {
-	$(this).append(emails[i]);
+    $(this).addClass('label');
+    $(this).append(emails[i]);
 });

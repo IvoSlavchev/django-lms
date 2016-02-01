@@ -23,9 +23,9 @@ class CourseForm(forms.ModelForm):
 
 class ParticipantsForm(forms.ModelForm):
 
-    participants = forms.ModelMultipleChoiceField(required=False,
-        queryset=User.objects.filter(is_teacher=False, is_active=True, is_superuser=False),
-        widget=forms.CheckboxSelectMultiple())
+    participants = forms.ModelMultipleChoiceField(label="", required=False,
+        queryset=User.objects.filter(is_teacher=False, is_active=True,
+        is_superuser=False), widget=forms.CheckboxSelectMultiple())
 
     class Meta:
         model = Course

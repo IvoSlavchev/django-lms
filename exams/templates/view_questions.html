@@ -3,34 +3,38 @@
 {% load to_char %}
 
 {% block navigation %}
-	<li><a href="{% url 'teacher_courses' %}">Courses</a></li>
-	<li><a href="{% url 'edit_course' course.id %}">{{ course.name }}</a></li>
-	<li><a href="{% url 'list_exams' course.id %}">Exams</a></li>
-	<li><a href="{% url 'edit_exam' course.id exam.id %}">{{ exam.name }}</a></li>
-	<li class="active">Questions</li>
+  <li><a href="{% url 'teacher_courses' %}">Courses</a></li>
+  <li><a href="{% url 'edit_course' course.id %}">{{ course.name }}</a></li>
+  <li><a href="{% url 'list_exams' course.id %}">Exams</a></li>
+  <li><a href="{% url 'edit_exam' course.id exam.id %}">{{ exam.name }}</a></li>
+  <li class="active">Questions</li>
 {% endblock %}
 
 {% block header %}Viewing questions for {{ exam.name }}{% endblock %}
 
 {% block dashboard %}
-	<table class="table spaced">
-		{% for exam_quest in exam_questions %}
-			<thead>
-				<tr>
-					<th>{{ forloop.counter }}. {{ exam_quest.question.question_text }}</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for choice in exam_quest.question.choice_set.all %}	
-					<tr class="choices">
-						{% if choice.correct %}
-							<td class="success">{{ forloop.counter|to_char }}) {{ choice.choice_text }}</td>
-						{% else %}
-							<td>{{ forloop.counter|to_char }}) {{ choice.choice_text }}</td>
-						{% endif %}
-					</tr>
-				{% endfor %}
-			</tbody>	
-		{% endfor %}
-	</table>
+  <table class="table spaced">
+    {% for exam_quest in exam_questions %}
+      <thead>
+        <tr>
+          <th>
+            {{ forloop.counter }}. {{ exam_quest.question.question_text }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for choice in exam_quest.question.choice_set.all %}  
+          <tr class="choices">
+            {% if choice.correct %}
+              <td class="success">
+                {{ forloop.counter|to_char }}) {{ choice.choice_text }}
+              </td>
+            {% else %}
+              <td>{{ forloop.counter|to_char }}) {{ choice.choice_text }}</td>
+            {% endif %}
+          </tr>
+        {% endfor %}
+      </tbody>  
+    {% endfor %}
+  </table>
 {% endblock %}

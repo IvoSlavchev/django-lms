@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
 {% block navigation %}
-	<li><a href="{% url 'teacher_courses' %}">Courses</a></li>
-	<li class="active">{{ course.name }}</li>
+  <li><a href="{% url 'teacher_courses' %}">Courses</a></li>
+  <li class="active">{{ course.name }}</li>
 {% endblock %}
 
 {% block messages %}{% include 'messages.html' %}{% endblock %}
@@ -12,28 +12,33 @@
 {% block form_action %}{% url 'edit_course' course.id %}{% endblock %}
 
 {% block dashboard %}
-	<a href="{% url 'edit_participants' course.id %}">
-		<span class="glyphicon glyphicon-user"></span>
-		Edit participants
-	</a>
-	<br>
-	<a href="{% url 'list_questions' course.id %}">
-		<span class="glyphicon glyphicon-question-sign"></span>
-		View questions
-	</a>
-	<br>	
-	<a href="{% url 'list_exams' course.id %}">
-		<span class="glyphicon glyphicon-pencil"></span>
-		View exams
-	</a>
-	<br>		
-	<a href="{% url 'view_course_results' course.id %}">
-		<span class="glyphicon glyphicon-education"></span>
-		View results
-	</a>
-{% endblock %}	
+  <a href="{% url 'edit_participants' course.id %}">
+    <span class="glyphicon glyphicon-user"></span>
+    Edit participants
+  </a>
+  <br>
+  <a href="{% url 'list_questions' course.id %}">
+    <span class="glyphicon glyphicon-question-sign"></span>
+    View questions
+  </a>
+  <br>  
+  <a href="{% url 'list_exams' course.id %}">
+    <span class="glyphicon glyphicon-pencil"></span>
+    View exams
+  </a>
+  <br>    
+  <a href="{% url 'view_course_results' course.id %}">
+    <span class="glyphicon glyphicon-education"></span>
+    View results
+  </a>
+{% endblock %}  
 
 {% block button %}
-	<button class="btn btn-primary" id="submit" type="submit" name="update">Update</button>	
-	<button class="btn btn-danger" id="delete" name="delete" onclick="return confirmDelete()">Delete</button>
+  <button class="btn btn-primary" id="submit" type="submit" name="update">
+    Update
+  </button> 
+  <button class="btn btn-danger" id="delete" name="delete"
+    onclick="return confirmDelete()">
+    Delete
+  </button>
 {% endblock %}

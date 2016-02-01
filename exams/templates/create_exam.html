@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
 {% block navigation %}
-	<li><a href="{% url 'teacher_courses' %}">Courses</a></li>
-	<li><a href="{% url 'edit_course' course.id %}">{{ course.name }}</a></li>
-	<li><a href="{% url 'list_exams' course.id %}">Exams</a></li>
-	<li class="active">New exam</li>
+  <li><a href="{% url 'teacher_courses' %}">Courses</a></li>
+  <li><a href="{% url 'edit_course' course.id %}">{{ course.name }}</a></li>
+  <li><a href="{% url 'list_exams' course.id %}">Exams</a></li>
+  <li class="active">New exam</li>
 {% endblock %}
 
 {% block header %}New exam{% endblock %}
@@ -12,5 +12,7 @@
 {% block form_action %}{% url 'create_exam' course.id %}{% endblock %}
 
 {% block button %}
-	<button class="btn btn-primary" id="submit" type="submit" name="create">Create</button>
+  <button class="btn btn-primary" id="submit" type="submit" name="create">
+    Create
+  </button>
 {% endblock %}

@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
 {% block navigation %}
-	<li><a href="{% url 'student_courses' %}">Courses</a></li>
-	<li><a href="{% url 'view_course' course.id %}">{{ course.name }}</a></li>
-	<li class="active">{{ exam.name }}</li>
+  <li><a href="{% url 'student_courses' %}">Courses</a></li>
+  <li><a href="{% url 'view_course' course.id %}">{{ course.name }}</a></li>
+  <li class="active">{{ exam.name }}</li>
 {% endblock %}
 
 {% block messages %}{% include 'messages.html' %}{% endblock %}
@@ -11,61 +11,61 @@
 {% block header %}Viewing exam {{ exam.name }}{% endblock %}
 
 {% block dashboard %}
-	<table class="table table-hover">
-		<tr>
-			<th>Your result:</th>
-			<td>{{ result }}</td>
-		</tr>
-		<tr>
-			<th>Exam description:</th>
-			<td>{{ exam.description }}</td>
-		</tr>
-		<tr>
-			<th>Exam category:</th>
-			<td>{{ exam.category }}</td>
-		</tr>
-		<tr>
-			<th>Time limit:</th>
-			<td>{{ exam.time_limit }}</td>
-		</tr>
-		<tr>
-			<th>Active from:</th>
-			<td>{{ exam.active_from|date }}</td>
-		</tr>
-		<tr>
-			<th>Until:</th>
-			<td>{{ exam.active_to|date }}</td>
-		</tr>
-		<tr>
-			<th>Remaining:</th>
-			{% if not exam.active %}
-				<td>Exam closed.</td>
-			{% else %}
-				<td>{{ exam.active_to|timeuntil }}</td>
-			{% endif %}
-		</tr>
-		<tr>
-			<th>Exam created:</th>
-			<td>{{ exam.created|date }}</td>
-		</tr>
-		<tr>
-			<th>Exam last updated:</th>
-			<td>{{ exam.updated|date }}</td>
-		</tr>
-		<tr>
-			<th>Belongs to course:</th>
-			<td>{{ course.name }}</td>
-		</tr>
-	</table>
-	{% if 'Exam' in result and exam.active %}
-		<a href="{% url 'take_exam' course.id exam.id %}">
-			<span class="glyphicon glyphicon-pencil"></span>
-			Take exam
-		</a>
-	{% else %}
-		<a href="{% url 'view_result' course.id exam.id %}">
-			<span class="glyphicon glyphicon-education"></span>
-			View result
-		</a>
-	{% endif %}
+  <table class="table table-hover">
+    <tr>
+      <th>Your result:</th>
+      <td>{{ result }}</td>
+    </tr>
+    <tr>
+      <th>Exam description:</th>
+      <td>{{ exam.description }}</td>
+    </tr>
+    <tr>
+      <th>Exam category:</th>
+      <td>{{ exam.category }}</td>
+    </tr>
+    <tr>
+      <th>Time limit:</th>
+      <td>{{ exam.time_limit }}</td>
+    </tr>
+    <tr>
+      <th>Active from:</th>
+      <td>{{ exam.active_from|date }}</td>
+    </tr>
+    <tr>
+      <th>Until:</th>
+      <td>{{ exam.active_to|date }}</td>
+    </tr>
+    <tr>
+      <th>Remaining:</th>
+      {% if not exam.active %}
+        <td>Exam closed.</td>
+      {% else %}
+        <td>{{ exam.active_to|timeuntil }}</td>
+      {% endif %}
+    </tr>
+    <tr>
+      <th>Exam created:</th>
+      <td>{{ exam.created|date }}</td>
+    </tr>
+    <tr>
+      <th>Exam last updated:</th>
+      <td>{{ exam.updated|date }}</td>
+    </tr>
+    <tr>
+      <th>Belongs to course:</th>
+      <td>{{ course.name }}</td>
+    </tr>
+  </table>
+  {% if 'Exam' in result and exam.active %}
+    <a href="{% url 'take_exam' course.id exam.id %}">
+      <span class="glyphicon glyphicon-pencil"></span>
+      Take exam
+    </a>
+  {% else %}
+    <a href="{% url 'view_result' course.id exam.id %}">
+      <span class="glyphicon glyphicon-education"></span>
+      View result
+    </a>
+  {% endif %}
 {% endblock %}

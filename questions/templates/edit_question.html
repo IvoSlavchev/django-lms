@@ -1,40 +1,47 @@
 {% extends 'base.html' %}
 
 {% block navigation %}
-	<li><a href="{% url 'teacher_courses' %}">Courses</a></li>
-	<li><a href="{% url 'edit_course' course.id %}">{{ course.name }}</a></li>
-	<li><a href="{% url 'list_questions' course.id %}">Questions</a></li>
-	<li class="active">{{ question.name }}</li>
+  <li><a href="{% url 'teacher_courses' %}">Courses</a></li>
+  <li><a href="{% url 'edit_course' course.id %}">{{ course.name }}</a></li>
+  <li><a href="{% url 'list_questions' course.id %}">Questions</a></li>
+  <li class="active">{{ question.name }}</li>
 {% endblock %}
 
 {% block header %}Editing question {{ question.name }}{% endblock %}
 
-{% block form_action %}{% url 'edit_question' course.id question.id %}{% endblock %}
+{% block form_action %}
+  {% url 'edit_question' course.id question.id %}
+{% endblock %}
 
 {% block additional_forms %}
-	{{ choice_formset.management_form }}
-	<div id="choices-form-container">
-		{% for choice_form in choice_formset %}
-			<div id="choice-{{ forloop.counter0 }}">
-				{{ choice_form.as_p }}
-			</div>
-		{% endfor %}
-	</div>
+  {{ choice_formset.management_form }}
+  <div id="choices-form-container">
+    {% for choice_form in choice_formset %}
+      <div id="choice-{{ forloop.counter0 }}">
+        {{ choice_form.as_p }}
+      </div>
+    {% endfor %}
+  </div>
 {% endblock %}
 
 {% block button %}
-	<button class="btn btn-info" id="add-choice">Add choice</button>
-	<br>
-	<button class="btn btn-primary" id="submit" type="submit" name="update">Update</button>
-	<button class="btn btn-danger" id="delete" name="delete" onclick="return confirmDelete()">Delete</button>
+  <button class="btn btn-info" id="add-choice">Add choice</button>
+  <br>
+  <button class="btn btn-primary" id="submit" type="submit" name="update">
+    Update
+  </button>
+  <button class="btn btn-danger" id="delete" name="delete"
+    onclick="return confirmDelete()">
+    Delete
+  </button>
 {% endblock %}
 
 {% block javascript %}
-	<script type="text/html" id="choice-template">
-		<div id="choice-__prefix__">
-		    {{ choice_formset.empty_form }}
-		</div>
-	</script>	
-	<script type="text/javascript" src="/static/js/radioGroup.js"></script>
-	<script type="text/javascript" src="/static/js/newChoice.js"></script>
+  <script type="text/html" id="choice-template">
+    <div id="choice-__prefix__">
+        {{ choice_formset.empty_form }}
+    </div>
+  </script> 
+  <script type="text/javascript" src="/static/js/radioGroup.js"></script>
+  <script type="text/javascript" src="/static/js/newChoice.js"></script>
 {% endblock %}

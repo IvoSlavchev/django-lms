@@ -1,83 +1,98 @@
 body {
-	background-color: #F8F8FF;
+    background-color: #F8F8FF;
 }
 
 #date, #logout {
-	margin-right: 1%;
-	padding-right: 1%;
+    margin-right: 1%;
+    padding-right: 1%;
+    font-size: 16px;
 }
 
 table {
-	table-layout:fixed;
-	width: 70%;
-	border-collapse: collapse;
+    table-layout:fixed;
+    width: 70%;
+    border-collapse: collapse;
 }
 
 td {
-	word-wrap:break-word;
+    word-wrap:break-word;
 }
 
 .spaced tbody {
-  	border-bottom: 20px solid #F8F8FF;
+    border-bottom: 20px solid #F8F8FF;
 }
 
 .list-group-item {
-	background-color: white;
+    background-color: white;
 }
 
 .list-group-item-description {
-	overflow: hidden;
-	text-overflow: ellipsis;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #id_participants li {
-	list-style-type: none;
+    list-style-type: none;
 }
 
 #choices-form-container li {
-	margin-left: -40px;
-	list-style-type: none;
+    margin-left: -40px;
+    list-style-type: none;
 }
 
 #add-choice {
-	margin-bottom: 5%;
+    margin-bottom: 5%;
 }
 
 #search {
-	margin-top: 1%;
-	margin-bottom: 5%;
+    margin-top: 1%;
+    margin-bottom: 5%;
 }
 
 .hidden {
-	display: none;
+    display: none;
 }
 
 .center {
-	width: 50%; 
-	margin-top: 1%;
-	margin-left: auto;
-	margin-right: auto;
+    width: 50%; 
+    margin-top: 1%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 form[action="/"] {
-	width: 30%;
+    width: 30%;
 }
 
 .navbar-default {
-	background-color: white;
+    background-color: white;
 }
 
 .navbar-brand {
-	font-size: 16px;
+    font-size: 16px;
 }
 
 .navbar-text {
-	font-size: 16px;
+    font-size: 16px;
 }
 
 .breadcrumb {
-	background-color: transparent;
-	margin-top: 0.5%;
-	margin-bottom: -1%;
-	font-size: 16px;
+    background-color: transparent;
+    margin-top: 0.5%;
+    margin-bottom: -1%;
+    font-size: 16px;
+}
+
+.label {
+    background-color: transparent;
+    color: black;
+    display: inline-block;
+    font-size: 16px;
+}
+
+#remaining {
+    padding: 1%;
+    margin-top: -5%;
+    margin-left: -20%;
+    position: fixed;
 }

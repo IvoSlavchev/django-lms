@@ -1,31 +1,34 @@
 {% extends 'base.html' %}
 
 {% block navigation %}
-	<li><a href="{% url 'teacher_courses' %}">Courses</a></li>
-	<li><a href="{% url 'edit_course' course.id %}">{{ course.name }}</a></li>
-	<li class="active">Participants</li>
+  <li><a href="{% url 'teacher_courses' %}">Courses</a></li>
+  <li><a href="{% url 'edit_course' course.id %}">{{ course.name }}</a></li>
+  <li class="active">Participants</li>
 {% endblock %}
 
 {% block header %}Editing participants for {{ course.name }}{% endblock %}
 
 {% block filter %}
-	<div class="center">
-		<input type="text" id="search" placeholder="Filter participants" onkeyup="searchFilter()">
-	</div>
+  <div class="center">
+    <input type="text" id="search" placeholder="Filter participants"
+      onkeyup="searchFilter()">
+  </div>
 {% endblock %}
 
 {% block form_action %}{% url 'edit_participants' course.id %}{% endblock %}
 
 {% block button %}
-	<button class="btn btn-primary" id="submit" type="submit" name="update">Update</button>	
+  <button class="btn btn-primary" id="submit" type="submit" name="update">
+    Update
+  </button> 
 {% endblock %}
 
 {% block javascript %}
-	<script type="text/javascript">
-		var emails = [];
-		{% for participant in participants %}
-			emails.push(" email: {{ participant.user.email }}");
-		{% endfor %}
-	</script>
-	<script type="text/javascript" src="/static/js/addEmails.js"></script>
+  <script type="text/javascript">
+    var emails = [];
+    {% for participant in participants %}
+      emails.push(" email: {{ participant.user.email }}");
+    {% endfor %}
+  </script>
+  <script type="text/javascript" src="/static/js/addEmails.js"></script>
 {% endblock %}

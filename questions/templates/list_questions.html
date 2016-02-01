@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
 {% block navigation %}
-	<li><a href="{% url 'teacher_courses' %}">Courses</a></li>
-	<li><a href="{% url 'edit_course' course.id %}">{{ course.name }}</a></li>
-	<li class="active">Questions</li>
+  <li><a href="{% url 'teacher_courses' %}">Courses</a></li>
+  <li><a href="{% url 'edit_course' course.id %}">{{ course.name }}</a></li>
+  <li class="active">Questions</li>
 {% endblock %}
 
 {% block messages %}{% include 'messages.html' %}{% endblock %}
@@ -11,14 +11,15 @@
 {% block header %}Questions for {{ course.name }}{% endblock %}
 
 {% block dashboard %}
-	{% for question in questions %}
-		<a class="list-group-item" href="{% url 'edit_question' course.id question.id %}">
-			<h4 class="list-group-item-heading">{{ question.name }}</h4>
-			<p class="list-group-item-description">{{ question.question_text }}</p>
-		</a>
-	{% endfor %}
-	<a href="{% url 'create_question' course.id %}">
-		<span class="glyphicon glyphicon-plus"></span>
-		Create new question
-	</a>	
-{% endblock %}	
+  {% for question in questions %}
+    <a class="list-group-item"
+      href="{% url 'edit_question' course.id question.id %}">
+      <h4 class="list-group-item-heading">{{ question.name }}</h4>
+      <p class="list-group-item-description">{{ question.question_text }}</p>
+    </a>
+  {% endfor %}
+  <a href="{% url 'create_question' course.id %}">
+    <span class="glyphicon glyphicon-plus"></span>
+    Create new question
+  </a>  
+{% endblock %}  
