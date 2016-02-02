@@ -21,9 +21,14 @@ class CourseForm(forms.ModelForm):
             self.initial['description'] = instance.description
 
 
+class ParticipantsAssetMultiField(forms.ModelMultipleChoiceField):
+    def label_from_instance(self, obj):
+        return '{} {}'.format(obj, obj.email)
+
+
 class ParticipantsForm(forms.ModelForm):
 
-    participants = forms.ModelMultipleChoiceField(label="", required=False,
+    participants = ParticipantsAssetMultiField(label="", required=False,
         queryset=User.objects.filter(is_teacher=False, is_active=True,
         is_superuser=False), widget=forms.CheckboxSelectMultiple())
 

@@ -13,9 +13,13 @@ from questions.models import Question, Choice
 
 
 def teacher_check(user):
+    if user.is_anonymous():
+        return False
     return user.is_teacher
 
 def student_check(user):
+    if user.is_anonymous():
+        return False
     return not user.is_teacher
 
 
@@ -109,8 +113,7 @@ def edit_participants(request, course_id):
                 return redirect('/courses/' + course_id) 
         return render(request, 'edit_participants.html', {'form': form,
             'course': course, 'participants': participants})
-    else:
-        return redirect('/courses/')
+    return redirect('/courses/')
 
 
 @user_passes_test(teacher_check)
@@ -132,8 +135,7 @@ def view_course_results(request, course_id):
                     scores[participant][exam] = "Not taken"
         return render(request, 'view_course_results.html', {'course': course,
             'exams': exams, 'scores': scores})
-    else:
-        return redirect('/courses/')
+    return redirect('/courses/')
 
 
 @user_passes_test(student_check)
@@ -175,5 +177,4 @@ def view_course(request, course_id):
                     scores[exam] = "Not taken"
         return render(request, 'view_course.html', {'course': course,
             'participants': participants, 'exams': exams, 'scores': scores})
-    else:
-        return redirect('/courses/s')
+    return redirect('/courses/s')

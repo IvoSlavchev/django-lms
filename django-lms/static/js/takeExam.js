@@ -1,4 +1,5 @@
-$(document).ready(function() {      
+$(document).ready(function() {
+    "use strict";
 
     function lockExam() {   
         var input = prompt("Enter exam password:");

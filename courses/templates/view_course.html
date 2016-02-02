@@ -33,7 +33,6 @@
     </tr>
   </table>
   <h4 class="text-primary text-center">Exams</h4>
-  <table class="table table-hover">
     {% for exam in exams %}
       <a class="list-group-item"
         href="{% url 'view_exam' course.id exam.id %}">
@@ -41,6 +40,20 @@
         <p class="list-group-item-description">{{ exam.description }}</p>
         <p class="list-group-item-description"> {{ scores|get_item:exam }}</p>
       </a>
+    {% endfor %}
+  <h4 class="text-primary text-center">Participants</h4>
+  <table class="table table-hover">
+    {% for participant in course.participants.all %}
+      {% if participant != request.user %}
+        <tr>
+          <td>
+            {{ participant }}
+          </td>
+          <td>
+            {{ participant.email }}
+          </td>
+        </tr>
+      {% endif %}
     {% endfor %}
   </table>
 {% endblock %}

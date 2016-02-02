@@ -21,4 +21,4 @@ class Choice(models.Model):
     question = models.ForeignKey(Question)
 
     def __str__(self):
-        return self.choice_text
+        return '{} for {}'.format(self.choice_text, self.question)

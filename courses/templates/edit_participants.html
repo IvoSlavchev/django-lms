@@ -6,7 +6,7 @@
   <li class="active">Participants</li>
 {% endblock %}
 
-{% block header %}Editing participants for {{ course.name }}{% endblock %}
+{% block header %}Editing participants{% endblock %}
 
 {% block filter %}
   <div class="center">
@@ -24,11 +24,5 @@
 {% endblock %}
 
 {% block javascript %}
-  <script type="text/javascript">
-    var emails = [];
-    {% for participant in participants %}
-      emails.push(" email: {{ participant.user.email }}");
-    {% endfor %}
-  </script>
-  <script type="text/javascript" src="/static/js/addEmails.js"></script>
+  <script type="text/javascript" src="/static/js/searchFilter.js"></script>
 {% endblock %}

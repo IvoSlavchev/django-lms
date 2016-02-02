@@ -1,18 +1,7 @@
+"use strict";
+
 function confirmDelete() {
     return confirm("Are you sure?");
-}
-
-function searchFilter() {
-    var filter = $("#search").val();
-    $(':checkbox').each(function() {
-        if ($(this).parent().text().indexOf(filter) == 1 || !filter) {
-            $(this).show();
-            $(this).parent().show();
-        } else {
-            $(this).hide();
-            $(this).parent().hide();
-        }
-    });
 }
 
 function stylizeInputs() {
@@ -27,9 +16,12 @@ function stylizeOthers() {
     $(".alert").delay(10000).fadeOut(1000);
 }
 
-stylizeInputs();
-stylizeOthers();
+$(document).ready(function() {
 
-$(document).on('click', '#add-choice', function() {
-    stylizeInputs();
+	stylizeInputs();
+	stylizeOthers();
+
+	$(document).on('click', '#add-choice', function() {
+	    stylizeInputs();
+	});
 });

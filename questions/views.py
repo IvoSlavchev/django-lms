@@ -80,5 +80,4 @@ def list_questions(request, course_id):
         questions = Question.objects.filter(course=course_id)
         return render(request, 'list_questions.html', {'course': course,
             'questions': questions})
-    else:
-        return redirect('/courses/')
+    return redirect('/courses/')

@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	"use strict";
 
     $("#add-choice").click(function(e) {
         e.preventDefault();

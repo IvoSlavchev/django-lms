@@ -57,9 +57,8 @@ def create_exam(request, course_id):
                 return redirect('/courses/' + course_id + '/exams/')
         return render(request, 'create_exam.html', {'form': form,
             'course': course })
-    else:
-        messages.error(request, 'Course has no questions!')
-        return redirect('/courses/' + course_id)
+    messages.error(request, 'Course has no questions!')
+    return redirect('/courses/' + course_id)
 
 
 @user_passes_test(teacher_check)
@@ -91,8 +90,7 @@ def list_exams(request, course_id):
         exams = Exam.objects.filter(course=course_id).order_by('active_to')
         return render(request, 'list_exams.html', {'course': course,
             'exams': exams})
-    else:
-        return redirect('/courses/')
+    return redirect('/courses/')
 
 
 @user_passes_test(teacher_check)
@@ -112,8 +110,7 @@ def view_exam_results(request, course_id, exam_id):
                 scores[participant] = "Not taken"
         return render(request, 'view_exam_results.html', {'course': course,
             'exam': exam, 'scores': scores})
-    else:
-        return redirect('/courses/')
+    return redirect('/courses/')
 
 
 @user_passes_test(teacher_check)
@@ -133,8 +130,7 @@ def view_participant_result(request, course_id, exam_id, student_id):
         return render(request, 'view_result.html', {'course': course,
             'exam': exam, 'exam_questions': exam_questions, 'result': result,
             'answers': answers, 'student': student})
-    else:
-        return redirect('/courses/')
+    return redirect('/courses/')
 
 
 @user_passes_test(teacher_check)
@@ -145,8 +141,7 @@ def view_assigned(request, course_id, exam_id):
         exam_questions = ExamQuestion.objects.filter(exam=exam)
         return render(request, 'view_questions.html', {'course': course,
             'exam': exam, 'exam_questions': exam_questions})
-    else:
-        return redirect('/courses/')
+    return redirect('/courses/')
 
 
 @user_passes_test(student_check)
@@ -164,8 +159,7 @@ def view_exam(request, course_id, exam_id):
             result = "Exam not yet taken."
         return render(request, 'view_exam.html', {'course': course,
             'exam': exam, 'exam_questions': exam_questions, 'result': result})
-    else:
-        return redirect('/courses/s')
+    return redirect('/courses/s')
 
 
 @user_passes_test(student_check)
@@ -180,31 +174,29 @@ def take_exam(request, course_id, exam_id):
                 messages.error(request, 'Exam already taken!')
                 return redirect('/courses/' +  course_id + '/exams/' +
                     exam_id + '/s')
-            else:
-                if request.method == 'POST':
-                    correct = 0
-                    for exam_quest in exam_questions:
-                        try:
-                            st_answer = StudentAnswer.objects.create(
-                                user=request.user, exam_question=exam_quest,
-                                answer=request.POST.get(str(exam_quest.question.id)))
-                            if (st_answer.exam_question.question.choice_set.get(id=
-                                st_answer.answer).correct):
-                                correct += 1
-                        except ObjectDoesNotExist:
-                            continue;
-                    score = Score.objects.create(user=request.user,
-                        exam=exam, score=correct)
-                    messages.success(request, 'Exam finished with ' +
-                        str(correct) + ' correct answers!')
-                    return redirect('/courses/' +  course_id + '/exams/' +
-                        exam_id + '/s')
-                return render(request, 'take_exam.html', {'course': course,
-                    'exam': exam, 'exam_questions': exam_questions})
+            if request.method == 'POST':
+                correct = 0
+                for exam_quest in exam_questions:
+                    try:
+                        st_answer = StudentAnswer.objects.create(
+                            user=request.user, exam_question=exam_quest,
+                            answer=request.POST.get(str(exam_quest.question.id)))
+                        if (st_answer.exam_question.question.choice_set.get(id=
+                            st_answer.answer).correct):
+                            correct += 1
+                    except ObjectDoesNotExist:
+                        continue;
+                score = Score.objects.create(user=request.user,
+                    exam=exam, score=correct)
+                messages.success(request, 'Exam finished with ' +
+                    str(correct) + ' correct answers!')
+                return redirect('/courses/' +  course_id + '/exams/' +
+                    exam_id + '/s')
+            return render(request, 'take_exam.html', {'course': course,
+                'exam': exam, 'exam_questions': exam_questions})
         messages.error(request, 'Exam inactive!')
         return redirect('/courses/' +  course_id + '/exams/' + exam_id + '/s')
-    else:
-        return redirect('/courses/s')
+    return redirect('/courses/s')
 
 
 @user_passes_test(student_check)
@@ -224,5 +216,4 @@ def view_result(request, course_id, exam_id):
         return render(request, 'view_result.html', {'course': course,
             'exam': exam, 'exam_questions': exam_questions, 'result': result,
             'answers': answers})
-    else:
-        return redirect('/courses/s')
+    return redirect('/courses/s')

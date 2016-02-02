@@ -1,3 +1,4 @@
+from django.contrib.auth.models import AnonymousUser
 from django.core.urlresolvers import resolve, reverse
 from django.http import HttpRequest
 from django.template.loader import render_to_string
@@ -25,9 +26,11 @@ class CoursesTest(TestCase):
         response_teacher_courses = teacher_courses(request)
         render_to_string('teacher_courses.html')
 
-    def test_anonymous_doesnt_pass_teacher_test(self):
-        with self.assertRaises(AttributeError):
-            self.client.get('/courses/')
+    def test_anonymous_doesnt_pass_teacher_test(self): 
+        request = self.factory.get('/courses/')
+        request.user = AnonymousUser()
+        response = teacher_courses(request)
+        self.assertEqual(response.status_code, 302)
 
     def test_teacher_passes_test(self): 
         request = self.factory.get('/courses/')
@@ -97,8 +100,10 @@ class CoursesTest(TestCase):
         self.assertTemplateUsed('student_courses.html')
 
     def test_anonymous_doesnt_pass_student_test(self):
-        with self.assertRaises(AttributeError):
-            self.client.get('/courses/s')
+        request = self.factory.get('/courses/s')
+        request.user = AnonymousUser()
+        response = student_courses(request)
+        self.assertEqual(response.status_code, 302)
 
     def test_student_passes_test(self): 
         request = self.factory.get('/courses/s')
