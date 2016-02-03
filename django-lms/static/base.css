@@ -93,3 +93,7 @@ form[action="/"] {
     margin-left: -20%;
     position: fixed;
 }
+
+#show-exams, #show-participants {
+    font-size: 18px;
+}

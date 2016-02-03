@@ -32,17 +32,19 @@
       <td>{{ course.updated|date }}</td>
     </tr>
   </table>
-  <h4 class="text-primary text-center">Exams</h4>
-    {% for exam in exams %}
-      <a class="list-group-item"
-        href="{% url 'view_exam' course.id exam.id %}">
-        <h4 class="list-group-item-heading">{{ exam.name }}</h4>
-        <p class="list-group-item-description">{{ exam.description }}</p>
-        <p class="list-group-item-description"> {{ scores|get_item:exam }}</p>
-      </a>
-    {% endfor %}
-  <h4 class="text-primary text-center">Participants</h4>
-  <table class="table table-hover">
+  <h4 class="text-center"><a class="btn" id="show-exams">Toggle course exams</a></h4>
+    <div id="exams">
+      {% for exam in exams %}
+        <a class="list-group-item"
+          href="{% url 'view_exam' course.id exam.id %}">
+          <h4 class="list-group-item-heading">{{ exam.name }}</h4>
+          <p class="list-group-item-description">{{ exam.description }}</p>
+          <p class="list-group-item-description"> {{ scores|get_item:exam }}</p>
+        </a>
+      {% endfor %}
+    </div>
+  <h4 class="text-center"><a class="btn" id="show-participants">Toggle course participants</a></h4>
+  <table class="table table-hover hidden" id="participants">
     {% for participant in course.participants.all %}
       {% if participant != request.user %}
         <tr>
@@ -56,4 +58,8 @@
       {% endif %}
     {% endfor %}
   </table>
+{% endblock %}
+
+{% block javascript %}
+  <script type="text/javascript" src="/static/js/togglePanels.js"></script>
 {% endblock %}

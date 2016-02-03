@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	"use strict";
 
-    $("#add-choice").click(function(e) {
+    $('#add-choice').click(function(e) {
         e.preventDefault();
         var count = $('#choices-form-container').children().length;
         var template = $('#choice-template').html();

@@ -12,16 +12,13 @@
   <div class="center">
     <input type="text" id="search" placeholder="Filter participants"
       onkeyup="searchFilter()">
+    <button class="btn btn-primary" id="submit" type="submit" name="update">
+      Update
+    </button> 
   </div>
 {% endblock %}
 
 {% block form_action %}{% url 'edit_participants' course.id %}{% endblock %}
-
-{% block button %}
-  <button class="btn btn-primary" id="submit" type="submit" name="update">
-    Update
-  </button> 
-{% endblock %}
 
 {% block javascript %}
   <script type="text/javascript" src="/static/js/searchFilter.js"></script>
