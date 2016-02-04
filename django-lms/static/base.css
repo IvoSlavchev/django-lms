@@ -8,6 +8,11 @@ body {
     font-size: 16px;
 }
 
+#user {
+    margin-left: 5px;
+    color: #337ab7;
+}
+
 table {
     table-layout:fixed;
     width: 70%;
@@ -60,8 +65,13 @@ td {
     margin-right: auto;
 }
 
-form[action="/"] {
+form[action='/'] {
     width: 30%;
+}
+
+.navbar {
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
 }
 
 .navbar-default {
@@ -96,4 +106,12 @@ form[action="/"] {
 
 #show-exams, #show-participants {
     font-size: 18px;
+}
+
+.alert {
+    border-radius: 15px;
+}
+
+input[name='input'] {
+    margin-bottom: 1%;
 }

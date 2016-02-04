@@ -1,14 +1,6 @@
 $(document).ready(function() {
     "use strict";
 
-    function lockExam() {   
-        var input = prompt("Enter exam password:");
-        if (input == password) {
-            return $(".hidden").removeClass("hidden");
-        }
-        history.go(-1);
-    }
-
     function rebuildTime(time) {
         var hr = Math.floor(time / 3600);
         var min = Math.floor(time / 60);
@@ -21,12 +13,6 @@ $(document).ready(function() {
             $("#remaining").removeClass().addClass('text-warning bg-warning');
         }
         $("#remaining").text("Remaining time: " + rem);
-    }
-
-    if (password) { 
-        lockExam();
-    } else {
-        $(".hidden").removeClass("hidden");
     }
 
     var limit = raw_limit.split(":");

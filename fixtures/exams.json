@@ -7,7 +7,7 @@
             "description": "Example",
             "created": "2016-01-11T19:03:19.366Z",
             "updated": "2016-01-11T22:12:09.986Z",
-            "password": "",
+            "password": "example",
             "time_limit": "00:30:00",
             "active_from": "2016-01-10T22:30:00Z",
             "active_to": "2016-09-02T09:00:00Z",

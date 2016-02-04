@@ -57,7 +57,12 @@
       <td>{{ course.name }}</td>
     </tr>
   </table>
-  {% if 'Exam' in result and exam.active %}
+  {% if 'Exam' in result and exam.active and exam.password %}
+    <a href="{% url 'input_password' course.id exam.id %}">
+      <span class="glyphicon glyphicon-pencil"></span>
+      Take exam
+    </a>
+  {% elif 'Exam' in result and exam.active %}
     <a href="{% url 'take_exam' course.id exam.id %}">
       <span class="glyphicon glyphicon-pencil"></span>
       Take exam

@@ -6,7 +6,7 @@ from courses.models import Course
 from exams.models import Exam
 from exams.views import create_exam, edit_exam, list_exams, view_exam_results
 from exams.views import view_participant_result, view_assigned, view_exam
-from exams.views import take_exam, view_result
+from exams.views import take_exam, view_result, input_password
 from users.models import User
 
 class ExamsViewsTest(TestCase):
@@ -104,6 +104,20 @@ class ExamsViewsTest(TestCase):
         url = reverse('view_exam', args=[course.id, exam.id])
         self.assertEqual(url, '/courses/1/exams/1/s')
         self.assertTemplateUsed('view_exam.html')
+
+    def test_url_resolves_to_exam_password_input(self):
+        found = resolve('/courses/1/exams/1/p')
+        self.assertEqual(found.func, input_password)
+
+    def test_input_password_correct_arguments_and_template(self):
+        user = User.objects.create(username='Example teacher')
+        course = Course.objects.create(name='Example name', owner=user)
+        exam = Exam.objects.create(name='Example', time_limit='00:10',
+            course=course, active_from=timezone.now(), password='test',
+            active_to=timezone.now(), question_count=2)
+        url = reverse('input_password', args=[course.id, exam.id])
+        self.assertEqual(url, '/courses/1/exams/1/p')
+        self.assertTemplateUsed('input_password.html')
 
     def test_url_resolves_to_take_exam(self):
         found = resolve('/courses/1/exams/1/take')

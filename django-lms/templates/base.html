@@ -21,9 +21,10 @@
             href="{% url 'logout' %}">
             Log out
           </a>
-          <span class="navbar-text navbar-right">
-            Logged in as {{ user.username }}
+          <span class="navbar-text navbar-right" id="user">
+            {{ user.username }}
           </span>
+          <span class="navbar-text navbar-right">Logged in as</span>
         {% else %}
           <a class="navbar-brand" href="/">Django-LMS</a>
         {% endif %}

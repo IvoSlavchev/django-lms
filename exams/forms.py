@@ -11,7 +11,7 @@ class ExamForm(forms.ModelForm):
     name = forms.CharField(label="Exam name", max_length=30)
     description = forms.Textarea()
     password = forms.CharField(label="Password (optional)",
-        widget=forms.PasswordInput(), required=False)
+        widget=forms.PasswordInput(render_value=True), required=False)
     time_limit = forms.TimeField(widget=forms.TimeInput(format='%H:%M'),
         help_text=("Hours:Minutes"))
     active_from = forms.DateTimeField(widget=forms.DateTimeInput(format=FORMAT),
@@ -43,6 +43,7 @@ class ExamForm(forms.ModelForm):
             self.instance.exam = instance
             self.initial['name'] = instance.name
             self.initial['description'] = instance.description
+            self.initial['password'] = instance.password
             self.initial['time_limit'] = instance.time_limit
             self.initial['active_from'] = instance.active_from
             self.initial['active_to'] = instance.active_to

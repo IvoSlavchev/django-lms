@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.urlresolvers import reverse
 from django.shortcuts import redirect, render
 
 from courses.models import Course, Participation
@@ -163,40 +164,64 @@ def view_exam(request, course_id, exam_id):
 
 
 @user_passes_test(student_check)
+def input_password(request, course_id, exam_id):
+    course = Course.objects.get(id=course_id)
+    exam = Exam.objects.get(id=exam_id)
+    if request.method == 'POST':
+        entered = request.POST.get('input')
+        if entered == exam.password:
+            return redirect('/courses/' +  course_id + '/exams/' +
+                    exam_id + '/take')
+    return render(request, 'input_password.html', {'course': course,
+        'exam': exam})
+
+@user_passes_test(student_check)
 def take_exam(request, course_id, exam_id):
-    if (Participation.objects.filter(user=request.user, course=course_id)
-        .exists()):
-        course = Course.objects.get(id=course_id)
-        exam = Exam.objects.get(id=exam_id)
-        exam_questions = ExamQuestion.objects.filter(exam=exam)
-        if exam.active:
-            if Score.objects.filter(user=request.user, exam=exam).exists():
-                messages.error(request, 'Exam already taken!')
-                return redirect('/courses/' +  course_id + '/exams/' +
-                    exam_id + '/s')
-            if request.method == 'POST':
-                correct = 0
-                for exam_quest in exam_questions:
-                    try:
-                        st_answer = StudentAnswer.objects.create(
-                            user=request.user, exam_question=exam_quest,
-                            answer=request.POST.get(str(exam_quest.question.id)))
-                        if (st_answer.exam_question.question.choice_set.get(id=
-                            st_answer.answer).correct):
-                            correct += 1
-                    except ObjectDoesNotExist:
-                        continue;
-                score = Score.objects.create(user=request.user,
-                    exam=exam, score=correct)
-                messages.success(request, 'Exam finished with ' +
-                    str(correct) + ' correct answers!')
-                return redirect('/courses/' +  course_id + '/exams/' +
-                    exam_id + '/s')
-            return render(request, 'take_exam.html', {'course': course,
-                'exam': exam, 'exam_questions': exam_questions})
-        messages.error(request, 'Exam inactive!')
-        return redirect('/courses/' +  course_id + '/exams/' + exam_id + '/s')
-    return redirect('/courses/s')
+    exam = Exam.objects.get(id=exam_id)
+    try:
+        if ((reverse('input_password', args=[course_id, exam_id]) in
+            request.META['HTTP_REFERER']) or
+            (reverse('take_exam', args=[course_id, exam_id]) in
+            request.META['HTTP_REFERER']) or
+            not exam.password):
+            if (Participation.objects.filter(user=request.user, course=course_id)
+                .exists()):
+                course = Course.objects.get(id=course_id)
+                exam_questions = ExamQuestion.objects.filter(exam=exam)
+                if exam.active:
+                    if Score.objects.filter(user=request.user, exam=exam).exists():
+                        messages.error(request, 'Exam already taken!')
+                        return redirect('/courses/' +  course_id + '/exams/' +
+                            exam_id + '/s')
+                    if request.method == 'POST':
+                        correct = 0
+                        for exam_quest in exam_questions:
+                            try:
+                                st_answer = StudentAnswer.objects.create(
+                                    user=request.user, exam_question=exam_quest,
+                                    answer=request.POST.get(str(exam_quest.question.id)))
+                                if (st_answer.exam_question.question.choice_set.get(id=
+                                    st_answer.answer).correct):
+                                    correct += 1
+                            except ObjectDoesNotExist:
+                                continue;
+                        score = Score.objects.create(user=request.user,
+                            exam=exam, score=correct)
+                        messages.success(request, 'Exam finished with ' +
+                            str(correct) + ' correct answers!')
+                        return redirect('/courses/' +  course_id + '/exams/' +
+                            exam_id + '/s')
+                    return render(request, 'take_exam.html', {'course': course,
+                        'exam': exam, 'exam_questions': exam_questions})
+                messages.error(request, 'Exam inactive!')
+                return redirect('/courses/' +  course_id + '/exams/' + exam_id + '/s')
+            return redirect('/courses/s')
+        else:
+            return redirect('/courses/' +  course_id + '/exams/' +
+                exam_id + '/p')
+    except KeyError:
+        return redirect('/courses/' +  course_id + '/exams/' +
+            exam_id + '/p')
 
 
 @user_passes_test(student_check)

@@ -52,7 +52,7 @@ class CourseTest(FunctionalTest):
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/courses/1/participants')
         self.get_by_id('id_participants_0').click()
-        self.get_by_id('submit').click()
+        self.get_by_id('label-submit').click()
         self.assertEqual(self.browser.current_url,
             'http://localhost:8081/courses/1')
         message = self.get_by_class('alert').text
