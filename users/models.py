@@ -7,7 +7,6 @@ from django.db import models
 class User(AbstractUser):
 
     is_teacher = models.BooleanField(default=False)
-    created = models.DateTimeField(auto_now_add=True)
 
 
 class UserProfile(models.Model):
