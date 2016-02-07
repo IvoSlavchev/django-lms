@@ -9,7 +9,7 @@ body {
 }
 
 #user {
-    margin-left: 5px;
+    margin-left: 3px;
     color: #337ab7;
 }
 
@@ -112,6 +112,6 @@ form[action='/'] {
     border-radius: 15px;
 }
 
-input[name='input'] {
+#input {
     margin-bottom: 1%;
 }
