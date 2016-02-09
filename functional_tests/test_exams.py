@@ -92,7 +92,7 @@ class ExamTest(FunctionalTest):
         self.get_by_id('input').send_keys('example')
         self.get_by_id('submit').click()
         self.assertEqual(self.browser.current_url,
-            'http://localhost:8081/courses/1/exams/1/take')
+            'http://localhost:8081/courses/1/exams/1/t')
         self.browser.find_element_by_css_selector('[type="radio"]').click()
         self.get_by_id('submit').click()
         self.assertEqual(self.browser.current_url,

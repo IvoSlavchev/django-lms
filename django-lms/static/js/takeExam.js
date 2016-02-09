@@ -15,6 +15,7 @@ $(document).ready(function() {
         $("#remaining").text("Remaining time: " + rem);
     }
 
+    $("#logout").addClass("hidden");
     var limit = raw_limit.split(":");
     var seconds = limit[0] * 3600 + limit[1] * 60;
     var counter = setInterval(timer, 1000);

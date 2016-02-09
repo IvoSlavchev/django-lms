@@ -120,7 +120,7 @@ class ExamsViewsTest(TestCase):
         self.assertTemplateUsed('input_password.html')
 
     def test_url_resolves_to_take_exam(self):
-        found = resolve('/courses/1/exams/1/take')
+        found = resolve('/courses/1/exams/1/t')
         self.assertEqual(found.func, take_exam)
 
     def test_take_exam_correct_arguments_and_template(self):
@@ -130,7 +130,7 @@ class ExamsViewsTest(TestCase):
             course=course, active_from=timezone.now(),
             active_to=timezone.now(), question_count=2)
         url = reverse('take_exam', args=[course.id, exam.id])
-        self.assertEqual(url, '/courses/1/exams/1/take')
+        self.assertEqual(url, '/courses/1/exams/1/t')
         self.assertTemplateUsed('take_exam.html')
 
     def test_url_resolves_to_view_result(self):

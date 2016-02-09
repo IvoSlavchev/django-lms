@@ -170,7 +170,7 @@ def input_password(request, course_id, exam_id):
         entered = request.POST.get('input')
         if entered == exam.password:
             return redirect('/courses/' +  course_id + '/exams/' +
-                    exam_id + '/take')
+                    exam_id + '/t')
     return render(request, 'input_password.html', {'course': course,
         'exam': exam})
 
