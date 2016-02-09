@@ -23,11 +23,6 @@ def student_check(user):
     return not user.is_teacher
 
 
-def update_course(form, course):
-    course.name = form.cleaned_data['name']
-    course.description = form.cleaned_data['description']
-    course.save()
-
 def delete_course(course):
     Participation.objects.filter(course=course).delete()
     questions = Question.objects.filter(course=course)
@@ -84,7 +79,9 @@ def edit_course(request, course_id):
         if request.method == 'POST' and 'update' in request.POST:
             form = CourseForm(instance=course, data=request.POST)
             if form.is_valid():
-                update_course(form, course)
+                course.name = form.cleaned_data['name']
+                course.description = form.cleaned_data['description']
+                course.save()
                 messages.success(request, 'Course updated successfully!')
                 return redirect('/courses/')
         if request.method == 'POST' and 'delete' in request.POST:

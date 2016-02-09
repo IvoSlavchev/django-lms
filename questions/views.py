@@ -31,7 +31,6 @@ def create_question(request, course_id):
         choice_formset = ChoiceFormSet(data=request.POST)
         if question_form.is_valid() and choice_formset.is_valid():
             question = question_form.save(commit=False)
-            question.owner = request.user
             question.course = course
             question.save()
             for choice_form in choice_formset.forms:

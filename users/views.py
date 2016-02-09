@@ -39,10 +39,9 @@ def home(request):
                         else:
                             return redirect('/courses/s')
         return render(request, 'home.html', {'form': form})
-    else:
-        if request.user.is_teacher:
-            return redirect('/courses/')
-        return redirect('/courses/s')
+    if request.user.is_teacher:
+        return redirect('/courses/')
+    return redirect('/courses/s')
 
 
 def signup(request):
@@ -62,10 +61,9 @@ def signup(request):
                 messages.info(request, 'Check email for a confirmation link!')
                 return redirect('/')          
         return render(request, 'signup.html', {'form': form})
-    else:
-        if request.user.is_teacher:
-            return redirect('/courses/')
-        return redirect('/courses/s')
+    if request.user.is_teacher:
+        return redirect('/courses/')
+    return redirect('/courses/s')
 
 
 def confirm(request):

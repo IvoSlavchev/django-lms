@@ -50,7 +50,6 @@ def create_exam(request, course_id):
             form = ExamForm(course=course, data=request.POST)
             if form.is_valid():
                 exam = form.save(commit=False)
-                exam.owner = request.user
                 exam.course = course
                 exam.save()
                 add_questions(course, exam)
@@ -179,10 +178,11 @@ def input_password(request, course_id, exam_id):
 def take_exam(request, course_id, exam_id):
     exam = Exam.objects.get(id=exam_id)
     try:
+        referer = request.META['HTTP_REFERER']
         if ((reverse('input_password', args=[course_id, exam_id]) in
-            request.META['HTTP_REFERER']) or
+            referer) or
             (reverse('take_exam', args=[course_id, exam_id]) in
-            request.META['HTTP_REFERER']) or
+            referer) or
             not exam.password):
             if (Participation.objects.filter(user=request.user, course=course_id)
                 .exists()):
@@ -216,9 +216,8 @@ def take_exam(request, course_id, exam_id):
                 messages.error(request, 'Exam inactive!')
                 return redirect('/courses/' +  course_id + '/exams/' + exam_id + '/s')
             return redirect('/courses/s')
-        else:
-            return redirect('/courses/' +  course_id + '/exams/' +
-                exam_id + '/p')
+        return redirect('/courses/' +  course_id + '/exams/' +
+            exam_id + '/p')
     except KeyError:
         return redirect('/courses/' +  course_id + '/exams/' +
             exam_id + '/p')
