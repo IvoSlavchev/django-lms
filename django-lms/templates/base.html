@@ -12,6 +12,8 @@
       rel="stylesheet">
     <link href="/static/base.css" rel="stylesheet">
     <link rel="shortcut icon" type="image/ico" href="/static/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/static/libs/markitup/skins/simple/style.css">
+    <link rel="stylesheet" type="text/css" href="/static/libs/markitup/sets/default/style.css">
   </head>
   <body>
     <div class="container">
@@ -44,6 +46,7 @@
         <form class="center" action="{% block form_action %}{% endblock %}"
           method="POST"> 
           {% csrf_token %}
+          {{ form.media }}
           {{ form.as_p }}
           {% block additional_forms %}{% endblock %}
           {% block button %}{% endblock %}
@@ -54,6 +57,8 @@
       </div>
     </div>
     <script type="text/javascript" src="/static/libs/jquery.js"></script>
+    <script type="text/javascript" src="/static/libs/markitup/jquery.markitup.js"></script>
+    <script type="text/javascript" src="/static/libs/markitup/sets/default/set.js"></script>
     <script type="text/javascript"
       src="/static/libs/datetimepicker/jquery.datetimepicker.full.min.js">
     </script>

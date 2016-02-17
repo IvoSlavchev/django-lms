@@ -25,7 +25,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'markitup',
     # Local apps
     'users',
     'courses',
@@ -104,6 +104,8 @@ STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, '/static'))
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'django-lms', 'static'),
 )
+
+MARKITUP_FILTER = ('markdown.markdown', {})
 
 AUTH_USER_MODEL = 'users.User'
 

@@ -24,6 +24,10 @@ td {
     word-wrap:break-word;
 }
 
+.spaced th {
+    font-weight: normal;
+}
+
 .spaced tbody {
     border-bottom: 20px solid #F8F8FF;
 }

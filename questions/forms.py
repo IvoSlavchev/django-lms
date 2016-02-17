@@ -1,5 +1,7 @@
 from django import forms
 
+from markitup.widgets import MarkItUpWidget
+
 from questions.models import Question, Choice
 
 
@@ -7,7 +9,7 @@ class QuestionForm(forms.ModelForm):
 
     name = forms.CharField(label="Question title", max_length=30)
     category = forms.CharField(max_length=30)
-    question_text = forms.Textarea()
+    question_text = forms.CharField(widget=MarkItUpWidget())
 
     class Meta:
         model = Question

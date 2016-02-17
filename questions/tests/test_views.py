@@ -57,24 +57,6 @@ class QuestionsViewsTest(TestCase):
         self.assertEqual(url, '/courses/1/questions/1')
         self.assertTemplateUsed('edit_question.html')
 
-    def test_question_updating(self):
-        user = User.objects.create(username='Example teacher')
-        course = Course.objects.create(name='Example name', owner=user)
-        question = Question.objects.create(name='Example question',
-            category='Examples', question_text='Text', course=course)
-        data = {
-            'name': 'Example name',
-            'category': 'Examples',
-            'question_text': 'Changed text'
-        }
-        form = QuestionForm(instance=question, data=data)
-        self.assertTrue(form.is_valid())
-        question = form.save(commit=False)
-        question.course = course
-        question.save()
-        self.assertEqual(question.question_text, 'Changed text')
-
-
     def test_url_resolves_to_question_listing(self):
         found = resolve('/courses/1/questions/')
         self.assertEqual(found.func, list_questions)

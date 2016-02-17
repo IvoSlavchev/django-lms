@@ -1,5 +1,7 @@
 from django.db import models
 
+from markitup.fields import MarkupField
+
 from courses.models import Course
 
 
@@ -7,7 +9,7 @@ class Question(models.Model):
 
     name = models.CharField(max_length=30)
     category = models.CharField(max_length=30)
-    question_text = models.TextField()
+    question_text = MarkupField()
     course = models.ForeignKey(Course)
     
     def __str__(self):
