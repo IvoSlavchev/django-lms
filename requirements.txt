@@ -1,4 +1,6 @@
 coverage==4.0.3
 Django==1.9
+django-markitup==2.3.1
+Markdown==2.6.5
 requests==2.8.1
 selenium==2.49.0
