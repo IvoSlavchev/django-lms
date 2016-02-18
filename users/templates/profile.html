@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block navigation %}
+	{% if user.is_teacher %}
+  <li><a href="{% url 'teacher_courses' %}">Courses</a></li>
+  {% else %}
+  <li><a href="{% url 'student_courses' %}">Courses</a></li>
+  {% endif %}
+  <li class="active">Change password</li>
+{% endblock %}
+
+{% block header %}Change password{% endblock %}
+
+{% block button %}
+  <button class="btn btn-primary" id="submit" type="submit">Change</button>
+{% endblock %}
